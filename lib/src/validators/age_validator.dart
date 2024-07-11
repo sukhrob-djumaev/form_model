@@ -1,17 +1,17 @@
 import 'package:form_model/src/enums/error_code.dart';
-import 'package:form_model/src/models/form_error.dart';
-import 'package:form_model/src/validators/base_form_model_validator.dart';
+import 'package:form_model/src/models/form_model_error.dart';
+import 'package:form_model/src/models/form_model_validator/form_model_validator.dart';
 
-/// A final class that implements [BaseFormModelValidator] to validate age constraints.
+/// A final class that implements [FormModelValidator] to validate age constraints.
 ///
 /// This validator checks if a given date string (representing a birth date) falls within
 /// specified minimum and maximum age limits. If the age is out of the specified range,
-/// it returns a [FormError] indicating the validation failure.
+/// it returns a [FormModelError] indicating the validation failure.
 ///
 /// The class supports the following validation rules:
 /// - Minimum age constraint (`minAge`)
 /// - Maximum age constraint (`maxAge`)
-final class AgeValidator implements BaseFormModelValidator<String?> {
+final class AgeValidator implements FormModelValidator<String?> {
   /// The minimum allowed age.
   final int? minAge;
 
@@ -29,23 +29,29 @@ final class AgeValidator implements BaseFormModelValidator<String?> {
   ///
   /// This method checks if the [value] can be parsed as a valid date. If so, it calculates
   /// the age based on the current date and compares it against the [minAge] and [maxAge]
-  /// constraints. If the age is below the [minAge], a [FormError] with code `dateIsLessThanMinAge`
-  /// is returned. If the age is above the [maxAge], a [FormError] with code `dateIsMoreThanMaxAge`
+  /// constraints. If the age is below the [minAge], a [FormModelError] with code `dateIsLessThanMinAge`
+  /// is returned. If the age is above the [maxAge], a [FormModelError] with code `dateIsMoreThanMaxAge`
   /// is returned.
   ///
   /// - Parameter value: A date string representing a birth date.
-  /// - Returns: A [FormError] if the age validation fails, otherwise `null`.
+  /// - Returns: A [FormModelError] if the age validation fails, otherwise `null`.
   @override
-  FormError<String?>? validate(String? value) {
+  FormModelError<String?>? validate(String? value) {
     if (value != null) {
       final parsedDate = DateTime.tryParse(value);
       if (parsedDate != null) {
         final age = _calculateAge(parsedDate);
         if (minAge != null && age < minAge!) {
-          return FormError(code: ErrorCode.dateIsLessThanMinAge, value: value, parameter: minAge);
+          return FormModelError(
+              code: ErrorCode.dateIsLessThanMinAge,
+              value: value,
+              parameter: minAge);
         }
         if (maxAge != null && age > maxAge!) {
-          return FormError(code: ErrorCode.dateIsMoreThanMaxAge, value: value, parameter: maxAge);
+          return FormModelError(
+              code: ErrorCode.dateIsMoreThanMaxAge,
+              value: value,
+              parameter: maxAge);
         }
       }
     }
@@ -68,7 +74,8 @@ final class AgeValidator implements BaseFormModelValidator<String?> {
     final nowDay = now.day;
 
     // Check if the birthday hasn't occurred yet this year
-    if (nowMonth < birthMonth || (nowMonth == birthMonth && nowDay < birthDay)) {
+    if (nowMonth < birthMonth ||
+        (nowMonth == birthMonth && nowDay < birthDay)) {
       age--;
     }
 

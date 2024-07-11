@@ -1,17 +1,17 @@
 import 'package:form_model/src/enums/error_code.dart';
-import 'package:form_model/src/models/form_error.dart';
-import 'package:form_model/src/validators/base_form_model_validator.dart';
+import 'package:form_model/src/models/form_model_error.dart';
+import 'package:form_model/src/models/form_model_validator/form_model_validator.dart';
 
 /// A validator class for validating phone number formats.
 ///
-/// This validator implements [BaseFormModelValidator] for string values (`String?`).
+/// This validator implements [FormModelValidator] for string values (`String?`).
 /// It checks if the provided [value] matches a valid phone number format.
 /// The regular expression used ensures the phone number is valid with an optional leading `+`
 /// followed by a country code and up to 14 digits.
 ///
 /// This validator is useful in form validation scenarios where input fields are expected
 /// to accept phone numbers in a specific format.
-final class PhoneNumberValidator implements BaseFormModelValidator<String?> {
+final class PhoneNumberValidator implements FormModelValidator<String?> {
   /// Creates a [PhoneNumberValidator] instance.
   const PhoneNumberValidator();
 
@@ -22,13 +22,13 @@ final class PhoneNumberValidator implements BaseFormModelValidator<String?> {
   /// and up to 14 digits.
   ///
   /// - Parameter value: The string value representing a phone number to validate.
-  /// - Returns: A [FormError] object if the validation fails (value does not match the phone number format),
+  /// - Returns: A [FormModelError] object if the validation fails (value does not match the phone number format),
   ///   otherwise `null`.
   @override
-  FormError<String?>? validate(String? value) {
+  FormModelError<String?>? validate(String? value) {
     if (value != null) {
       if (!RegExp(r'^\+?[1-9]\d{1,14}$').hasMatch(value)) {
-        return FormError(
+        return FormModelError(
           code: ErrorCode.isNotValidPhoneNumber,
           value: value,
         );

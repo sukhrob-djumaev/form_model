@@ -1,17 +1,17 @@
 import 'package:form_model/src/enums/error_code.dart';
-import 'package:form_model/src/models/form_error.dart';
-import 'package:form_model/src/validators/base_form_model_validator.dart';
+import 'package:form_model/src/models/form_model_error.dart';
+import 'package:form_model/src/models/form_model_validator/form_model_validator.dart';
 
 /// A validator class for validating the length of a string.
 ///
-/// This validator implements [BaseFormModelValidator] for string values (`String?`).
+/// This validator implements [FormModelValidator] for string values (`String?`).
 /// It checks if the provided value's length is within the specified minimum and/or maximum limits.
-/// If the value's length does not meet the specified constraints, it returns a [FormError]
+/// If the value's length does not meet the specified constraints, it returns a [FormModelError]
 /// with the appropriate error code, indicating a validation failure.
 ///
 /// This validator is useful in form validation scenarios where input fields are expected
 /// to have lengths within certain boundaries.
-class LengthValidator implements BaseFormModelValidator<String?> {
+class LengthValidator implements FormModelValidator<String?> {
   /// The minimum length that the string value must have.
   final int? minLength;
 
@@ -32,22 +32,22 @@ class LengthValidator implements BaseFormModelValidator<String?> {
   ///
   /// This method checks if the [value]'s length is greater than or equal to [minLength]
   /// and less than or equal to [maxLength]. If the [value] does not meet these conditions,
-  /// it returns a [FormError] with the appropriate error code.
+  /// it returns a [FormModelError] with the appropriate error code.
   ///
   /// - Parameter value: The string value to validate.
-  /// - Returns: A [FormError] object if the validation fails, otherwise `null`.
+  /// - Returns: A [FormModelError] object if the validation fails, otherwise `null`.
   @override
-  FormError<String?>? validate(String? value) {
+  FormModelError<String?>? validate(String? value) {
     if (value != null) {
       if (minLength != null && value.length < minLength!) {
-        return FormError(
+        return FormModelError(
           code: ErrorCode.lengthIsLessThanMin,
           value: value,
           parameter: minLength,
         );
       }
       if (maxLength != null && value.length > maxLength!) {
-        return FormError(
+        return FormModelError(
           code: ErrorCode.lengthIsMoreThanMax,
           value: value,
           parameter: maxLength,

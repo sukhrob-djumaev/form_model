@@ -1,19 +1,19 @@
 import 'package:form_model/localization/form_model_localizations.dart';
-import 'package:form_model/src/models/form_error.dart';
+import 'package:form_model/src/models/form_model_error.dart';
 
-/// Extension on the `FormError` class to provide additional functionality for localization.
+/// Extension on the `FormModelError` class to provide additional functionality for localization.
 ///
-/// The `FormErrorExtension` extension adds a method to the `FormError` class to get the localized
+/// The `FormModelErrorExtension` extension adds a method to the `FormModelError` class to get the localized
 /// error message associated with the form error.
-extension FormErrorExtension on FormError {
-  /// Retrieves the localized error message for the current `FormError` instance.
+extension FormModelErrorExtension on FormModelError {
+  /// Retrieves the localized error message for the current `FormModelError` instance.
   ///
   /// This method uses the `FormModelLocalizations` class to obtain a localized string that represents
-  /// the error message for the given `FormError`. If no localized message is found, it returns `null`.
+  /// the error message for the given `FormModelError`. If no localized message is found, it returns `null`.
   ///
   /// Example usage:
   /// ```dart
-  /// FormError<String> error = FormError(code: ErrorCode.required, value: "value");
+  /// FormModelError<String> error = FormModelError(code: ErrorCode.required, value: "value");
   /// String? localizedMessage = error.textLocalized();
   /// print(localizedMessage); // Output: "This field is required."
   /// ```

@@ -1,11 +1,12 @@
 import 'package:form_model/src/enums/error_code.dart';
-import 'package:form_model/src/models/form_error.dart';
+import 'package:form_model/src/models/form_model_error.dart';
 
 import '../form_error_text_translations.dart';
 
-class FormErrorTextTranslationsNl implements FormErrorTextTranslations {
+class FormModelErrorTextTranslationsNl
+    implements FormModelErrorTextTranslations {
   @override
-  String translate(FormError error) {
+  String translate(FormModelError error) {
     switch (error.code) {
       case ErrorCode.required:
         return "Dit veld is verplicht.";

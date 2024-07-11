@@ -1,10 +1,10 @@
 import 'package:form_model/src/enums/error_code.dart';
-import 'package:form_model/src/models/form_error.dart';
-import 'package:form_model/src/validators/base_form_model_validator.dart';
+import 'package:form_model/src/models/form_model_error.dart';
+import 'package:form_model/src/models/form_model_validator/form_model_validator.dart';
 
 /// A custom validator for form fields that allows defining arbitrary validation logic.
 ///
-/// The `CustomValidator` class implements the `BaseFormModelValidator` interface
+/// The `CustomValidator` class implements the `FormModelValidator` interface
 /// to provide custom validation capabilities for form fields. It takes a function
 /// as a parameter during initialization, which performs validation on the input value.
 ///
@@ -26,7 +26,7 @@ import 'package:form_model/src/validators/base_form_model_validator.dart';
 ///
 /// final error = validator.validate(inputValue);
 /// ```
-class CustomValidator implements BaseFormModelValidator<String?> {
+class CustomValidator implements FormModelValidator<String?> {
   /// The validation function that performs custom validation logic.
   final Map<String, String>? Function(String? value) validation;
 
@@ -41,10 +41,13 @@ class CustomValidator implements BaseFormModelValidator<String?> {
   });
 
   @override
-  FormError<String?>? validate(String? value) {
+  FormModelError<String?>? validate(String? value) {
     final customValidation = validation(value);
     if (customValidation != null) {
-      return FormError(code: ErrorCode.custom, value: value, customErrorText: customValidation);
+      return FormModelError(
+          code: ErrorCode.custom,
+          value: value,
+          customErrorText: customValidation);
     }
     return null;
   }

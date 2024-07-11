@@ -3,7 +3,7 @@
 /// The `FormStatus` enum defines the various states that a form field can be in. These states
 /// help in tracking whether the field has been modified, whether it is currently valid, and
 /// other relevant status information.
-enum FormStatus {
+enum FormModelStatus {
   /// The form field is in its initial state and has not been modified.
   pure,
 

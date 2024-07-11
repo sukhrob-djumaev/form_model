@@ -1,17 +1,17 @@
 import 'package:form_model/src/enums/error_code.dart';
-import 'package:form_model/src/models/form_error.dart';
-import 'package:form_model/src/validators/base_form_model_validator.dart';
+import 'package:form_model/src/models/form_model_error.dart';
+import 'package:form_model/src/models/form_model_validator/form_model_validator.dart';
 
 /// A validator class for validating string length equality.
 ///
-/// This validator implements [BaseFormModelValidator] for string values (`String?`).
+/// This validator implements [FormModelValidator] for string values (`String?`).
 /// It checks if the length of the provided value matches a specified length.
-/// If the length does not match, it returns a [FormError] with the [ErrorCode.lengthIsNotEqual]
+/// If the length does not match, it returns a [FormModelError] with the [ErrorCode.lengthIsNotEqual]
 /// code, indicating a validation failure.
 ///
 /// This validator is useful in form validation scenarios where input fields are expected
 /// to have a specific character length.
-final class EqualLengthValidator implements BaseFormModelValidator<String?> {
+final class EqualLengthValidator implements FormModelValidator<String?> {
   /// The desired length that the string value should match.
   final int? length;
 
@@ -28,13 +28,16 @@ final class EqualLengthValidator implements BaseFormModelValidator<String?> {
   /// This method checks if the length of the [value] matches the [length] parameter.
   ///
   /// - Parameter value: The string value to validate for length equality.
-  /// - Returns: A [FormError] object if the validation fails, otherwise `null`.
+  /// - Returns: A [FormModelError] object if the validation fails, otherwise `null`.
   @override
-  FormError<String?>? validate(String? value) {
+  FormModelError<String?>? validate(String? value) {
     if (value != null) {
       if (length != null) {
         if (value.length != length!) {
-          return FormError(code: ErrorCode.lengthIsNotEqual, value: value, parameter: length);
+          return FormModelError(
+              code: ErrorCode.lengthIsNotEqual,
+              value: value,
+              parameter: length);
         }
       }
     }

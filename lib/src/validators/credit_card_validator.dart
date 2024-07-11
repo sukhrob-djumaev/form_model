@@ -1,12 +1,12 @@
 import 'package:form_model/src/enums/error_code.dart';
-import 'package:form_model/src/models/form_error.dart';
-import 'package:form_model/src/validators/base_form_model_validator.dart';
+import 'package:form_model/src/models/form_model_error.dart';
+import 'package:form_model/src/models/form_model_validator/form_model_validator.dart';
 
 /// A validator class for validating credit card numbers using the Luhn algorithm.
 ///
-/// This validator implements [BaseFormModelValidator] for string values (`String?`).
+/// This validator implements [FormModelValidator] for string values (`String?`).
 /// It checks if the provided value passes the Luhn algorithm test for credit card numbers.
-/// If the value is not null and fails the Luhn check, it returns a [FormError] with
+/// If the value is not null and fails the Luhn check, it returns a [FormModelError] with
 /// the [ErrorCode.intIsNotValidCreditCard] code, indicating a validation failure.
 ///
 /// The Luhn algorithm verifies the integrity of a variety of identification numbers,
@@ -14,7 +14,7 @@ import 'package:form_model/src/validators/base_form_model_validator.dart';
 ///
 /// This validator is useful in form validation scenarios where input fields are expected
 /// to contain valid credit card numbers.
-final class CreditCardValidator implements BaseFormModelValidator<String?> {
+final class CreditCardValidator implements FormModelValidator<String?> {
   /// Creates a [CreditCardValidator].
   ///
   /// The instance of this validator is typically `const` because it is immutable
@@ -25,17 +25,18 @@ final class CreditCardValidator implements BaseFormModelValidator<String?> {
   ///
   /// This method checks if the [value] passes the Luhn algorithm for credit card numbers.
   /// If the [value] is null or passes the Luhn check, the validation succeeds, and `null`
-  /// is returned. If the [value] fails the Luhn check, a [FormError] is returned with
+  /// is returned. If the [value] fails the Luhn check, a [FormModelError] is returned with
   /// the [ErrorCode.intIsNotValidCreditCard] code, indicating that the value does not
   /// represent a valid credit card number.
   ///
   /// - Parameter value: The credit card number string to validate.
-  /// - Returns: A [FormError] object if the validation fails, otherwise `null`.
+  /// - Returns: A [FormModelError] object if the validation fails, otherwise `null`.
   @override
-  FormError<String?>? validate(String? value) {
+  FormModelError<String?>? validate(String? value) {
     if (value != null) {
       if (!_luhnCheck(value)) {
-        return FormError(code: ErrorCode.intIsNotValidCreditCard, value: value);
+        return FormModelError(
+            code: ErrorCode.intIsNotValidCreditCard, value: value);
       }
     }
     return null;

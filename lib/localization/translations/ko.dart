@@ -1,11 +1,12 @@
 import 'package:form_model/src/enums/error_code.dart';
-import 'package:form_model/src/models/form_error.dart';
+import 'package:form_model/src/models/form_model_error.dart';
 
 import '../form_error_text_translations.dart';
 
-class FormErrorTextTranslationsKo implements FormErrorTextTranslations {
+class FormModelErrorTextTranslationsKo
+    implements FormModelErrorTextTranslations {
   @override
-  String translate(FormError error) {
+  String translate(FormModelError error) {
     switch (error.code) {
       case ErrorCode.required:
         return "이 필드는 필수입니다.";

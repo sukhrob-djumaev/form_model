@@ -1,6 +1,6 @@
 // Exporting form models
-export 'package:form_model/src/models/form_model.dart';
-export 'package:form_model/src/models/form_model_custom.dart';
+// export 'package:form_model/src/models/string_form_model.dart';
+// export 'package:form_model/src/models/form_model_custom.dart';
 
 // Exporting utility extensions
 export 'package:form_model/src/utils/extensions.dart';

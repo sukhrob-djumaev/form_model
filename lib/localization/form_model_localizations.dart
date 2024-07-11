@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:form_model/src/enums/error_code.dart';
-import 'package:form_model/src/models/form_error.dart';
+import 'package:form_model/src/models/form_model_error.dart';
 
 import 'translations/all.dart';
 
@@ -18,7 +18,7 @@ import 'translations/all.dart';
 /// localizations.currentLocale = Locale('en');
 ///
 /// // Fetch error message for a specific error
-/// FormError error = FormError(code: ErrorCode.required, value: 'Field is required');
+/// FormModelError error = FormModelError(code: ErrorCode.required, value: 'Field is required');
 /// String? errorMessage = localizations.getErrorMessage(error);
 ///
 /// // Set custom error messages for a locale
@@ -30,7 +30,8 @@ import 'translations/all.dart';
 class FormModelLocalizations {
   FormModelLocalizations._internal();
 
-  static final FormModelLocalizations _instance = FormModelLocalizations._internal();
+  static final FormModelLocalizations _instance =
+      FormModelLocalizations._internal();
 
   factory FormModelLocalizations() => _instance;
 
@@ -45,7 +46,8 @@ class FormModelLocalizations {
   /// Throws an [ArgumentError] if the provided locale is not supported.
   set currentLocale(Locale locale) {
     if (!supportedLocales.contains(locale.countryCode)) {
-      throw ArgumentError.value(locale, 'locale', 'Form model translation for this locale is not yet supported');
+      throw ArgumentError.value(locale, 'locale',
+          'Form model translation for this locale is not yet supported');
     }
     _currentLocale = locale;
   }
@@ -56,7 +58,7 @@ class FormModelLocalizations {
   /// it is returned. Otherwise, falls back to the default localized error message.
   ///
   /// Returns `null` if no matching error message is found.
-  String? getErrorMessage(FormError error) {
+  String? getErrorMessage(FormModelError error) {
     // Check for custom message first based on current locale
     if (error.code == ErrorCode.custom) {
       String? customMessage = _getCustomErrorMessage(error);
@@ -69,10 +71,11 @@ class FormModelLocalizations {
   }
 
   /// Retrieves the custom error message for ErrorCode.custom and current locale.
-  String? _getCustomErrorMessage(FormError error) {
+  String? _getCustomErrorMessage(FormModelError error) {
     // Check if custom error texts exist for the current locale
     if (_customErrorTexts.containsKey(_currentLocale.countryCode)) {
-      String? customMessage = _customErrorTexts[_currentLocale.countryCode]?[error.value];
+      String? customMessage =
+          _customErrorTexts[_currentLocale.countryCode]?[error.code];
       return customMessage;
     }
     return null;
@@ -88,7 +91,8 @@ class FormModelLocalizations {
   ///   'Field Name': 'Custom error message for this field',
   /// });
   /// ```
-  void setCustomErrorTexts(String locale, Map<ErrorCode, String> customMessages) {
+  void setCustomErrorTexts(
+      String locale, Map<ErrorCode, String> customMessages) {
     _customErrorTexts[locale] = customMessages;
   }
 

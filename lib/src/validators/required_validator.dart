@@ -1,17 +1,18 @@
 import 'package:form_model/src/enums/error_code.dart';
-import 'package:form_model/src/models/form_error.dart';
-import 'package:form_model/src/validators/base_form_model_validator.dart';
+import 'package:form_model/src/models/form_model_error.dart';
+import 'package:form_model/src/models/form_model_validator/form_model_validator.dart';
 
 /// A validator class for ensuring a value is required and not empty.
 ///
-/// This validator implements [BaseFormModelValidator] for values of type `T`.
+/// This validator implements [FormModelValidator] for values of type `T`.
 /// It checks if the provided [value] is not null and, if the value is a string,
 /// it also ensures that the string is not empty.
 ///
 /// This validator is useful in form validation scenarios where certain fields are mandatory.
-/// It provides validation errors using [FormError] with [ErrorCode.required] when the value
+/// It provides validation errors using [FormModelError] with [ErrorCode.required] when the value
 /// is null or an empty string.
-final class RequiredValidator<T> implements BaseFormModelValidator<T> {
+final class RequiredValidator<T extends Object?>
+    implements FormModelValidator<T> {
   /// Creates a [RequiredValidator] instance.
   const RequiredValidator();
 
@@ -22,14 +23,13 @@ final class RequiredValidator<T> implements BaseFormModelValidator<T> {
   /// is empty (`value.isEmpty`).
   ///
   /// - Parameter value: The value to validate, which can be of any type `T`.
-  /// - Returns: A [FormError] object with [ErrorCode.required] if the validation fails
+  /// - Returns: A [FormModelError] object with [ErrorCode.required] if the validation fails
   ///   (value is null or an empty string), otherwise `null`.
   @override
-  FormError<T?>? validate(T? value) {
+  FormModelError<T>? validate(T? value) {
     if (value == null || (value is String && value.isEmpty)) {
-      return FormError(
+      return FormModelError(
         code: ErrorCode.required,
-        value: value,
       );
     }
     return null;

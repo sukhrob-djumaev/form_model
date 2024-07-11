@@ -1,4 +1,4 @@
-import '../models/base_form_model.dart';
+import '../models/form_model/i_form_model.dart';
 
 /// Checks if all form models in the provided list are valid.
 ///
@@ -6,11 +6,6 @@ import '../models/base_form_model.dart';
 /// models have `isValid` set to true.
 ///
 /// Returns true if all form models are valid, otherwise false.
-bool areAllFormModelsValid(List<BaseFormModel> formModels) {
-  for (var model in formModels) {
-    if (!model.isValid) {
-      return false;
-    }
-  }
-  return true;
+bool isFormValid(List<IFormModel> formModels) {
+  return formModels.every((model) => model.isValid);
 }

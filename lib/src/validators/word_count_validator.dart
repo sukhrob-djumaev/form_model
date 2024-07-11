@@ -1,19 +1,19 @@
 import 'package:form_model/src/enums/error_code.dart';
-import 'package:form_model/src/models/form_error.dart';
-import 'package:form_model/src/validators/base_form_model_validator.dart';
+import 'package:form_model/src/models/form_model_error.dart';
+import 'package:form_model/src/models/form_model_validator/form_model_validator.dart';
 
 /// A validator class for ensuring the word count of a string value falls within specified limits.
 ///
-/// This validator implements [BaseFormModelValidator] for values of type `String`.
+/// This validator implements [FormModelValidator] for values of type `String`.
 /// It calculates the word count of the provided [value] and validates it against optional
 /// [minWords] and [maxWords] constraints.
 ///
 /// This validator is useful in form validation scenarios where a field should only accept
 /// strings with a specific range of word counts.
 ///
-/// It provides validation errors using [FormError] with [ErrorCode.wordCountIsLessThan] or
+/// It provides validation errors using [FormModelError] with [ErrorCode.wordCountIsLessThan] or
 /// [ErrorCode.wordCountIsMoreThan] when the word count falls outside the specified range.
-final class WordCountValidator implements BaseFormModelValidator<String?> {
+final class WordCountValidator implements FormModelValidator<String?> {
   /// The minimum allowable word count.
   final int? minWords;
 
@@ -30,16 +30,16 @@ final class WordCountValidator implements BaseFormModelValidator<String?> {
   /// constraints, if provided.
   ///
   /// - Parameter value: The string value to validate.
-  /// - Returns: A [FormError] object with [ErrorCode.wordCountIsLessThan] or
+  /// - Returns: A [FormModelError] object with [ErrorCode.wordCountIsLessThan] or
   ///   [ErrorCode.wordCountIsMoreThan] if the validation fails (word count is out of bounds),
   ///   otherwise `null`.
   @override
-  FormError<String?>? validate(String? value) {
+  FormModelError<String?>? validate(String? value) {
     if (value != null && value.isNotEmpty) {
       final wordCount = value.trim().split(RegExp(r'\s+')).length;
 
       if (minWords != null && wordCount < minWords!) {
-        return FormError(
+        return FormModelError(
           code: ErrorCode.wordCountIsLessThan,
           value: value,
           parameter: minWords,
@@ -47,7 +47,7 @@ final class WordCountValidator implements BaseFormModelValidator<String?> {
       }
 
       if (maxWords != null && wordCount > maxWords!) {
-        return FormError(
+        return FormModelError(
           code: ErrorCode.wordCountIsMoreThan,
           value: value,
           parameter: maxWords,
