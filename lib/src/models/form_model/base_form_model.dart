@@ -1,8 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:form_model/src/enums/form_model_status.dart';
 import 'package:form_model/src/models/form_model/i_form_model.dart';
-import 'package:form_model/src/models/form_model_error.dart';
-import 'package:form_model/src/models/form_model_validator/form_model_validator.dart';
+import 'package:form_model/src/models/form_model_validator/i_form_model_validator.dart';
 
 /// A concrete implementation of the [IFormModel] interface for managing form state and validation.
 ///
@@ -15,8 +14,8 @@ import 'package:form_model/src/models/form_model_validator/form_model_validator.
 ///
 /// [FormModel] implements [BaseFormModel<T?>], allowing it to be used as a form model
 /// in various form-related contexts within Flutter applications.
-abstract base class BaseFormModel<T extends Object?>
-    implements IFormModel<T, FormModelError<T>> {
+abstract base class BaseFormModel<T extends Object?, E extends Object>
+    implements IFormModel<T, E> {
   /// The current value of the form field.
   final T _value;
 
@@ -24,7 +23,7 @@ abstract base class BaseFormModel<T extends Object?>
   final FormModelStatus status;
 
   /// The list of validators attached to the form field for performing validation checks.
-  final List<FormModelValidator<T>> _validators;
+  final List<IFormModelValidator<T, E>> _validators;
 
   final Set<Type> _restrictedValidators;
 
@@ -40,7 +39,7 @@ abstract base class BaseFormModel<T extends Object?>
   const BaseFormModel(
     T initialValue, {
     this.status = FormModelStatus.pure,
-    List<FormModelValidator<T>> validators = const [],
+    List<IFormModelValidator<T, E>> validators = const [],
     Set<Type> restrictedValidators = const {},
   })  : _value = initialValue,
         _validators = validators,
@@ -52,9 +51,9 @@ abstract base class BaseFormModel<T extends Object?>
   /// and returns the first encountered error. If no errors are found or the form
   /// field is not dirty, it returns `null`.
   @override
-  FormModelError<T>? get error {
+  E? get error {
     if (status == FormModelStatus.dirty) {
-      for (final validator in validators) {
+      for (final validator in filteredValidators) {
         final error = validator.validate(value);
         if (error != null) {
           return error;
@@ -84,28 +83,28 @@ abstract base class BaseFormModel<T extends Object?>
   /// a different starting value. Returns a new [FormModel] instance representing
   /// the form in its initial state.
   @override
-  BaseFormModel<T> reset(ValueGetter<T>? value) =>
+  BaseFormModel<T, E> reset(ValueGetter<T>? value) =>
       copyWith(status: FormModelStatus.pure, value: value);
 
   /// Sets a new value to the form field.
   ///
   /// Returns a new [FormModel] instance with the updated value.
   @override
-  BaseFormModel<T> setValue(T value) => copyWith(value: () => value);
+  BaseFormModel<T, E> setValue(T value) => copyWith(value: () => value);
 
   /// Validates the form field and returns a new form model with updated state.
   ///
   /// Triggers the validation process for the form field, marking it as dirty.
   /// Returns a new [FormModel] instance reflecting the updated state.
   @override
-  BaseFormModel<T> validate() => copyWith(status: FormModelStatus.dirty);
+  BaseFormModel<T, E> validate() => copyWith(status: FormModelStatus.dirty);
 
   /// Adds a validator to the form model.
   ///
   /// Returns a new [FormModel] instance with the added validator included in its list
   /// of validators.
   @override
-  BaseFormModel<T> switchValidator(Type type, {bool? restrict}) {
+  BaseFormModel<T, E> switchValidator(Type type, {bool? restrict}) {
     final isRestricted = _restrictedValidators.contains(type);
 
     restrict = restrict ?? !isRestricted;
@@ -132,17 +131,23 @@ abstract base class BaseFormModel<T extends Object?>
   /// errors from the attached validators. If the form field is not dirty, it returns
   /// an empty list.
   @override
-  List<FormModelError<T>> get errorsList {
+  List<E> get errorsList {
     if (status == FormModelStatus.dirty) {
-      return validators.map((e) => e.validate(value)).nonNulls.toList();
+      return filteredValidators.map((e) => e.validate(value)).nonNulls.toList();
     }
     return [];
   }
 
   /// Retrieves the list of validators attached to the form field.
   @override
-  List<FormModelValidator<T>> get validators => _validators;
+  List<IFormModelValidator<T, E>> get validators => _validators;
 
+  List<IFormModelValidator<T, E>> get filteredValidators => _validators
+      .map((e) => restrictedValidators.contains(e.runtimeType) ? e : null)
+      .nonNulls
+      .toList();
+
+  @protected
   Set<Type> get restrictedValidators => _restrictedValidators;
 
   /// Creates a copy of the current [FormModel] with specified values.
@@ -158,10 +163,10 @@ abstract base class BaseFormModel<T extends Object?>
   /// Returns:
   /// - A new [FormModel] instance with the specified updates.
   @protected
-  BaseFormModel<T> copyWith({
+  BaseFormModel<T, E> copyWith({
     ValueGetter<T>? value,
     FormModelStatus? status,
-    List<FormModelValidator<T>>? validators,
+    List<IFormModelValidator<T, E>>? validators,
     Set<Type>? restrictedValidators,
   });
 
@@ -171,7 +176,7 @@ abstract base class BaseFormModel<T extends Object?>
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is BaseFormModel<T> &&
+      other is BaseFormModel<T, E> &&
           runtimeType == other.runtimeType &&
           other.value == value &&
           other.status == status;

@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:form_model/src/models/form_model_error.dart';
 import 'package:form_model/src/models/form_model_validator/i_form_model_validator.dart';
 
 /// Represents an abstract interface for managing form state and validation in Flutter applications.
@@ -30,14 +29,14 @@ abstract interface class IFormModel<T, E> {
   ///
   /// Implementations should return a single [FormModelError] instance representing
   /// the validation error currently affecting the form, if any.
-  FormModelError<T>? get error;
+  E? get error;
 
   /// Retrieves a list of all validation errors affecting the form state.
   ///
   /// Implementations should collect and return all validation errors that are
   /// currently affecting the form's state. This can include errors from multiple
   /// validators attached to the form model.
-  List<FormModelError<T>> get errorsList;
+  List<E> get errorsList;
 
   /// Retrieves the list of validators attached to the form model.
   ///

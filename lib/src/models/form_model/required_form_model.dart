@@ -1,9 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:form_model/src/enums/form_model_status.dart';
 import 'package:form_model/src/models/form_model/base_form_model.dart';
-import 'package:form_model/src/models/form_model_validator/form_model_validator.dart';
+import 'package:form_model/src/models/form_model_error.dart';
+import 'package:form_model/src/models/form_model_validator/i_form_model_validator.dart';
 
-final class RequiredFormModel<T extends Object> extends BaseFormModel<T> {
+final class RequiredFormModel<T extends Object>
+    extends BaseFormModel<T, FormModelError<T>> {
   const RequiredFormModel(
     super.initialValue, {
     super.status = FormModelStatus.pure,
@@ -15,7 +17,7 @@ final class RequiredFormModel<T extends Object> extends BaseFormModel<T> {
   RequiredFormModel<T> copyWith({
     ValueGetter<T>? value,
     FormModelStatus? status,
-    List<FormModelValidator<T>>? validators,
+    List<IFormModelValidator<T, FormModelError<T>>>? validators,
     Set<Type>? restrictedValidators,
   }) {
     return RequiredFormModel<T>(

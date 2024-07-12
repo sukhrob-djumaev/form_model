@@ -26,7 +26,7 @@ final class RequiredValidator<T extends Object?>
   /// - Returns: A [FormModelError] object with [ErrorCode.required] if the validation fails
   ///   (value is null or an empty string), otherwise `null`.
   @override
-  FormModelError<T>? validate(T? value) {
+  FormModelError<T>? validate(T value) {
     if (value == null || (value is String && value.isEmpty)) {
       return FormModelError(
         code: ErrorCode.required,

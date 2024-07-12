@@ -1,8 +1,8 @@
-// import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_test/flutter_test.dart';
 // import 'package:form_model/form_model.dart';
 // import 'package:form_model/src/enums/form_status.dart';
 
-// void main() {
+void main() {
 //   group('FormModel', () {
 //     test('initial value is null and status is pure by default', () {
 //       const formModel = StringFormModel();
@@ -90,4 +90,4 @@
 //       expect(formModel.isDirty, isFalse);
 //     });
 //   });
-// }
+}
