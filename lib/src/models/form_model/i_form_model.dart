@@ -66,10 +66,5 @@ abstract interface class IFormModel<T, E> {
   /// of [IFormModel] representing the form in its initial state.
   IFormModel<T, E> reset(ValueGetter<T>? value);
 
-  /// Adds a validator to the form model.
-  ///
-  /// This method should return a new instance of [IFormModel] with the added
-  /// validator included in its list of validators. Implementations should ensure
-  /// that the new validator is appended to the existing list of validators.
   IFormModel<T, E> switchValidator(Type type, {bool? restrict});
 }

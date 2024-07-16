@@ -1,13 +1,13 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:form_model/form_model.dart';
 import 'package:form_model/src/enums/form_model_status.dart';
+import 'package:form_model/src/models/form_model/nullable_form_model.dart';
 import 'package:form_model/src/models/form_model/form_model.dart';
-import 'package:form_model/src/models/form_model/required_form_model.dart';
 
 void main() {
   group('FormModelCustom', () {
     test('initial value is null and status is pure by default', () {
-      const formModel = FormModel<int>();
+      const formModel = NullableFormModel<int>();
       expect(formModel.value, isNull);
       expect(formModel.status, equals(FormModelStatus.pure));
       expect(formModel.validators, isEmpty);
@@ -15,27 +15,27 @@ void main() {
 
     test('reset returns new instance with pure status and optional new value',
         () {
-      const formModel = RequiredFormModel<int>(1);
+      const formModel = FormModel<int>(1);
       final resetModel = formModel.reset(() => 2);
       expect(resetModel.value, equals(2));
       expect(resetModel.status, equals(FormModelStatus.pure));
     });
 
     test('setValue returns new instance with updated value', () {
-      const formModel = RequiredFormModel<int>(1);
+      const formModel = FormModel<int>(1);
       final updatedModel = formModel.setValue(2);
       expect(updatedModel.value, equals(2));
     });
 
     test('validate marks the form as dirty and returns new instance', () {
-      const formModel = RequiredFormModel<int>(2);
+      const formModel = FormModel<int>(2);
       final validatedModel = formModel.validate();
       expect(validatedModel.status, equals(FormModelStatus.dirty));
     });
 
     test('addValidator returns new instance with added validator', () {
       const validator = RequiredValidator<int>();
-      const formModel = RequiredFormModel<int>(
+      const formModel = FormModel<int>(
         0,
         validators: [
           validator,

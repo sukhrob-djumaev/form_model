@@ -5,23 +5,23 @@ import 'package:form_model/src/models/form_model_error.dart';
 import 'package:form_model/src/models/form_model_validator/i_form_model_validator.dart';
 
 final class FormModel<T extends Object>
-    extends BaseFormModel<T?, FormModelError<T?>> {
-  const FormModel({
-    T? initialValue,
+    extends BaseFormModel<T, FormModelError<T>> {
+  const FormModel(
+    super.initialValue, {
     super.status = FormModelStatus.pure,
     super.validators,
     super.restrictedValidators,
-  }) : super(initialValue);
+  });
 
   @override
   FormModel<T> copyWith({
-    ValueGetter<T?>? value,
+    ValueGetter<T>? value,
     FormModelStatus? status,
-    List<IFormModelValidator<T?, FormModelError<T?>>>? validators,
+    List<IFormModelValidator<T, FormModelError<T>>>? validators,
     Set<Type>? restrictedValidators,
   }) {
     return FormModel<T>(
-      initialValue: value != null ? value() : this.value,
+      value != null ? value() : this.value,
       status: status ?? this.status,
       validators: validators ?? this.validators,
       restrictedValidators: restrictedValidators ?? this.restrictedValidators,
