@@ -1,9 +1,8 @@
 import '../form_error_text_translations.dart';
 import 'en.dart';
 
-final Map<String, FormErrorTextTranslations> localeMap = {
-  'en': FormErrorTextTranslationsEn(),
+final Map<String, PredefinedFormErrorKeyTranslations> localeMap = {
+  'en': PredefinedFormErrorKeyTranslationsEn(),
 };
 
-// List of supported locales
 final List<String> supportedLocales = localeMap.keys.toList();

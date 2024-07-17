@@ -1,0 +1,4 @@
+enum FormModelStatus {
+  pure,
+  dirty,
+}

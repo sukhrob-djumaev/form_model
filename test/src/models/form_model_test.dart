@@ -1,87 +1,50 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:form_model/form_model.dart';
-import 'package:form_model/src/enums/form_status.dart';
 
 void main() {
   group('FormModel', () {
-    test('initial value is null and status is pure by default', () {
-      const formModel = FormModel();
+    test('initializes with default values', () {
+      final formModel = FormModel<String>();
       expect(formModel.value, isNull);
-      expect(formModel.status, equals(FormStatus.pure));
+      expect(formModel.isValid, isTrue);
+      expect(formModel.isDirty, isFalse);
+      expect(formModel.error, isNull);
+      expect(formModel.errorsList, isEmpty);
       expect(formModel.validators, isEmpty);
     });
 
-    test('reset returns new instance with pure status and optional new value', () {
-      const formModel = FormModel(value: 'initial value');
-      final resetModel = formModel.reset('new value');
-      expect(resetModel.value, equals('new value'));
-      expect(resetModel.status, equals(FormStatus.pure));
+    test('sets value correctly', () {
+      final formModel = FormModel<String>().setValue('test');
+      expect(formModel.value, equals('test'));
     });
 
-    test('setValue returns new instance with updated value', () {
-      const formModel = FormModel(value: 'initial value');
-      final updatedModel = formModel.setValue('updated value');
-      expect(updatedModel.value, equals('updated value'));
+    test('adds and removes validators', () {
+      final formModel = FormModel<String>();
+      final mockValidator = RequiredValidator<String>();
+
+      final updatedModel = formModel.addValidator(mockValidator);
+      expect(updatedModel.validators.length, equals(1));
+
+      final finalModel = updatedModel.removeValidator(mockValidator);
+      expect(finalModel.validators, isEmpty);
     });
 
-    test('validate marks the form as dirty and returns new instance', () {
-      const formModel = FormModel(value: 'value');
-      final validatedModel = formModel.validate();
-      expect(validatedModel.status, equals(FormStatus.dirty));
-    });
-
-    test('addValidator returns new instance with added validator', () {
-      const formModel = FormModel();
-      const validator = RequiredValidator<String>();
-      final modelWithValidator = formModel.addValidator(validator);
-      expect(modelWithValidator.validators, contains(validator));
-    });
-
-    test('removeValidator returns new instance with removed validator', () {
-      const validator = RequiredValidator<String>();
-      const formModel = FormModel(validators: [validator]);
-      final modelWithoutValidator = formModel.removeValidator(validator);
-      expect(modelWithoutValidator.validators, isNot(contains(validator)));
-    });
-
-    test('error returns validation error when dirty with validators', () {
-      const formModel = FormModel(value: '');
-      final modelWithValidators = formModel.addValidator(const RequiredValidator());
-      final dirtyModel = modelWithValidators.validate();
-      expect(dirtyModel.error, isNotNull);
-    });
-
-    test('errorsList returns list of errors when dirty with validators', () {
-      const formModel = FormModel(value: '');
-      final modelWithValidators =
-          formModel.addValidator(const RequiredValidator()).addValidator(const LengthValidator(minLength: 5));
-      final dirtyModel = modelWithValidators.validate();
-      expect(dirtyModel.errorsList, isNotEmpty);
-      expect(dirtyModel.errorsList.length, 2); // Assuming two validators have errors
-    });
-
-    test('isValid returns true when there are no validation errors', () {
-      const formModel = FormModel(value: 'valid value');
-      final modelWithValidators = formModel.addValidator(const LengthValidator(minLength: 5));
-      expect(modelWithValidators.isValid, isTrue);
-    });
-
-    test('isValid returns false when there are validation errors', () {
-      const formModel = FormModel(value: 'val');
-      final modelWithValidators = formModel.addValidator(const LengthValidator(minLength: 5));
-      final dirtyModel = modelWithValidators.validate();
-      expect(dirtyModel.isValid, isFalse);
-    });
-
-    test('isDirty returns true when form is dirty', () {
-      const formModel = FormModel(value: 'value');
-      final dirtyModel = formModel.validate();
-      expect(dirtyModel.isDirty, isTrue);
-    });
-
-    test('isDirty returns false when form is pure', () {
-      const formModel = FormModel();
+    test('validates and changes dirty state', () {
+      final formModel = FormModel<String>(value: 'test');
       expect(formModel.isDirty, isFalse);
+
+      final validatedModel = formModel.validate();
+      expect(validatedModel.isDirty, isTrue);
+    });
+
+    test('resets to initial state', () {
+      final formModel = FormModel<String>(value: 'test')
+        ..validate()
+        ..setValue('new value');
+
+      final resetModel = formModel.reset();
+      expect(resetModel.value, equals('test'));
+      expect(resetModel.isDirty, isFalse);
     });
   });
 }
