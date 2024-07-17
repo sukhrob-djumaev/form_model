@@ -5,19 +5,21 @@ import 'package:form_model/src/model/form_model_error.dart';
 
 class ConfirmPasswordValidator implements FormModelValidator<String> {
   ConfirmPasswordValidator({
-    required this.passwordGetter,
+    this.passwordGetter,
   });
 
   ValueGetter<String>? passwordGetter;
 
   @override
   FormModelError<String>? validate(String value) {
+    if (passwordGetter == null) return null;
+
     final password = passwordGetter?.call();
-    if (password != value) {
-      return FormModelError(
-        code: ErrorCode.boolAgreeToTerms,
-      );
-    }
-    return null;
+
+    if (password == value) return null;
+
+    return FormModelError(
+      code: ErrorCode.boolAgreeToTerms,
+    );
   }
 }

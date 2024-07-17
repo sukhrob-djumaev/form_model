@@ -14,7 +14,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
             confirmPassword: FormModel<String>(
               '',
               validators: [
-                ConfirmPasswordValidator(passwordGetter: () => ''),
+                ConfirmPasswordValidator(),
               ],
             ),
           ),
