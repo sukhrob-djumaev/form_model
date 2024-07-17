@@ -1,6 +1,6 @@
 import 'package:form_model/src/enums/error_code.dart';
-import 'package:form_model/src/models/form_model_error.dart';
-import 'package:form_model/src/models/form_model_validator/form_model_validator.dart';
+import 'package:form_model/src/model/form_model_error.dart';
+import 'package:form_model/src/model/form_model_validator/form_model_validator.dart';
 
 /// A validator class for validating that a string contains only numeric characters.
 ///

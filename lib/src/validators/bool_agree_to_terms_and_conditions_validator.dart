@@ -1,6 +1,6 @@
 import 'package:form_model/src/enums/error_code.dart';
-import 'package:form_model/src/models/form_model_error.dart';
-import 'package:form_model/src/models/form_model_validator/form_model_validator.dart';
+import 'package:form_model/src/model/form_model_error.dart';
+import 'package:form_model/src/model/form_model_validator/form_model_validator.dart';
 
 /// A final class that implements [FormModelValidator] to validate a boolean value,
 /// typically used to confirm agreement to terms and conditions.

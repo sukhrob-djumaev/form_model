@@ -1,7 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:form_model/form_model.dart';
-import 'package:form_model/src/models/form_model/form_model_status.dart';
-import 'package:form_model/src/models/form_model/form_model.dart';
+import 'package:form_model/src/model/form_model/form_model_status.dart';
+import 'package:form_model/src/model/form_model/form_model.dart';
+import 'package:form_model/src/validators/required_validator.dart';
 
 void main() {
   group('FormModelCustom', () {

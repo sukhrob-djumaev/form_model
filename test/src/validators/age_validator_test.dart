@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:form_model/form_model.dart';
 import 'package:form_model/src/enums/error_code.dart';
+import 'package:form_model/src/validators/age_validator.dart';
 
 void main() {
   group('AgeValidator', () {
@@ -32,7 +33,8 @@ void main() {
     test('validate returns error when age is above maxAge', () {
       // Arrange
       const validator = AgeValidator(minAge: 18, maxAge: 60);
-      const invalidDate = '1940-01-01'; // Replace with a date string representing an age above maxAge
+      const invalidDate =
+          '1940-01-01'; // Replace with a date string representing an age above maxAge
 
       // Act
       final error = validator.validate(invalidDate);

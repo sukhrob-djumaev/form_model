@@ -1,4 +1,4 @@
-import 'package:form_model/src/models/form_model_error.dart';
+import 'package:form_model/src/model/form_model_error.dart';
 
 /// Interface for translating form validation defined error messages.
 ///

@@ -1,5 +1,5 @@
 import 'package:form_model/localization/form_model_localizations.dart';
-import 'package:form_model/src/models/form_model_error.dart';
+import 'package:form_model/src/model/form_model_error.dart';
 
 /// Extension on the `FormModelError` class to provide additional functionality for localization.
 ///

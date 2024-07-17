@@ -1,4 +1,4 @@
-import '../models/form_model/i_form_model.dart';
+import '../model/form_model/i_form_model.dart';
 
 /// Checks if all form models in the provided list are valid.
 ///

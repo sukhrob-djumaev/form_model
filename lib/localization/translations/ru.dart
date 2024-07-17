@@ -1,5 +1,5 @@
 import 'package:form_model/src/enums/error_code.dart';
-import 'package:form_model/src/models/form_model_error.dart';
+import 'package:form_model/src/model/form_model_error.dart';
 
 import '../form_error_text_translations.dart';
 
