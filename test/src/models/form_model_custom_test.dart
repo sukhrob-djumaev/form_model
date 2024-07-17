@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:form_model/form_model.dart';
-import 'package:form_model/src/enums/form_model_status.dart';
-import 'package:form_model/src/models/form_model/nullable_form_model.dart';
+import 'package:form_model/src/models/form_model/form_model_status.dart';
 import 'package:form_model/src/models/form_model/form_model.dart';
 
 void main() {
@@ -29,7 +28,7 @@ void main() {
 
     test('validate marks the form as dirty and returns new instance', () {
       const formModel = FormModel<int>(2);
-      final validatedModel = formModel.validate();
+      final validatedModel = formModel.dirty();
       expect(validatedModel.status, equals(FormModelStatus.dirty));
     });
 
@@ -43,7 +42,7 @@ void main() {
       );
       final modelWithValidator = formModel.switchValidator(
         RequiredValidator<int>,
-        restrict: false,
+        active: true,
       );
       expect(modelWithValidator.filteredValidators, contains(validator));
     });
