@@ -3,8 +3,10 @@ import 'package:form_model/src/model/form_model/form_model_status.dart';
 import 'package:form_model/src/model/form_model/i_form_model.dart';
 import 'package:form_model/src/model/form_model_validator/i_form_model_validator.dart';
 
-abstract base class BaseFormModel<T extends Object?, E extends Object>
-    implements IFormModel<T, E> {
+abstract base class BaseFormModel<
+    T extends Object?,
+    TChildModel extends BaseFormModel<T, TChildModel, E>,
+    E extends Object> implements IFormModel<T, E> {
   @override
   final T value;
 
@@ -44,29 +46,34 @@ abstract base class BaseFormModel<T extends Object?, E extends Object>
   bool get isValid => error == null;
 
   @override
-  BaseFormModel<T, E> reset(ValueGetter<T>? value) =>
+  TChildModel reset(ValueGetter<T>? value) =>
       copyWith(status: FormModelStatus.pure, value: value);
 
   @override
-  BaseFormModel<T, E> setValue(
+  TChildModel setValue(
     T value, {
     bool reactive = false,
   }) =>
       copyWith(
-        status: reactive ? FormModelStatus.pure : FormModelStatus.dirty,
+        status: reactive ? FormModelStatus.edited : FormModelStatus.dirty,
         value: () => value,
       );
 
   @override
-  BaseFormModel<T, E> dirty([E? error]) =>
-      copyWith(status: FormModelStatus.dirty, manualError: error);
+  TChildModel dirty({E? error, bool force = true}) {
+    final toDirty = force || status != FormModelStatus.pure;
+    return copyWith(
+      status: toDirty ? FormModelStatus.dirty : null,
+      manualError: toDirty ? error : null,
+    );
+  }
 
   @override
-  BaseFormModel<T, E> switchValidator(Type type, {required bool active}) {
+  TChildModel switchValidator(Type type, {required bool active}) {
     final isRestricted = _restrictedValidators.contains(type);
 
     if (active != isRestricted) {
-      return this;
+      return copyWith();
     }
 
     if (active) {
@@ -83,6 +90,18 @@ abstract base class BaseFormModel<T extends Object?, E extends Object>
         ),
       );
     }
+  }
+
+  @override
+  TChildModel replaceValidator(
+    bool Function(IFormModelValidator<T, E> validator) predicate, {
+    required IFormModelValidator<T, E> newValidator,
+  }) {
+    final updatedValidators = _validators.map((validator) {
+      return predicate(validator) ? newValidator : validator;
+    }).toList();
+
+    return copyWith(validators: updatedValidators);
   }
 
   @override
@@ -106,7 +125,7 @@ abstract base class BaseFormModel<T extends Object?, E extends Object>
   Set<Type> get restrictedValidators => _restrictedValidators;
 
   @protected
-  BaseFormModel<T, E> copyWith({
+  TChildModel copyWith({
     ValueGetter<T>? value,
     FormModelStatus? status,
     List<IFormModelValidator<T, E>>? validators,
@@ -124,7 +143,7 @@ abstract base class BaseFormModel<T extends Object?, E extends Object>
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is BaseFormModel<T, E> &&
+      other is BaseFormModel<T, TChildModel, E> &&
           runtimeType == other.runtimeType &&
           other.value == value &&
           other.status == status &&

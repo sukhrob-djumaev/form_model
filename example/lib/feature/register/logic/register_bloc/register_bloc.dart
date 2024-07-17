@@ -19,10 +19,22 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
             ),
           ),
         ) {
+    on<_InitRegisterEvent>(_init);
     on<_SetPasswordRegisterEvent>(_setPassword);
-    // on<_SetPracticesRegistrationAboutEvent>(_setPractices);
-    // on<_SubmitRegistrationAboutEvent>(_submit);
-    // on<_SkipAboutInfoRegistrationAboutEvent>(_skipAboutInfo);
+    on<_SetConfirmPasswordRegisterEvent>(_setConfirmPassword);
+  }
+
+  void _init(_InitRegisterEvent event, Emitter<RegisterState> emit) {
+    emit(
+      state.copyWith(
+        confirmPassword: state.confirmPassword.replaceValidator(
+          (validator) => validator is ConfirmPasswordValidator,
+          newValidator: ConfirmPasswordValidator(
+            passwordGetter: () => state.password.value,
+          ),
+        ),
+      ),
+    );
   }
 
   void _setPassword(
@@ -30,6 +42,17 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     emit(
       state.copyWith(
         password: state.password.setValue(event.value),
+        confirmPassword: state.confirmPassword.dirty(force: false),
+      ),
+    );
+  }
+
+  void _setConfirmPassword(
+      _SetConfirmPasswordRegisterEvent event, Emitter<RegisterState> emit) {
+    emit(
+      state.copyWith(
+        confirmPassword:
+            state.confirmPassword.setValue(event.value, reactive: true),
       ),
     );
   }

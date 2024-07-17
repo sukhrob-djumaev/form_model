@@ -5,7 +5,7 @@ import 'package:form_model/src/model/form_model_error.dart';
 import 'package:form_model/src/model/form_model_validator/i_form_model_validator.dart';
 
 final class FormModel<T extends Object>
-    extends BaseFormModel<T, FormModelError<T>> {
+    extends BaseFormModel<T, FormModel<T>, FormModelError<T>> {
   const FormModel(
     super.initialValue, {
     super.status,
@@ -42,7 +42,7 @@ final class FormModel<T extends Object>
 }
 
 final class NullableFormModel<T extends Object>
-    extends BaseFormModel<T?, FormModelError<T?>> {
+    extends BaseFormModel<T?, NullableFormModel<T>, FormModelError<T?>> {
   const NullableFormModel({
     T? initialValue,
     super.status,

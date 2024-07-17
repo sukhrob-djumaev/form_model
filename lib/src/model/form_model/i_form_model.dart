@@ -20,9 +20,13 @@ abstract interface class IFormModel<T extends Object?, E extends Object> {
     bool reactive = false,
   });
 
-  IFormModel<T, E> dirty([E? error]);
+  IFormModel<T, E> dirty({E? error, bool force = true});
 
   IFormModel<T, E> reset(ValueGetter<T>? value);
 
   IFormModel<T, E> switchValidator(Type type, {required bool active});
+  IFormModel<T, E> replaceValidator(
+    bool Function(IFormModelValidator<T, E> validator) predicate, {
+    required IFormModelValidator<T, E> newValidator,
+  });
 }
