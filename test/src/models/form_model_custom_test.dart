@@ -1,8 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:form_model/form_model.dart';
-import 'package:form_model/src/model/form_model/form_model_status.dart';
-import 'package:form_model/src/model/form_model/form_model.dart';
-import 'package:form_model/src/validators/required_validator.dart';
 
 void main() {
   group('FormModelCustom', () {
@@ -16,7 +13,7 @@ void main() {
     test('reset returns new instance with pure status and optional new value',
         () {
       const formModel = FormModel<int>(1);
-      final resetModel = formModel.reset(() => 2);
+      final resetModel = formModel.reset(value: () => 2);
       expect(resetModel.value, equals(2));
       expect(resetModel.status, equals(FormModelStatus.pure));
     });

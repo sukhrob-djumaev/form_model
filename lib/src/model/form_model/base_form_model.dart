@@ -46,8 +46,11 @@ abstract base class BaseFormModel<
   bool get isValid => error == null;
 
   @override
-  TChildModel reset(ValueGetter<T>? value) =>
-      copyWith(status: FormModelStatus.pure, value: value);
+  TChildModel reset({
+    ValueGetter<T>? value,
+    FormModelStatus status = FormModelStatus.pure,
+  }) =>
+      copyWith(status: status, value: value);
 
   @override
   TChildModel setValue(
@@ -55,12 +58,15 @@ abstract base class BaseFormModel<
     bool reactive = false,
   }) =>
       copyWith(
-        status: reactive ? FormModelStatus.edited : FormModelStatus.dirty,
+        status: reactive ? FormModelStatus.dirty : FormModelStatus.edited,
         value: () => value,
       );
 
   @override
-  TChildModel dirty({E? error, bool force = true}) {
+  TChildModel dirty({
+    E? error,
+    bool force = true,
+  }) {
     final toDirty = force || status != FormModelStatus.pure;
     return copyWith(
       status: toDirty ? FormModelStatus.dirty : null,
@@ -118,7 +124,7 @@ abstract base class BaseFormModel<
 
   @protected
   Iterable<IFormModelValidator<T, E>> get filteredValidators => _validators
-      .map((e) => restrictedValidators.contains(e.runtimeType) ? e : null)
+      .map((e) => restrictedValidators.contains(e.runtimeType) ? null : e)
       .nonNulls;
 
   @protected

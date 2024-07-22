@@ -37,7 +37,10 @@ dependencies:
 
   #State mgmt
   flutter_bloc: ^8.1.6
+
+  #Stream
   bloc_concurrency: ^0.2.5
+  rxdart: ^0.28.0
 
   #Model
   freezed_annotation: ^2.4.4

@@ -1,3 +1,4 @@
+import 'package:example/feature/register/widget/register_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -68,6 +69,12 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void _toPackageFeatures() {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => const RegisterPage(),
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -116,7 +123,8 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        // onPressed: _incrementCounter,
+        onPressed: _toPackageFeatures,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
