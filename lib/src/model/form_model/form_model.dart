@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:form_model/src/model/form_model/base_form_model.dart';
-import 'package:form_model/src/model/form_model/form_model_status.dart';
-import 'package:form_model/src/model/form_model_error.dart';
-import 'package:form_model/src/model/form_model_validator/i_form_model_validator.dart';
+import 'package:form_model/src/model/status/form_model_status.dart';
+// import 'package:form_model/src/model/form_model_error.dart';
+import 'package:form_model/src/model/contract/i_form_model_validator.dart';
 
 final class FormModel<T extends Object>
-    extends BaseFormModel<T, FormModel<T>, FormModelError<T>> {
+    extends BaseFormModel<T, FormModel<T>, String> {
   const FormModel(
     super.initialValue, {
     super.status,
@@ -27,9 +27,9 @@ final class FormModel<T extends Object>
   FormModel<T> copyWith({
     ValueGetter<T>? value,
     FormModelStatus? status,
-    List<IFormModelValidator<T, FormModelError<T>>>? validators,
+    List<IFormModelValidator<T, String>>? validators,
     Set<Type>? restrictedValidators,
-    FormModelError<T>? manualError,
+    String? manualError,
   }) {
     return FormModel._(
       value != null ? value() : this.value,
@@ -42,7 +42,7 @@ final class FormModel<T extends Object>
 }
 
 final class NullableFormModel<T extends Object>
-    extends BaseFormModel<T?, NullableFormModel<T>, FormModelError<T?>> {
+    extends BaseFormModel<T?, NullableFormModel<T>, String> {
   const NullableFormModel({
     T? initialValue,
     super.status,
@@ -65,9 +65,9 @@ final class NullableFormModel<T extends Object>
   NullableFormModel<T> copyWith({
     ValueGetter<T?>? value,
     FormModelStatus? status,
-    List<IFormModelValidator<T?, FormModelError<T?>>>? validators,
+    List<IFormModelValidator<T?, String>>? validators,
     Set<Type>? restrictedValidators,
-    FormModelError<T?>? manualError,
+    String? manualError,
   }) {
     return NullableFormModel._(
       value != null ? value() : this.value,

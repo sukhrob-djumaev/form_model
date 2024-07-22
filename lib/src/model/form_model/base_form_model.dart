@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
-import 'package:form_model/src/model/form_model/form_model_status.dart';
-import 'package:form_model/src/model/form_model/i_form_model.dart';
-import 'package:form_model/src/model/form_model_validator/i_form_model_validator.dart';
+import 'package:form_model/src/model/status/form_model_status.dart';
+import 'package:form_model/src/model/contract/i_form_model.dart';
+import 'package:form_model/src/model/contract/i_form_model_validator.dart';
 
 abstract base class BaseFormModel<
     T extends Object?,
@@ -21,7 +21,7 @@ abstract base class BaseFormModel<
 
   const BaseFormModel(
     T initialValue, {
-    this.status = FormModelStatus.pure,
+    this.status = const FormModelStatus.pure(),
     List<IFormModelValidator<T, E>> validators = const [],
     Set<Type> restrictedValidators = const {},
     required E? manualError,
@@ -32,7 +32,7 @@ abstract base class BaseFormModel<
 
   @override
   E? get error {
-    if (status != FormModelStatus.dirty) return null;
+    if (status.isNotDirty) return null;
 
     if (_manualError != null) return _manualError;
 
@@ -48,17 +48,17 @@ abstract base class BaseFormModel<
   @override
   TChildModel reset({
     ValueGetter<T>? value,
-    FormModelStatus status = FormModelStatus.pure,
+    FormModelStatus status = const FormModelStatus.pure(),
   }) =>
       copyWith(status: status, value: value);
 
   @override
   TChildModel setValue(
     T value, {
-    bool reactive = false,
+    FormModelStatus status = const FormModelStatus.edited(),
   }) =>
       copyWith(
-        status: reactive ? FormModelStatus.dirty : FormModelStatus.edited,
+        status: status,
         value: () => value,
       );
 
@@ -67,9 +67,9 @@ abstract base class BaseFormModel<
     E? error,
     bool force = true,
   }) {
-    final toDirty = force || status != FormModelStatus.pure;
+    final toDirty = force || status.isNotPure;
     return copyWith(
-      status: toDirty ? FormModelStatus.dirty : null,
+      status: toDirty ? const FormModelStatus.dirty() : null,
       manualError: toDirty ? error : null,
     );
   }
@@ -112,7 +112,7 @@ abstract base class BaseFormModel<
 
   @override
   Iterable<E> get errorsList {
-    if (status != FormModelStatus.dirty) return const [];
+    if (status.isNotDirty) return const [];
 
     if (_manualError != null) return [_manualError];
 

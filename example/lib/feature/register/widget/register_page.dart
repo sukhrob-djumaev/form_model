@@ -1,4 +1,5 @@
 import 'package:example/feature/register/logic/register_bloc/register_bloc.dart';
+import 'package:example/shared/widget/loading/app_circular_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -27,18 +28,41 @@ class _Form extends StatelessWidget {
         padding: EdgeInsets.all(20.0),
         child: Column(
           children: [
+            _UsernameInput(),
+            SizedBox(height: 16),
             _PasswordInput(),
-            SizedBox(
-              height: 16,
-            ),
+            SizedBox(height: 16),
             _ConfirmPasswordInput(),
-            SizedBox(
-              height: 16,
-            ),
+            SizedBox(height: 16),
             _SubmitButton(),
           ],
         ),
       ),
+    );
+  }
+}
+
+class _UsernameInput extends StatelessWidget {
+  const _UsernameInput({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RegisterBloc, RegisterState>(
+      builder: (context, state) {
+        return TextFormField(
+          initialValue: state.username.value,
+          decoration: InputDecoration(
+            labelText: "Username",
+            errorText: state.username.error,
+            suffix: state.username.status.isProcessing
+                ? const AppCircularLoading()
+                : null,
+          ),
+          onChanged: (value) => context
+              .read<RegisterBloc>()
+              .add(RegisterEvent.setUsername(value)),
+        );
+      },
     );
   }
 }
@@ -54,7 +78,7 @@ class _PasswordInput extends StatelessWidget {
           initialValue: state.password.value,
           decoration: InputDecoration(
             labelText: "Password",
-            errorText: state.password.error?.code.name,
+            errorText: state.password.error,
           ),
           onChanged: (value) => context
               .read<RegisterBloc>()
@@ -76,7 +100,7 @@ class _ConfirmPasswordInput extends StatelessWidget {
           initialValue: state.confirmPassword.value,
           decoration: InputDecoration(
             labelText: "Confirm password",
-            errorText: state.confirmPassword.error?.code.name,
+            errorText: state.confirmPassword.error,
           ),
           onChanged: (value) => context
               .read<RegisterBloc>()

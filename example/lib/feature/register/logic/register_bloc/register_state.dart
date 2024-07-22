@@ -11,13 +11,17 @@ class RegisterState with _$RegisterState, FormMixin implements IForm {
 
   @override
   List<IFormModel> get formModels => [
+        username,
         password,
         confirmPassword,
       ];
 
   @override
-  RegisterState dirtyForm() => copyWith(
-        password: password.dirty(),
-        confirmPassword: confirmPassword.dirty(),
-      );
+  RegisterState? dirtyForm() => readyToSubmit
+      ? copyWith(
+          username: username.dirty(),
+          password: password.dirty(),
+          confirmPassword: confirmPassword.dirty(),
+        )
+      : null;
 }
