@@ -4,9 +4,9 @@ part of 'register_bloc.dart';
 class RegisterState with _$RegisterState, FormMixin implements IForm {
   const RegisterState._();
   const factory RegisterState({
-    required FormModel<String> username,
-    required FormModel<String> password,
-    required FormModel<String> confirmPassword,
+    required FormInput<String> username,
+    required FormInput<String> password,
+    required FormInput<String> confirmPassword,
   }) = _RegisterState;
 
   @override

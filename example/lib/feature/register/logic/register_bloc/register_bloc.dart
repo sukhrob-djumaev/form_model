@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:example/shared/logic/bloc/transformers.dart';
+import 'package:example/shared/model/form/form_input.dart';
 import 'package:example/shared/model/form/validator/confirm_password_validator.dart';
 import 'package:example/shared/model/form/validator/required_validator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,13 +16,13 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   RegisterBloc()
       : super(
           const RegisterState(
-            username: FormModel('', validators: [
+            username: FormInput('', validators: [
               RequiredValidator(),
             ]),
-            password: FormModel('', validators: [
+            password: FormInput('', validators: [
               RequiredValidator(),
             ]),
-            confirmPassword: FormModel(
+            confirmPassword: FormInput(
               '',
               validators: [
                 RequiredValidator(),

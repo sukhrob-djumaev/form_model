@@ -822,9 +822,10 @@ abstract class _SubmitRegisterEvent implements RegisterEvent {
 
 /// @nodoc
 mixin _$RegisterState {
-  FormModel<String> get username => throw _privateConstructorUsedError;
-  FormModel<String> get password => throw _privateConstructorUsedError;
-  FormModel<String> get confirmPassword => throw _privateConstructorUsedError;
+  FormModel<String, String> get username => throw _privateConstructorUsedError;
+  FormModel<String, String> get password => throw _privateConstructorUsedError;
+  FormModel<String, String> get confirmPassword =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $RegisterStateCopyWith<RegisterState> get copyWith =>
@@ -838,9 +839,9 @@ abstract class $RegisterStateCopyWith<$Res> {
       _$RegisterStateCopyWithImpl<$Res, RegisterState>;
   @useResult
   $Res call(
-      {FormModel<String> username,
-      FormModel<String> password,
-      FormModel<String> confirmPassword});
+      {FormModel<String, String> username,
+      FormModel<String, String> password,
+      FormModel<String, String> confirmPassword});
 }
 
 /// @nodoc
@@ -864,15 +865,15 @@ class _$RegisterStateCopyWithImpl<$Res, $Val extends RegisterState>
       username: null == username
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
-              as FormModel<String>,
+              as FormModel<String, String>,
       password: null == password
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
-              as FormModel<String>,
+              as FormModel<String, String>,
       confirmPassword: null == confirmPassword
           ? _value.confirmPassword
           : confirmPassword // ignore: cast_nullable_to_non_nullable
-              as FormModel<String>,
+              as FormModel<String, String>,
     ) as $Val);
   }
 }
@@ -886,9 +887,9 @@ abstract class _$$RegisterStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {FormModel<String> username,
-      FormModel<String> password,
-      FormModel<String> confirmPassword});
+      {FormModel<String, String> username,
+      FormModel<String, String> password,
+      FormModel<String, String> confirmPassword});
 }
 
 /// @nodoc
@@ -910,15 +911,15 @@ class __$$RegisterStateImplCopyWithImpl<$Res>
       username: null == username
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
-              as FormModel<String>,
+              as FormModel<String, String>,
       password: null == password
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
-              as FormModel<String>,
+              as FormModel<String, String>,
       confirmPassword: null == confirmPassword
           ? _value.confirmPassword
           : confirmPassword // ignore: cast_nullable_to_non_nullable
-              as FormModel<String>,
+              as FormModel<String, String>,
     ));
   }
 }
@@ -933,11 +934,11 @@ class _$RegisterStateImpl extends _RegisterState {
       : super._();
 
   @override
-  final FormModel<String> username;
+  final FormModel<String, String> username;
   @override
-  final FormModel<String> password;
+  final FormModel<String, String> password;
   @override
-  final FormModel<String> confirmPassword;
+  final FormModel<String, String> confirmPassword;
 
   @override
   String toString() {
@@ -970,17 +971,18 @@ class _$RegisterStateImpl extends _RegisterState {
 
 abstract class _RegisterState extends RegisterState {
   const factory _RegisterState(
-      {required final FormModel<String> username,
-      required final FormModel<String> password,
-      required final FormModel<String> confirmPassword}) = _$RegisterStateImpl;
+          {required final FormModel<String, String> username,
+          required final FormModel<String, String> password,
+          required final FormModel<String, String> confirmPassword}) =
+      _$RegisterStateImpl;
   const _RegisterState._() : super._();
 
   @override
-  FormModel<String> get username;
+  FormModel<String, String> get username;
   @override
-  FormModel<String> get password;
+  FormModel<String, String> get password;
   @override
-  FormModel<String> get confirmPassword;
+  FormModel<String, String> get confirmPassword;
   @override
   @JsonKey(ignore: true)
   _$$RegisterStateImplCopyWith<_$RegisterStateImpl> get copyWith =>
