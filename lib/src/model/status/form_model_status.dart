@@ -1,6 +1,4 @@
-import 'package:equatable/equatable.dart';
-
-sealed class FormModelStatus with EquatableMixin {
+sealed class FormModelStatus {
   const FormModelStatus();
 
   const factory FormModelStatus.pure() = _Pure._;
@@ -15,6 +13,20 @@ sealed class FormModelStatus with EquatableMixin {
   bool get isDirty;
   bool get isNotDirty => !isDirty;
   bool get isProcessing;
+
+  @override
+  int get hashCode => Object.hash(
+        runtimeType,
+        isProcessing,
+      );
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is FormModelStatus &&
+            other.isProcessing == isProcessing);
+  }
 }
 
 class _Pure extends FormModelStatus {
@@ -28,13 +40,6 @@ class _Pure extends FormModelStatus {
 
   @override
   bool get isProcessing => false;
-
-  @override
-  List<Object?> get props => [
-        isPure,
-        isDirty,
-        isProcessing,
-      ];
 }
 
 class _Edited extends FormModelStatus {
@@ -51,14 +56,6 @@ class _Edited extends FormModelStatus {
 
   @override
   bool get isPure => false;
-
-  @override
-  List<Object?> get props => [
-        isPure,
-        isDirty,
-        isProcessing,
-        processing,
-      ];
 }
 
 class _Dirty extends FormModelStatus {
@@ -72,11 +69,4 @@ class _Dirty extends FormModelStatus {
 
   @override
   bool get isProcessing => false;
-
-  @override
-  List<Object?> get props => [
-        isPure,
-        isDirty,
-        isProcessing,
-      ];
 }
