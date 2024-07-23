@@ -1,13 +1,15 @@
 import 'package:form_model/form_model.dart';
 
-mixin FormMixin implements IForm {
-  @override
-  bool get isFormValid => formModels.every(
+mixin FormMixin {
+  List<IFormModel> get formProps;
+
+  Object? dirtyForm();
+
+  bool get isFormValid => formProps.every(
         (e) => e.isValid,
       );
 
-  @override
-  bool get readyToSubmit => formModels.every(
+  bool get readyToSubmit => formProps.every(
         (e) => !e.status.isProcessing,
       );
 }

@@ -1,7 +1,7 @@
 part of 'register_bloc.dart';
 
 @freezed
-class RegisterState with _$RegisterState, FormMixin implements IForm {
+class RegisterState with _$RegisterState, FormMixin {
   const RegisterState._();
   const factory RegisterState({
     required FormInput<String> username,
@@ -10,7 +10,7 @@ class RegisterState with _$RegisterState, FormMixin implements IForm {
   }) = _RegisterState;
 
   @override
-  List<IFormModel> get formModels => [
+  List<IFormModel> get formProps => [
         username,
         password,
         confirmPassword,

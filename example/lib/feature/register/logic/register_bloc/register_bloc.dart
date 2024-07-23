@@ -75,8 +75,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
       emit(
         state.copyWith(
-          username: state.username
-              .setValue(event.value, status: const FormModelStatus.edited()),
+          username: state.username.setValue(event.value),
         ),
       );
     } on Exception catch (e) {
