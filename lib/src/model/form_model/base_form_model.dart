@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:form_model/src/model/status/form_model_status.dart';
 import 'package:form_model/src/model/contract/i_form_model.dart';
@@ -143,15 +144,21 @@ abstract base class BaseFormModel<
   int get hashCode => Object.hash(
         value,
         status,
+        _manualError,
         _restrictedValidators,
+        _validators,
       );
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is BaseFormModel<T, TChildModel, E> &&
-          runtimeType == other.runtimeType &&
-          other.value == value &&
-          other.status == status &&
-          other._restrictedValidators == _restrictedValidators;
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is TChildModel &&
+            other.value == value &&
+            other.status == status &&
+            other._manualError == _manualError &&
+            const SetEquality()
+                .equals(_restrictedValidators, other._restrictedValidators) &&
+            const ListEquality().equals(_validators, other._validators));
+  }
 }
