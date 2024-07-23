@@ -25,3 +25,8 @@ doc/api/
 
 .flutter-plugins
 .flutter-plugins-dependencies
+.fvm/flutter_sdk
+.fvm/fvm_config.json
+.vscode/settings.json
+example/.fvm/flutter_sdk
+example/.fvm/fvm_config.json
