@@ -69,7 +69,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     try {
       await Future.delayed(const Duration(seconds: 1));
 
-      if (state.username.value == 'Ermek') {
+      if (state.username.value == 'User1') {
         throw Exception('User ${event.value} already exist');
       }
 
