@@ -1,170 +1,245 @@
 import 'package:flutter/foundation.dart';
-import 'package:form_model/src/enums/form_status.dart';
-import 'package:form_model/src/models/base_form_model.dart';
-import 'package:form_model/src/models/form_error.dart';
-import 'package:form_model/src/validators/base_form_model_validator.dart';
+import 'package:form_model/src/models/form_model_status.dart';
+import 'package:form_model/src/models/i_form_model.dart';
+import 'package:form_model/src/errors/form_error_key.dart';
+import 'package:form_model/src/validators/validators.dart';
 
-/// A concrete implementation of the [BaseFormModel] interface for managing form state and validation.
+/// Represents a form model that holds a value, status, and a list of validators.
 ///
-/// The `FormModel` class provides a specific implementation for handling form fields
-/// with `String?` values. It includes functionality for value management, validation,
-/// error handling, and tracking interaction states.
+/// The `FormModel` class is a concrete implementation of the `IFormModel` interface.
+/// It manages the state of a form field, including its value, validation status,
+/// and any associated errors.
 ///
-/// This class is final and immutable, ensuring that any state changes result in the creation
-/// of new instances rather than mutating existing ones.
+/// Key features:
+/// - Immutable state management: Each operation returns a new instance.
+/// - Flexible validation: Supports multiple validators per field.
+/// - Error tracking: Provides access to the first error or all errors.
+/// - Status tracking: Distinguishes between 'pure' (untouched) and 'dirty' (modified) states.
 ///
-/// [FormModel] implements [BaseFormModel<String?>], allowing it to be used as a form model
-/// in various form-related contexts within Flutter applications.
-final class FormModel implements BaseFormModel<String?> {
-  /// The current value of the form field.
-  final String? _value;
+/// Example usage:
+/// ```dart
+/// final emailModel = FormModel<String>(
+///   validators: [RequiredValidator(), EmailValidator()],
+/// );
+///
+/// var updatedModel = emailModel.setValue('user@example.com').validate();
+/// if (updatedModel.isValid) {
+///   print('Email is valid: ${updatedModel.value}');
+/// } else {
+///   print('Validation error: ${updatedModel.error}');
+/// }
+/// ```
+final class FormModel<T extends Object> implements IFormModel<T> {
+  /// The current value of the form model.
+  final T? _value;
 
-  /// The current status of the form field, indicating whether it is pure or dirty.
-  final FormStatus status;
+  /// The current status of the form model, indicating whether it is pure or dirty.
+  final FormModelStatus _status;
 
-  /// The list of validators attached to the form field for performing validation checks.
-  final List<BaseFormModelValidator<String?>> _validators;
+  /// A list of validators used to validate the form model's value.
+  final List<IFormModelValidator<T>> _validators;
 
-  /// Constructs a new [FormModel] instance.
+  /// Creates a new instance of [FormModel].
   ///
-  /// The constructor allows specifying an initial value, a list of validators, and an optional status.
-  /// If no validators are provided, an empty list is used by default.
+  /// - [value]: The initial value of the form model.
+  /// - [validators]: A list of validators to be applied to the value.
+  /// - [status]: The initial status of the form model (default is [FormModelStatus.pure]).
   ///
-  /// Parameters:
-  /// - [value]: The initial value of the form field (optional).
-  /// - [validators]: The list of validators to attach to the form field (optional).
-  /// - [status]: The initial status of the form field, defaulting to [FormStatus.pure].
+  /// Example:
+  /// ```dart
+  /// final nameModel = FormModel<String>(
+  ///   value: 'John Doe',
+  ///   validators: [RequiredValidator(), MinLengthValidator(3)],
+  /// );
+  /// ```
   const FormModel({
-    String? value,
-    List<BaseFormModelValidator<String?>>? validators,
-    this.status = FormStatus.pure,
+    T? value,
+    List<IFormModelValidator<T>>? validators,
+    FormModelStatus status = FormModelStatus.pure,
   })  : _value = value,
+        _status = status,
         _validators = validators ?? const [];
 
-  /// Retrieves the current validation error for the form field.
+  /// Gets the first validation error key for the current value, or null if there are no errors.
   ///
-  /// If the form field is in a dirty state, it checks each validator for errors
-  /// and returns the first encountered error. If no errors are found or the form
-  /// field is not dirty, it returns `null`.
+  /// This method runs all validators on the current value and returns the first error key it finds.
+  /// It only performs validation if the model's status is [FormModelStatus.dirty].
+  ///
+  /// Returns a [FormErrorKey] if a validation error is found, null otherwise.
   @override
-  FormError<String?>? get error {
-    if (status == FormStatus.dirty) {
+  FormErrorKey? get error {
+    if (_status == FormModelStatus.dirty) {
       for (final validator in _validators) {
-        final error = validator.validate(value);
-        if (error != null) {
-          return error;
+        final errorKey = validator.validate(value);
+        if (errorKey != null) {
+          return errorKey;
         }
       }
     }
     return null;
   }
 
-  /// Retrieves a list of all validation errors affecting the form field.
+  /// Gets a list of all validation error keys for the current value.
   ///
-  /// If the form field is in a dirty state, it collects and returns all validation
-  /// errors from the attached validators. If the form field is not dirty, it returns
-  /// an empty list.
+  /// This method runs all validators on the current value and returns a list of all error keys found.
+  /// It only performs validation if the model's status is [FormModelStatus.dirty].
+  ///
+  /// Returns a list of [FormErrorKey] objects. The list is empty if there are no errors or if the model is pure.
   @override
-  List<FormError<String?>> get errorsList {
-    if (status == FormStatus.dirty) {
-      return validators.map((e) => e.validate(value)).nonNulls.toList();
+  List<FormErrorKey> get errorsList {
+    if (_status == FormModelStatus.dirty) {
+      return _validators.map((validator) => validator.validate(value)).nonNulls.toList();
     }
     return [];
   }
 
-  /// Retrieves the list of validators attached to the form field.
+  /// Gets the current value of the form model.
   @override
-  List<BaseFormModelValidator<String?>> get validators => _validators;
+  T? get value => _value;
 
-  /// Retrieves the current value of the form field.
-  @override
-  String? get value => _value;
-
-  /// Indicates whether the form field is currently considered valid.
+  /// Indicates whether the current value is valid.
   ///
-  /// The form field is considered valid if there are no validation errors.
+  /// This property is true if there are no validation errors, and false otherwise.
+  /// It's a convenient way to check if the form field is in a valid state.
   @override
   bool get isValid => error == null;
 
-  /// Indicates whether the form field has been interacted with (dirty state).
-  @override
-  bool get isDirty => status == FormStatus.dirty;
-
-  /// Resets the form field to its initial state.
+  /// Indicates whether the form model has been modified.
   ///
-  /// Optionally, a new initial [value] can be provided to reset the form with
-  /// a different starting value. Returns a new [FormModel] instance representing
-  /// the form in its initial state.
+  /// This property is true if the form model's status is [FormModelStatus.dirty],
+  /// indicating that the value has been changed since initialization or the last reset.
   @override
-  FormModel reset(String? value) => _copyWith(status: FormStatus.pure, value: value);
+  bool get isDirty => _status == FormModelStatus.dirty;
 
-  /// Sets a new value to the form field.
-  ///
-  /// Returns a new [FormModel] instance with the updated value.
+  /// Gets the list of validators used to validate the form model's value.
   @override
-  FormModel setValue(String? value) => _copyWith(value: value);
+  List<IFormModelValidator<T>> get validators => _validators;
 
-  /// Validates the form field and returns a new form model with updated state.
+  /// Adds a validator to the list of validators.
   ///
-  /// Triggers the validation process for the form field, marking it as dirty.
-  /// Returns a new [FormModel] instance reflecting the updated state.
-  @override
-  FormModel validate() => _copyWith(status: FormStatus.dirty);
-
-  /// Adds a validator to the form model.
+  /// Returns a new instance of [FormModel] with the updated list of validators.
   ///
-  /// Returns a new [FormModel] instance with the added validator included in its list
-  /// of validators.
+  /// Example:
+  /// ```dart
+  /// final updatedModel = model.addValidator(CustomValidator());
+  /// ```
   @override
-  FormModel addValidator(BaseFormModelValidator<String?> validator) {
-    final updatedValidators = List<BaseFormModelValidator<String?>>.from(validators)..add(validator);
+  FormModel<T> addValidator(IFormModelValidator<T> validator) {
+    final updatedValidators = List<IFormModelValidator<T>>.from(_validators)..add(validator);
     return _copyWith(validators: updatedValidators);
   }
 
-  /// Removes a validator from the form model.
+  /// Removes a validator from the list of validators.
   ///
-  /// Returns a new [FormModel] instance with the specified validator removed from its
-  /// list of validators. If the validator is not found, returns the current instance unchanged.
+  /// Returns a new instance of [FormModel] with the updated list of validators.
+  ///
+  /// Example:
+  /// ```dart
+  /// final updatedModel = model.removeValidator(existingValidator);
+  /// ```
   @override
-  FormModel removeValidator(BaseFormModelValidator<String?> validator) {
-    final updatedValidators = List<BaseFormModelValidator<String?>>.from(validators)..remove(validator);
+  FormModel removeValidator(IFormModelValidator<T> validator) {
+    final updatedValidators = List<IFormModelValidator<T>>.from(_validators)..remove(validator);
     return _copyWith(validators: updatedValidators);
   }
 
-  /// Creates a copy of the current [FormModel] with specified values.
+  /// Replaces a validator in the list of validators.
   ///
-  /// This method is used internally to create new instances of [FormModel] with updated state.
-  /// It ensures immutability by returning new instances instead of modifying existing ones.
+  /// Returns a new instance of [FormModel] with the updated list of validators.
   ///
-  /// Parameters:
-  /// - [value]: The new value to set (optional).
-  /// - [status]: The new status to set (optional).
-  /// - [validators]: The new list of validators to set (optional).
-  ///
-  /// Returns:
-  /// - A new [FormModel] instance with the specified updates.
-  FormModel _copyWith({
-    String? value,
-    FormStatus? status,
-    List<BaseFormModelValidator<String?>>? validators,
+  /// Example:
+  /// ```dart
+  /// final updatedModel = model.replaceValidator(
+  ///   predicate: (validator) => validator is OldValidator,
+  ///   newValidator: NewValidator(),
+  /// );
+  /// ```
+  @override
+  FormModel<T> replaceValidator({
+    required bool Function(IFormModelValidator<T> validator) predicate,
+    required IFormModelValidator<T> newValidator,
   }) {
-    return FormModel(
-      value: value ?? this.value,
-      status: status ?? this.status,
-      validators: validators ?? this.validators,
+    final updatedValidators = _validators.map((validator) {
+      return predicate(validator) ? newValidator : validator;
+    }).toList();
+
+    return _copyWith(validators: updatedValidators);
+  }
+
+  /// Resets the form model to its initial, unmodified state.
+  ///
+  /// Returns a new instance of [FormModel] with the status set to [FormModelStatus.pure].
+  ///
+  /// Example:
+  /// ```dart
+  /// final resetModel = model.reset();
+  /// ```
+  @override
+  FormModel<T> reset() => _copyWith(status: FormModelStatus.pure);
+
+  /// Sets a new value for the form model.
+  ///
+  /// Returns a new instance of [FormModel] with the updated value.
+  ///
+  /// Example:
+  /// ```dart
+  /// final updatedModel = model.setValue('New Value');
+  /// ```
+  @override
+  FormModel<T> setValue(T? value) => _copyWith(value: value);
+
+  /// Validates the current value of the form model.
+  ///
+  /// This method sets the status of the form model to [FormModelStatus.dirty]
+  /// and triggers validation. Returns a new instance of [FormModel] with the updated status.
+  ///
+  /// Example:
+  /// ```dart
+  /// final validatedModel = model.validate();
+  /// if (validatedModel.isValid) {
+  ///   // Proceed with form submission
+  /// }
+  /// ```
+  @override
+  FormModel<T> validate() => _copyWith(status: FormModelStatus.dirty);
+
+  /// Creates a copy of the current form model with optional updated values.
+  ///
+  /// This is an internal method used to create new instances of [FormModel]
+  /// with modified properties while maintaining immutability.
+  FormModel<T> _copyWith({
+    T? value,
+    FormModelStatus? status,
+    List<IFormModelValidator<T>>? validators,
+  }) {
+    return FormModel<T>(
+      value: value ?? _value,
+      validators: validators ?? _validators,
+      status: status ?? _status,
     );
   }
 
-  /// Compares two [FormModel] instances for equality.
+  /// Checks if the current instance is equal to another object.
   ///
-  /// Returns `true` if both instances have the same value, status, and list of validators.
+  /// Two [FormModel] instances are considered equal if they have the same
+  /// value, status, and list of validators.
   @override
   bool operator ==(Object other) =>
-      other is FormModel && other.value == value && other.status == status && listEquals(other.validators, validators);
+      identical(this, other) ||
+      (other is FormModel &&
+          runtimeType == other.runtimeType &&
+          _value == other._value &&
+          _status == other._status &&
+          listEquals(
+            _validators,
+            other._validators,
+          ));
 
-  /// Generates a hash code for the [FormModel] instance.
+  /// Gets the hash code of the current instance.
   ///
-  /// The hash code is based on the value, status, and list of validators.
+  /// The hash code is based on the value, status, and validators of the form model.
   @override
-  int get hashCode => Object.hash(value, status, validators);
+  int get hashCode => Object.hash(_value, _status, Object.hashAll(_validators));
 }
+
+// typedef StringFormModel = FormModel<String>;

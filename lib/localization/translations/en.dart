@@ -1,64 +1,58 @@
-import 'package:form_model/src/enums/error_code.dart';
-import 'package:form_model/src/models/form_error.dart';
+import 'package:form_model/form_model.dart';
 
-import '../form_error_text_translations.dart';
 
-class FormErrorTextTranslationsEn implements FormErrorTextTranslations {
+class PredefinedFormErrorKeyTranslationsEn implements PredefinedFormErrorKeyTranslations {
   @override
-  String translate(FormError error) {
-    switch (error.code) {
-      case ErrorCode.required:
-        return "This field is required.";
-      case ErrorCode.lengthIsLessThanMin:
-        return "The length should be at least ${error.parameter}.";
-      case ErrorCode.lengthIsMoreThanMax:
-        return "The length should be at most ${error.parameter}.";
-      case ErrorCode.lengthIsNotEqual:
-        return "The length should be exactly ${error.parameter}.";
-      case ErrorCode.didNotMatchPattern:
-        return "The value did not match the expected pattern: ${error.parameter}.";
-      case ErrorCode.isNotOnlyText:
-        return "This field should contain only alphabetic characters.";
-      case ErrorCode.isNotOnlyNumbers:
-        return "This field should contain only numbers.";
-      case ErrorCode.isNotValidEmail:
-        return "This field requires a valid email address.";
-      case ErrorCode.isNotValidPhoneNumber:
-        return "This field requires a valid phone number.";
-      case ErrorCode.isNotValidDateTime:
-        return "This field requires a valid date and time.";
-      case ErrorCode.dateIsLessThanMinAge:
-        return "The value should be at least ${error.parameter}.";
-      case ErrorCode.dateIsMoreThanMaxAge:
-        return "The value should be at most ${error.parameter}.";
-      case ErrorCode.numIsLessThanMin:
-        return "The value should be at least ${error.parameter}.";
-      case ErrorCode.numIsMoreThanMax:
-        return "The value should be at most ${error.parameter}.";
-      case ErrorCode.boolShouldBeTrue:
-        return "This value should be true.";
-      case ErrorCode.boolShouldBeFalse:
-        return "This value should be false.";
-      case ErrorCode.boolAgreeToTerms:
-        return "You must agree to the terms and conditions.";
-      case ErrorCode.intIsNotValidCreditCard:
-        return "This is not a valid credit card number.";
-      case ErrorCode.wordCountIsLessThan:
-        return "The word count should be at least ${error.parameter}.";
-      case ErrorCode.wordCountIsMoreThan:
-        return "The word count should be at most ${error.parameter}.";
-      case ErrorCode.isNotValidIpAddress:
-        return "This field requires a valid IP address.";
-      case ErrorCode.isNotValidIpv6Address:
-        return "This field requires a valid IPv6 address.";
-      case ErrorCode.isNotValidUrl:
-        return "This field requires a valid URL.";
-      case ErrorCode.isNotEqualTo:
-        return "The value should be equal to ${error.parameter}.";
-      case ErrorCode.custom:
-        return "An error occurred: ${error.parameter ?? 'Unknown error'}";
-      default:
-        throw ArgumentError('Unsupported error code: ${error.code}');
-    }
+  String translate(PredefinedFormErrorKey errorKey) {
+    return switch (errorKey.type) {
+      PredefinedFormErrorType.required => 'This field is required.',
+      PredefinedFormErrorType.lengthIsLessThanMin => 'The length should be at least ${errorKey.parameter}.',
+      PredefinedFormErrorType.lengthIsMoreThanMax => 'The length should be at most ${errorKey.parameter}.',
+      PredefinedFormErrorType.lengthIsNotEqual => 'The length should be exactly ${errorKey.parameter}.',
+      PredefinedFormErrorType.didNotMatchPattern =>
+        'The value did not match the expected pattern: ${errorKey.parameter}.',
+      PredefinedFormErrorType.isNotOnlyText => 'This field should contain only alphabetic characters.',
+      PredefinedFormErrorType.isNotOnlyNumbers => 'This field should contain only numbers.',
+      PredefinedFormErrorType.isNotValidEmail => 'This field requires a valid email address.',
+      PredefinedFormErrorType.isNotValidPhoneNumber => 'This field requires a valid phone number.',
+      PredefinedFormErrorType.isNotValidDateTime => 'This field requires a valid date and time.',
+      PredefinedFormErrorType.dateIsLessThanMinAge => 'The value should be at least ${errorKey.parameter}.',
+      PredefinedFormErrorType.dateIsMoreThanMaxAge => 'The value should be at most ${errorKey.parameter}.',
+      PredefinedFormErrorType.numIsLessThanMin => 'The value should be at least ${errorKey.parameter}.',
+      PredefinedFormErrorType.numIsMoreThanMax => 'The value should be at most ${errorKey.parameter}.',
+      PredefinedFormErrorType.boolShouldBeTrue => 'This value should be true.',
+      PredefinedFormErrorType.boolShouldBeFalse => 'This value should be false.',
+      PredefinedFormErrorType.boolAgreeToTerms => 'You must agree to the terms and conditions.',
+      PredefinedFormErrorType.intIsNotValidCreditCard => 'This is not a valid credit card number.',
+      PredefinedFormErrorType.wordCountIsLessThan => 'The word count should be at least ${errorKey.parameter}.',
+      PredefinedFormErrorType.wordCountIsMoreThan => 'The word count should be at most ${errorKey.parameter}.',
+      PredefinedFormErrorType.isNotValidIpAddress => 'This field requires a valid IP address.',
+      PredefinedFormErrorType.isNotValidIpv6Address => 'This field requires a valid IPv6 address.',
+      PredefinedFormErrorType.isNotValidUrl => 'This field requires a valid URL.',
+      PredefinedFormErrorType.isNotEqualTo => 'The value should be equal to ${errorKey.parameter}.',
+      PredefinedFormErrorType.passwordsDoNotMatch => 'Passwords do not match.',
+      PredefinedFormErrorType.passwordTooShort => 'Password must be at least ${errorKey.parameter} characters long.',
+      PredefinedFormErrorType.passwordNoUppercase => 'Password must contain at least one uppercase letter.',
+      PredefinedFormErrorType.passwordNoLowercase => 'Password must contain at least one lowercase letter.',
+      PredefinedFormErrorType.passwordNoNumber => 'Password must contain at least one number.',
+      PredefinedFormErrorType.passwordNoSpecialChar =>
+        'Password must contain at least one special character (${errorKey.parameter}).',
+      PredefinedFormErrorType.stringDoesNotContain => 'The input must contain "${errorKey.parameter}".',
+      PredefinedFormErrorType.stringContains => 'The input must not contain "${errorKey.parameter}".',
+      PredefinedFormErrorType.invalidFileType => errorKey.parameter is List
+          ? 'Invalid file type. Allowed types are: ${(errorKey.parameter as List<String>).join(", ")}.'
+          : 'Invalid file type.',
+      PredefinedFormErrorType.fileSizeExceedsLimit =>
+        'File size exceeds the maximum limit${_formatFileSize(errorKey.parameter)}.',
+    };
   }
+}
+
+String _formatFileSize(dynamic sizeInBytes) {
+  if (sizeInBytes is int) {
+    if (sizeInBytes < 1024) return '$sizeInBytes B';
+    if (sizeInBytes < 1048576) return '${(sizeInBytes / 1024).toStringAsFixed(2)} KB';
+    return ' of ${(sizeInBytes / 1048576).toStringAsFixed(2)} MB';
+  }
+  return '';
 }

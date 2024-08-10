@@ -1,64 +1,57 @@
-import 'package:form_model/src/enums/error_code.dart';
-import 'package:form_model/src/models/form_error.dart';
+import 'package:form_model/form_model.dart';
 
-import '../form_error_text_translations.dart';
-
-class FormErrorTextTranslationsRu implements FormErrorTextTranslations {
+class PredefinedFormErrorKeyTranslationsRu implements PredefinedFormErrorKeyTranslations {
   @override
-  String translate(FormError error) {
-    switch (error.code) {
-      case ErrorCode.required:
-        return "Это поле обязательно для заполнения.";
-      case ErrorCode.lengthIsLessThanMin:
-        return "Длина должна быть не менее ${error.parameter}.";
-      case ErrorCode.lengthIsMoreThanMax:
-        return "Длина должна быть не более ${error.parameter}.";
-      case ErrorCode.lengthIsNotEqual:
-        return "Длина должна быть равна ${error.parameter}.";
-      case ErrorCode.didNotMatchPattern:
-        return "Значение не соответствует ожидаемому шаблону: ${error.parameter}.";
-      case ErrorCode.isNotOnlyText:
-        return "Это поле должно содержать только буквенные символы.";
-      case ErrorCode.isNotOnlyNumbers:
-        return "Это поле должно содержать только цифры.";
-      case ErrorCode.isNotValidEmail:
-        return "Это поле должно содержать корректный адрес электронной почты.";
-      case ErrorCode.isNotValidPhoneNumber:
-        return "Это поле должно содержать корректный номер телефона.";
-      case ErrorCode.isNotValidDateTime:
-        return "Это поле должно содержать корректную дату и время.";
-      case ErrorCode.dateIsLessThanMinAge:
-        return "Значение должно быть не меньше ${error.parameter}.";
-      case ErrorCode.dateIsMoreThanMaxAge:
-        return "Значение должно быть не больше ${error.parameter}.";
-      case ErrorCode.numIsLessThanMin:
-        return "Значение должно быть не меньше ${error.parameter}.";
-      case ErrorCode.numIsMoreThanMax:
-        return "Значение должно быть не больше ${error.parameter}.";
-      case ErrorCode.boolShouldBeTrue:
-        return "Значение должно быть true.";
-      case ErrorCode.boolShouldBeFalse:
-        return "Значение должно быть false.";
-      case ErrorCode.boolAgreeToTerms:
-        return "Вы должны согласиться с условиями и положениями.";
-      case ErrorCode.intIsNotValidCreditCard:
-        return "Это не является действительным номером кредитной карты.";
-      case ErrorCode.wordCountIsLessThan:
-        return "Количество слов должно быть не меньше ${error.parameter}.";
-      case ErrorCode.wordCountIsMoreThan:
-        return "Количество слов должно быть не больше ${error.parameter}.";
-      case ErrorCode.isNotValidIpAddress:
-        return "Это поле должно содержать корректный IP-адрес.";
-      case ErrorCode.isNotValidIpv6Address:
-        return "Это поле должно содержать корректный IPv6-адрес.";
-      case ErrorCode.isNotValidUrl:
-        return "Это поле должно содержать корректный URL.";
-      case ErrorCode.isNotEqualTo:
-        return "Значение должно быть равно ${error.parameter}.";
-      case ErrorCode.custom:
-        return "Произошла ошибка: ${error.customErrorText ?? 'Неизвестная ошибка'}";
-      default:
-        throw ArgumentError('Неподдерживаемый код ошибки: ${error.code}');
+  String translate(PredefinedFormErrorKey errorKey) {
+    return switch (errorKey.type) {
+      PredefinedFormErrorType.required => 'Это поле обязательно для заполнения.',
+      PredefinedFormErrorType.lengthIsLessThanMin => 'Длина должна быть не менее ${errorKey.parameter}.',
+      PredefinedFormErrorType.lengthIsMoreThanMax => 'Длина должна быть не более ${errorKey.parameter}.',
+      PredefinedFormErrorType.lengthIsNotEqual => 'Длина должна быть равна ${errorKey.parameter}.',
+      PredefinedFormErrorType.didNotMatchPattern =>
+        'Значение не соответствует ожидаемому шаблону: ${errorKey.parameter}.',
+      PredefinedFormErrorType.isNotOnlyText => 'Это поле должно содержать только буквы.',
+      PredefinedFormErrorType.isNotOnlyNumbers => 'Это поле должно содержать только цифры.',
+      PredefinedFormErrorType.isNotValidEmail => 'Это поле требует действительный адрес электронной почты.',
+      PredefinedFormErrorType.isNotValidPhoneNumber => 'Это поле требует действительный номер телефона.',
+      PredefinedFormErrorType.isNotValidDateTime => 'Это поле требует действительную дату и время.',
+      PredefinedFormErrorType.dateIsLessThanMinAge => 'Значение должно быть не менее ${errorKey.parameter}.',
+      PredefinedFormErrorType.dateIsMoreThanMaxAge => 'Значение должно быть не более ${errorKey.parameter}.',
+      PredefinedFormErrorType.numIsLessThanMin => 'Значение должно быть не менее ${errorKey.parameter}.',
+      PredefinedFormErrorType.numIsMoreThanMax => 'Значение должно быть не более ${errorKey.parameter}.',
+      PredefinedFormErrorType.boolShouldBeTrue => 'Это значение должно быть истинным.',
+      PredefinedFormErrorType.boolShouldBeFalse => 'Это значение должно быть ложным.',
+      PredefinedFormErrorType.boolAgreeToTerms => 'Вы должны согласиться с условиями.',
+      PredefinedFormErrorType.intIsNotValidCreditCard => 'Это недействительный номер кредитной карты.',
+      PredefinedFormErrorType.wordCountIsLessThan => 'Количество слов должно быть не менее ${errorKey.parameter}.',
+      PredefinedFormErrorType.wordCountIsMoreThan => 'Количество слов должно быть не более ${errorKey.parameter}.',
+      PredefinedFormErrorType.isNotValidIpAddress => 'Это поле требует действительный IP-адрес.',
+      PredefinedFormErrorType.isNotValidIpv6Address => 'Это поле требует действительный IPv6-адрес.',
+      PredefinedFormErrorType.isNotValidUrl => 'Это поле требует действительный URL.',
+      PredefinedFormErrorType.isNotEqualTo => 'Значение должно быть равно ${errorKey.parameter}.',
+      PredefinedFormErrorType.passwordsDoNotMatch => 'Пароли не совпадают.',
+      PredefinedFormErrorType.passwordTooShort => 'Пароль должен содержать не менее ${errorKey.parameter} символов.',
+      PredefinedFormErrorType.passwordNoUppercase => 'Пароль должен содержать хотя бы одну заглавную букву.',
+      PredefinedFormErrorType.passwordNoLowercase => 'Пароль должен содержать хотя бы одну строчную букву.',
+      PredefinedFormErrorType.passwordNoNumber => 'Пароль должен содержать хотя бы одну цифру.',
+      PredefinedFormErrorType.passwordNoSpecialChar =>
+        'Пароль должен содержать хотя бы один специальный символ (${errorKey.parameter}).',
+      PredefinedFormErrorType.stringDoesNotContain => 'Ввод должен содержать "${errorKey.parameter}".',
+      PredefinedFormErrorType.stringContains => 'Ввод не должен содержать "${errorKey.parameter}".',
+      PredefinedFormErrorType.invalidFileType => errorKey.parameter is List
+          ? 'Недопустимый тип файла. Разрешенные типы: ${(errorKey.parameter as List<String>).join(", ")}.'
+          : 'Недопустимый тип файла.',
+      PredefinedFormErrorType.fileSizeExceedsLimit =>
+        'Размер файла превышает максимальный лимит${_formatFileSize(errorKey.parameter)}.',
+    };
+  }
+
+  String _formatFileSize(dynamic sizeInBytes) {
+    if (sizeInBytes is int) {
+      if (sizeInBytes < 1024) return ' в $sizeInBytes байт';
+      if (sizeInBytes < 1048576) return ' в ${(sizeInBytes / 1024).toStringAsFixed(2)} КБ';
+      return ' в ${(sizeInBytes / 1048576).toStringAsFixed(2)} МБ';
     }
+    return '';
   }
 }

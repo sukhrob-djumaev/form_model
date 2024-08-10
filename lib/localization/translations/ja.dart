@@ -1,64 +1,54 @@
-import 'package:form_model/src/enums/error_code.dart';
-import 'package:form_model/src/models/form_error.dart';
+import 'package:form_model/form_model.dart';
 
-import '../form_error_text_translations.dart';
-
-class FormErrorTextTranslationsJa implements FormErrorTextTranslations {
+class PredefinedFormErrorKeyTranslationsJa implements PredefinedFormErrorKeyTranslations {
   @override
-  String translate(FormError error) {
-    switch (error.code) {
-      case ErrorCode.required:
-        return "このフィールドは必須です。";
-      case ErrorCode.lengthIsLessThanMin:
-        return "長さは最小で ${error.parameter} 必要です。";
-      case ErrorCode.lengthIsMoreThanMax:
-        return "長さは最大で ${error.parameter} を超えてはいけません。";
-      case ErrorCode.lengthIsNotEqual:
-        return "長さは ${error.parameter} でなければなりません。";
-      case ErrorCode.didNotMatchPattern:
-        return "値が期待されるパターンに一致しませんでした：${error.parameter}。";
-      case ErrorCode.isNotOnlyText:
-        return "このフィールドにはアルファベットのみを含める必要があります。";
-      case ErrorCode.isNotOnlyNumbers:
-        return "このフィールドには数字のみを含める必要があります。";
-      case ErrorCode.isNotValidEmail:
-        return "このフィールドには有効なメールアドレスを入力してください。";
-      case ErrorCode.isNotValidPhoneNumber:
-        return "このフィールドには有効な電話番号を入力してください。";
-      case ErrorCode.isNotValidDateTime:
-        return "このフィールドには有効な日時を入力してください。";
-      case ErrorCode.dateIsLessThanMinAge:
-        return "値は少なくとも ${error.parameter} でなければなりません。";
-      case ErrorCode.dateIsMoreThanMaxAge:
-        return "値は最大で ${error.parameter} を超えてはいけません。";
-      case ErrorCode.numIsLessThanMin:
-        return "値は少なくとも ${error.parameter} でなければなりません。";
-      case ErrorCode.numIsMoreThanMax:
-        return "値は最大で ${error.parameter} を超えてはいけません。";
-      case ErrorCode.boolShouldBeTrue:
-        return "この値は true である必要があります。";
-      case ErrorCode.boolShouldBeFalse:
-        return "この値は false である必要があります。";
-      case ErrorCode.boolAgreeToTerms:
-        return "利用規約に同意する必要があります。";
-      case ErrorCode.intIsNotValidCreditCard:
-        return "これは有効なクレジットカード番号ではありません。";
-      case ErrorCode.wordCountIsLessThan:
-        return "単語数は少なくとも ${error.parameter} でなければなりません。";
-      case ErrorCode.wordCountIsMoreThan:
-        return "単語数は最大で ${error.parameter} を超えてはいけません。";
-      case ErrorCode.isNotValidIpAddress:
-        return "このフィールドには有効なIPアドレスを入力してください。";
-      case ErrorCode.isNotValidIpv6Address:
-        return "このフィールドには有効なIPv6アドレスを入力してください。";
-      case ErrorCode.isNotValidUrl:
-        return "このフィールドには有効なURLを入力してください。";
-      case ErrorCode.isNotEqualTo:
-        return "値は ${error.parameter} に等しい必要があります。";
-      case ErrorCode.custom:
-        return "エラーが発生しました：${error.customErrorText ?? '未知のエラー'}";
-      default:
-        throw ArgumentError('サポートされていないエラーコードです：${error.code}');
+  String translate(PredefinedFormErrorKey errorKey) {
+    return switch (errorKey.type) {
+      PredefinedFormErrorType.required => 'このフィールドは必須です。',
+      PredefinedFormErrorType.lengthIsLessThanMin => '長さは${errorKey.parameter}以上である必要があります。',
+      PredefinedFormErrorType.lengthIsMoreThanMax => '長さは${errorKey.parameter}以下である必要があります。',
+      PredefinedFormErrorType.lengthIsNotEqual => '長さは正確に${errorKey.parameter}である必要があります。',
+      PredefinedFormErrorType.didNotMatchPattern => '値が予期されたパターンと一致しません：${errorKey.parameter}。',
+      PredefinedFormErrorType.isNotOnlyText => 'このフィールドにはアルファベット文字のみを含める必要があります。',
+      PredefinedFormErrorType.isNotOnlyNumbers => 'このフィールドには数字のみを含める必要があります。',
+      PredefinedFormErrorType.isNotValidEmail => 'このフィールドには有効なメールアドレスが必要です。',
+      PredefinedFormErrorType.isNotValidPhoneNumber => 'このフィールドには有効な電話番号が必要です。',
+      PredefinedFormErrorType.isNotValidDateTime => 'このフィールドには有効な日付と時刻が必要です。',
+      PredefinedFormErrorType.dateIsLessThanMinAge => '値は少なくとも${errorKey.parameter}である必要があります。',
+      PredefinedFormErrorType.dateIsMoreThanMaxAge => '値は最大で${errorKey.parameter}である必要があります。',
+      PredefinedFormErrorType.numIsLessThanMin => '値は${errorKey.parameter}以上である必要があります。',
+      PredefinedFormErrorType.numIsMoreThanMax => '値は${errorKey.parameter}以下である必要があります。',
+      PredefinedFormErrorType.boolShouldBeTrue => 'この値は真である必要があります。',
+      PredefinedFormErrorType.boolShouldBeFalse => 'この値は偽である必要があります。',
+      PredefinedFormErrorType.boolAgreeToTerms => '利用規約に同意する必要があります。',
+      PredefinedFormErrorType.intIsNotValidCreditCard => 'これは有効なクレジットカード番号ではありません。',
+      PredefinedFormErrorType.wordCountIsLessThan => '単語数は少なくとも${errorKey.parameter}である必要があります。',
+      PredefinedFormErrorType.wordCountIsMoreThan => '単語数は最大で${errorKey.parameter}である必要があります。',
+      PredefinedFormErrorType.isNotValidIpAddress => 'このフィールドには有効なIPアドレスが必要です。',
+      PredefinedFormErrorType.isNotValidIpv6Address => 'このフィールドには有効なIPv6アドレスが必要です。',
+      PredefinedFormErrorType.isNotValidUrl => 'このフィールドには有効なURLが必要です。',
+      PredefinedFormErrorType.isNotEqualTo => '値は${errorKey.parameter}と等しくなければなりません。',
+      PredefinedFormErrorType.passwordsDoNotMatch => 'パスワードが一致しません。',
+      PredefinedFormErrorType.passwordTooShort => 'パスワードは少なくとも${errorKey.parameter}文字である必要があります。',
+      PredefinedFormErrorType.passwordNoUppercase => 'パスワードには少なくとも1つの大文字を含める必要があります。',
+      PredefinedFormErrorType.passwordNoLowercase => 'パスワードには少なくとも1つの小文字を含める必要があります。',
+      PredefinedFormErrorType.passwordNoNumber => 'パスワードには少なくとも1つの数字を含める必要があります。',
+      PredefinedFormErrorType.passwordNoSpecialChar => 'パスワードには少なくとも1つの特殊文字（${errorKey.parameter}）を含める必要があります。',
+      PredefinedFormErrorType.stringDoesNotContain => '入力には "${errorKey.parameter}" を含める必要があります。',
+      PredefinedFormErrorType.stringContains => '入力に "${errorKey.parameter}" を含めることはできません。',
+      PredefinedFormErrorType.invalidFileType => errorKey.parameter is List
+          ? '無効なファイルタイプです。許可されるタイプは次のとおりです：${(errorKey.parameter as List<String>).join("、")}。'
+          : '無効なファイルタイプです。',
+      PredefinedFormErrorType.fileSizeExceedsLimit => 'ファイルサイズが最大制限を超えています${_formatFileSize(errorKey.parameter)}。',
+    };
+  }
+
+  String _formatFileSize(dynamic sizeInBytes) {
+    if (sizeInBytes is int) {
+      if (sizeInBytes < 1024) return '（$sizeInBytes バイト）';
+      if (sizeInBytes < 1048576) return '（${(sizeInBytes / 1024).toStringAsFixed(2)} KB）';
+      return '（${(sizeInBytes / 1048576).toStringAsFixed(2)} MB）';
     }
+    return '';
   }
 }

@@ -1,64 +1,56 @@
-import 'package:form_model/src/enums/error_code.dart';
-import 'package:form_model/src/models/form_error.dart';
+import 'package:form_model/form_model.dart';
 
-import '../form_error_text_translations.dart';
-
-class FormErrorTextTranslationsTr implements FormErrorTextTranslations {
+class PredefinedFormErrorKeyTranslationsTr implements PredefinedFormErrorKeyTranslations {
   @override
-  String translate(FormError error) {
-    switch (error.code) {
-      case ErrorCode.required:
-        return "Bu alan zorunludur.";
-      case ErrorCode.lengthIsLessThanMin:
-        return "Uzunluk en az ${error.parameter} olmalıdır.";
-      case ErrorCode.lengthIsMoreThanMax:
-        return "Uzunluk en fazla ${error.parameter} olmalıdır.";
-      case ErrorCode.lengthIsNotEqual:
-        return "Uzunluk tam olarak ${error.parameter} olmalıdır.";
-      case ErrorCode.didNotMatchPattern:
-        return "Değer beklenen desenle eşleşmiyor: ${error.parameter}.";
-      case ErrorCode.isNotOnlyText:
-        return "Bu alan yalnızca alfabetik karakterler içermelidir.";
-      case ErrorCode.isNotOnlyNumbers:
-        return "Bu alan yalnızca rakamlar içermelidir.";
-      case ErrorCode.isNotValidEmail:
-        return "Geçerli bir e-posta adresi giriniz.";
-      case ErrorCode.isNotValidPhoneNumber:
-        return "Geçerli bir telefon numarası giriniz.";
-      case ErrorCode.isNotValidDateTime:
-        return "Geçerli bir tarih ve saat giriniz.";
-      case ErrorCode.dateIsLessThanMinAge:
-        return "Değer en az ${error.parameter} olmalıdır.";
-      case ErrorCode.dateIsMoreThanMaxAge:
-        return "Değer en fazla ${error.parameter} olmalıdır.";
-      case ErrorCode.numIsLessThanMin:
-        return "Değer en az ${error.parameter} olmalıdır.";
-      case ErrorCode.numIsMoreThanMax:
-        return "Değer en fazla ${error.parameter} olmalıdır.";
-      case ErrorCode.boolShouldBeTrue:
-        return "Bu değer doğru olmalıdır.";
-      case ErrorCode.boolShouldBeFalse:
-        return "Bu değer yanlış olmalıdır.";
-      case ErrorCode.boolAgreeToTerms:
-        return "Koşulları kabul etmelisiniz.";
-      case ErrorCode.intIsNotValidCreditCard:
-        return "Geçerli bir kredi kartı numarası değil.";
-      case ErrorCode.wordCountIsLessThan:
-        return "Kelime sayısı en az ${error.parameter} olmalıdır.";
-      case ErrorCode.wordCountIsMoreThan:
-        return "Kelime sayısı en fazla ${error.parameter} olmalıdır.";
-      case ErrorCode.isNotValidIpAddress:
-        return "Geçerli bir IP adresi giriniz.";
-      case ErrorCode.isNotValidIpv6Address:
-        return "Geçerli bir IPv6 adresi giriniz.";
-      case ErrorCode.isNotValidUrl:
-        return "Geçerli bir URL giriniz.";
-      case ErrorCode.isNotEqualTo:
-        return "Değer ${error.parameter} ile eşit olmalıdır.";
-      case ErrorCode.custom:
-        return "Bir hata oluştu: ${error.parameter ?? 'Bilinmeyen hata'}";
-      default:
-        throw ArgumentError('Desteklenmeyen hata kodu: ${error.code}');
+  String translate(PredefinedFormErrorKey errorKey) {
+    return switch (errorKey.type) {
+      PredefinedFormErrorType.required => 'Bu alan zorunludur.',
+      PredefinedFormErrorType.lengthIsLessThanMin => 'Uzunluk en az ${errorKey.parameter} olmalıdır.',
+      PredefinedFormErrorType.lengthIsMoreThanMax => 'Uzunluk en fazla ${errorKey.parameter} olmalıdır.',
+      PredefinedFormErrorType.lengthIsNotEqual => 'Uzunluk tam olarak ${errorKey.parameter} olmalıdır.',
+      PredefinedFormErrorType.didNotMatchPattern => 'Değer beklenen desene uymuyor: ${errorKey.parameter}.',
+      PredefinedFormErrorType.isNotOnlyText => 'Bu alan sadece alfabetik karakterler içermelidir.',
+      PredefinedFormErrorType.isNotOnlyNumbers => 'Bu alan sadece sayılar içermelidir.',
+      PredefinedFormErrorType.isNotValidEmail => 'Bu alan geçerli bir e-posta adresi gerektiriyor.',
+      PredefinedFormErrorType.isNotValidPhoneNumber => 'Bu alan geçerli bir telefon numarası gerektiriyor.',
+      PredefinedFormErrorType.isNotValidDateTime => 'Bu alan geçerli bir tarih ve saat gerektiriyor.',
+      PredefinedFormErrorType.dateIsLessThanMinAge => 'Değer en az ${errorKey.parameter} olmalıdır.',
+      PredefinedFormErrorType.dateIsMoreThanMaxAge => 'Değer en fazla ${errorKey.parameter} olmalıdır.',
+      PredefinedFormErrorType.numIsLessThanMin => 'Değer en az ${errorKey.parameter} olmalıdır.',
+      PredefinedFormErrorType.numIsMoreThanMax => 'Değer en fazla ${errorKey.parameter} olmalıdır.',
+      PredefinedFormErrorType.boolShouldBeTrue => 'Bu değer doğru olmalıdır.',
+      PredefinedFormErrorType.boolShouldBeFalse => 'Bu değer yanlış olmalıdır.',
+      PredefinedFormErrorType.boolAgreeToTerms => 'Şartları ve koşulları kabul etmelisiniz.',
+      PredefinedFormErrorType.intIsNotValidCreditCard => 'Bu geçerli bir kredi kartı numarası değil.',
+      PredefinedFormErrorType.wordCountIsLessThan => 'Kelime sayısı en az ${errorKey.parameter} olmalıdır.',
+      PredefinedFormErrorType.wordCountIsMoreThan => 'Kelime sayısı en fazla ${errorKey.parameter} olmalıdır.',
+      PredefinedFormErrorType.isNotValidIpAddress => 'Bu alan geçerli bir IP adresi gerektiriyor.',
+      PredefinedFormErrorType.isNotValidIpv6Address => 'Bu alan geçerli bir IPv6 adresi gerektiriyor.',
+      PredefinedFormErrorType.isNotValidUrl => 'Bu alan geçerli bir URL gerektiriyor.',
+      PredefinedFormErrorType.isNotEqualTo => 'Değer ${errorKey.parameter} ile eşit olmalıdır.',
+      PredefinedFormErrorType.passwordsDoNotMatch => 'Şifreler eşleşmiyor.',
+      PredefinedFormErrorType.passwordTooShort => 'Şifre en az ${errorKey.parameter} karakter uzunluğunda olmalıdır.',
+      PredefinedFormErrorType.passwordNoUppercase => 'Şifre en az bir büyük harf içermelidir.',
+      PredefinedFormErrorType.passwordNoLowercase => 'Şifre en az bir küçük harf içermelidir.',
+      PredefinedFormErrorType.passwordNoNumber => 'Şifre en az bir rakam içermelidir.',
+      PredefinedFormErrorType.passwordNoSpecialChar =>
+        'Şifre en az bir özel karakter içermelidir (${errorKey.parameter}).',
+      PredefinedFormErrorType.stringDoesNotContain => 'Giriş "${errorKey.parameter}" içermelidir.',
+      PredefinedFormErrorType.stringContains => 'Giriş "${errorKey.parameter}" içermemelidir.',
+      PredefinedFormErrorType.invalidFileType => errorKey.parameter is List
+          ? 'Geçersiz dosya türü. İzin verilen türler: ${(errorKey.parameter as List<String>).join(", ")}.'
+          : 'Geçersiz dosya türü.',
+      PredefinedFormErrorType.fileSizeExceedsLimit =>
+        'Dosya boyutu maksimum limiti aşıyor${_formatFileSize(errorKey.parameter)}.',
+    };
+  }
+
+  String _formatFileSize(dynamic sizeInBytes) {
+    if (sizeInBytes is int) {
+      if (sizeInBytes < 1024) return ' ($sizeInBytes bayt)';
+      if (sizeInBytes < 1048576) return ' (${(sizeInBytes / 1024).toStringAsFixed(2)} KB)';
+      return ' (${(sizeInBytes / 1048576).toStringAsFixed(2)} MB)';
     }
+    return '';
   }
 }
