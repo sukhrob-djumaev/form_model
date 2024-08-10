@@ -4,7 +4,7 @@ version: 1.0.0
 homepage: https://github.com/sukhrob-djumaev/form_model
 repository: https://github.com/sukhrob-djumaev/form_model
 issue_tracker: https://github.com/sukhrob-djumaev/form_model/issues
-topics: [form, bloc, freezed, state-management, validator, internationalization]
+topics: [form, validator, bloc, freezed, internationalization]
 
 environment:
   sdk: '>=3.4.3 <4.0.0'
