@@ -3,7 +3,7 @@ description: "A powerful and flexible form validation package for Flutter applic
 version: 1.0.0
 homepage: https://github.com/sukhrob-djumaev/form_model
 repository: https://github.com/sukhrob-djumaev/form_model
-issue_tracker: https://github.com/sukhrob-djumaev/form_model/bloc/issues
+issue_tracker: https://github.com/sukhrob-djumaev/form_model/issues
 topics: [form, bloc, freezed, state-management, validator, internationalization]
 
 environment:
