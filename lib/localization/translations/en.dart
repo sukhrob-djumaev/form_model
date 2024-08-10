@@ -1,6 +1,5 @@
 import 'package:form_model/form_model.dart';
 
-import '../form_error_text_translations.dart';
 
 class PredefinedFormErrorKeyTranslationsEn implements PredefinedFormErrorKeyTranslations {
   @override
@@ -38,6 +37,22 @@ class PredefinedFormErrorKeyTranslationsEn implements PredefinedFormErrorKeyTran
       PredefinedFormErrorType.passwordNoNumber => 'Password must contain at least one number.',
       PredefinedFormErrorType.passwordNoSpecialChar =>
         'Password must contain at least one special character (${errorKey.parameter}).',
+      PredefinedFormErrorType.stringDoesNotContain => 'The input must contain "${errorKey.parameter}".',
+      PredefinedFormErrorType.stringContains => 'The input must not contain "${errorKey.parameter}".',
+      PredefinedFormErrorType.invalidFileType => errorKey.parameter is List
+          ? 'Invalid file type. Allowed types are: ${(errorKey.parameter as List<String>).join(", ")}.'
+          : 'Invalid file type.',
+      PredefinedFormErrorType.fileSizeExceedsLimit =>
+        'File size exceeds the maximum limit${_formatFileSize(errorKey.parameter)}.',
     };
   }
+}
+
+String _formatFileSize(dynamic sizeInBytes) {
+  if (sizeInBytes is int) {
+    if (sizeInBytes < 1024) return '$sizeInBytes B';
+    if (sizeInBytes < 1048576) return '${(sizeInBytes / 1024).toStringAsFixed(2)} KB';
+    return ' of ${(sizeInBytes / 1048576).toStringAsFixed(2)} MB';
+  }
+  return '';
 }

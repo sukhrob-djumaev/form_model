@@ -1,64 +1,56 @@
-// import 'package:form_model/src/enums/error_code.dart';
-// import 'package:form_model/src/models/form_error.dart';
+import 'package:form_model/form_model.dart';
 
-// import '../form_error_text_translations.dart';
+class PredefinedFormErrorKeyTranslationsVi implements PredefinedFormErrorKeyTranslations {
+  @override
+  String translate(PredefinedFormErrorKey errorKey) {
+    return switch (errorKey.type) {
+      PredefinedFormErrorType.required => 'Trường này là bắt buộc.',
+      PredefinedFormErrorType.lengthIsLessThanMin => 'Độ dài phải ít nhất ${errorKey.parameter}.',
+      PredefinedFormErrorType.lengthIsMoreThanMax => 'Độ dài không được vượt quá ${errorKey.parameter}.',
+      PredefinedFormErrorType.lengthIsNotEqual => 'Độ dài phải chính xác ${errorKey.parameter}.',
+      PredefinedFormErrorType.didNotMatchPattern => 'Giá trị không khớp với mẫu mong đợi: ${errorKey.parameter}.',
+      PredefinedFormErrorType.isNotOnlyText => 'Trường này chỉ được chứa các ký tự chữ cái.',
+      PredefinedFormErrorType.isNotOnlyNumbers => 'Trường này chỉ được chứa các chữ số.',
+      PredefinedFormErrorType.isNotValidEmail => 'Trường này yêu cầu một địa chỉ email hợp lệ.',
+      PredefinedFormErrorType.isNotValidPhoneNumber => 'Trường này yêu cầu một số điện thoại hợp lệ.',
+      PredefinedFormErrorType.isNotValidDateTime => 'Trường này yêu cầu ngày và giờ hợp lệ.',
+      PredefinedFormErrorType.dateIsLessThanMinAge => 'Giá trị phải ít nhất là ${errorKey.parameter}.',
+      PredefinedFormErrorType.dateIsMoreThanMaxAge => 'Giá trị không được vượt quá ${errorKey.parameter}.',
+      PredefinedFormErrorType.numIsLessThanMin => 'Giá trị phải ít nhất là ${errorKey.parameter}.',
+      PredefinedFormErrorType.numIsMoreThanMax => 'Giá trị không được vượt quá ${errorKey.parameter}.',
+      PredefinedFormErrorType.boolShouldBeTrue => 'Giá trị này phải là đúng.',
+      PredefinedFormErrorType.boolShouldBeFalse => 'Giá trị này phải là sai.',
+      PredefinedFormErrorType.boolAgreeToTerms => 'Bạn phải đồng ý với các điều khoản và điều kiện.',
+      PredefinedFormErrorType.intIsNotValidCreditCard => 'Đây không phải là số thẻ tín dụng hợp lệ.',
+      PredefinedFormErrorType.wordCountIsLessThan => 'Số từ phải ít nhất là ${errorKey.parameter}.',
+      PredefinedFormErrorType.wordCountIsMoreThan => 'Số từ không được vượt quá ${errorKey.parameter}.',
+      PredefinedFormErrorType.isNotValidIpAddress => 'Trường này yêu cầu một địa chỉ IP hợp lệ.',
+      PredefinedFormErrorType.isNotValidIpv6Address => 'Trường này yêu cầu một địa chỉ IPv6 hợp lệ.',
+      PredefinedFormErrorType.isNotValidUrl => 'Trường này yêu cầu một URL hợp lệ.',
+      PredefinedFormErrorType.isNotEqualTo => 'Giá trị phải bằng ${errorKey.parameter}.',
+      PredefinedFormErrorType.passwordsDoNotMatch => 'Mật khẩu không khớp.',
+      PredefinedFormErrorType.passwordTooShort => 'Mật khẩu phải có ít nhất ${errorKey.parameter} ký tự.',
+      PredefinedFormErrorType.passwordNoUppercase => 'Mật khẩu phải chứa ít nhất một chữ cái viết hoa.',
+      PredefinedFormErrorType.passwordNoLowercase => 'Mật khẩu phải chứa ít nhất một chữ cái viết thường.',
+      PredefinedFormErrorType.passwordNoNumber => 'Mật khẩu phải chứa ít nhất một chữ số.',
+      PredefinedFormErrorType.passwordNoSpecialChar =>
+        'Mật khẩu phải chứa ít nhất một ký tự đặc biệt (${errorKey.parameter}).',
+      PredefinedFormErrorType.stringDoesNotContain => 'Đầu vào phải chứa "${errorKey.parameter}".',
+      PredefinedFormErrorType.stringContains => 'Đầu vào không được chứa "${errorKey.parameter}".',
+      PredefinedFormErrorType.invalidFileType => errorKey.parameter is List
+          ? 'Loại tệp không hợp lệ. Các loại được phép là: ${(errorKey.parameter as List<String>).join(", ")}.'
+          : 'Loại tệp không hợp lệ.',
+      PredefinedFormErrorType.fileSizeExceedsLimit =>
+        'Kích thước tệp vượt quá giới hạn tối đa${_formatFileSize(errorKey.parameter)}.',
+    };
+  }
 
-// class FormErrorTextTranslationsVi implements FormErrorTextTranslations {
-//   @override
-//   String translate(FormErrorKey error) {
-//     switch (error.code) {
-//       case ErrorCode.required:
-//         return "Trường này là bắt buộc.";
-//       case ErrorCode.lengthIsLessThanMin:
-//         return "Độ dài phải ít nhất là ${error.parameter}.";
-//       case ErrorCode.lengthIsMoreThanMax:
-//         return "Độ dài tối đa là ${error.parameter}.";
-//       case ErrorCode.lengthIsNotEqual:
-//         return "Độ dài phải chính xác là ${error.parameter}.";
-//       case ErrorCode.didNotMatchPattern:
-//         return "Giá trị không khớp với mẫu mong đợi: ${error.parameter}.";
-//       case ErrorCode.isNotOnlyText:
-//         return "Trường này chỉ được chứa các ký tự chữ cái.";
-//       case ErrorCode.isNotOnlyNumbers:
-//         return "Trường này chỉ được chứa các ký tự số.";
-//       case ErrorCode.isNotValidEmail:
-//         return "Hãy nhập địa chỉ email hợp lệ.";
-//       case ErrorCode.isNotValidPhoneNumber:
-//         return "Hãy nhập số điện thoại hợp lệ.";
-//       case ErrorCode.isNotValidDateTime:
-//         return "Hãy nhập ngày giờ hợp lệ.";
-//       case ErrorCode.dateIsLessThanMinAge:
-//         return "Giá trị phải ít nhất là ${error.parameter}.";
-//       case ErrorCode.dateIsMoreThanMaxAge:
-//         return "Giá trị tối đa là ${error.parameter}.";
-//       case ErrorCode.numIsLessThanMin:
-//         return "Giá trị phải ít nhất là ${error.parameter}.";
-//       case ErrorCode.numIsMoreThanMax:
-//         return "Giá trị tối đa là ${error.parameter}.";
-//       case ErrorCode.boolShouldBeTrue:
-//         return "Giá trị này phải là đúng.";
-//       case ErrorCode.boolShouldBeFalse:
-//         return "Giá trị này phải là sai.";
-//       case ErrorCode.boolAgreeToTerms:
-//         return "Bạn phải đồng ý với các điều khoản và điều kiện.";
-//       case ErrorCode.intIsNotValidCreditCard:
-//         return "Đây không phải là số thẻ tín dụng hợp lệ.";
-//       case ErrorCode.wordCountIsLessThan:
-//         return "Số từ phải ít nhất là ${error.parameter}.";
-//       case ErrorCode.wordCountIsMoreThan:
-//         return "Số từ tối đa là ${error.parameter}.";
-//       case ErrorCode.isNotValidIpAddress:
-//         return "Hãy nhập địa chỉ IP hợp lệ.";
-//       case ErrorCode.isNotValidIpv6Address:
-//         return "Hãy nhập địa chỉ IPv6 hợp lệ.";
-//       case ErrorCode.isNotValidUrl:
-//         return "Hãy nhập URL hợp lệ.";
-//       case ErrorCode.isNotEqualTo:
-//         return "Giá trị phải bằng ${error.parameter}.";
-//       case ErrorCode.custom:
-//         return "Đã xảy ra lỗi: ${error.parameter ?? 'Lỗi không xác định'}";
-//       default:
-//         throw ArgumentError('Mã lỗi không được hỗ trợ: ${error.code}');
-//     }
-//   }
-// }
+  String _formatFileSize(dynamic sizeInBytes) {
+    if (sizeInBytes is int) {
+      if (sizeInBytes < 1024) return ' là $sizeInBytes byte';
+      if (sizeInBytes < 1048576) return ' là ${(sizeInBytes / 1024).toStringAsFixed(2)} KB';
+      return ' là ${(sizeInBytes / 1048576).toStringAsFixed(2)} MB';
+    }
+    return '';
+  }
+}

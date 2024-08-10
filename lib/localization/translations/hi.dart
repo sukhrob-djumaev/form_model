@@ -1,64 +1,56 @@
-// import 'package:form_model/src/enums/error_code.dart';
-// import 'package:form_model/src/models/form_error.dart';
+import 'package:form_model/form_model.dart';
 
-// import '../form_error_text_translations.dart';
+class PredefinedFormErrorKeyTranslationsHi implements PredefinedFormErrorKeyTranslations {
+  @override
+  String translate(PredefinedFormErrorKey errorKey) {
+    return switch (errorKey.type) {
+      PredefinedFormErrorType.required => 'यह फ़ील्ड आवश्यक है।',
+      PredefinedFormErrorType.lengthIsLessThanMin => 'लंबाई कम से कम ${errorKey.parameter} होनी चाहिए।',
+      PredefinedFormErrorType.lengthIsMoreThanMax => 'लंबाई अधिकतम ${errorKey.parameter} होनी चाहिए।',
+      PredefinedFormErrorType.lengthIsNotEqual => 'लंबाई ठीक ${errorKey.parameter} होनी चाहिए।',
+      PredefinedFormErrorType.didNotMatchPattern => 'मान अपेक्षित पैटर्न से मेल नहीं खाता: ${errorKey.parameter}।',
+      PredefinedFormErrorType.isNotOnlyText => 'इस फ़ील्ड में केवल अक्षर होने चाहिए।',
+      PredefinedFormErrorType.isNotOnlyNumbers => 'इस फ़ील्ड में केवल संख्याएँ होनी चाहिए।',
+      PredefinedFormErrorType.isNotValidEmail => 'इस फ़ील्ड में एक वैध ईमेल पता होना चाहिए।',
+      PredefinedFormErrorType.isNotValidPhoneNumber => 'इस फ़ील्ड में एक वैध फ़ोन नंबर होना चाहिए।',
+      PredefinedFormErrorType.isNotValidDateTime => 'इस फ़ील्ड में एक वैध दिनांक और समय होना चाहिए।',
+      PredefinedFormErrorType.dateIsLessThanMinAge => 'मान कम से कम ${errorKey.parameter} होना चाहिए।',
+      PredefinedFormErrorType.dateIsMoreThanMaxAge => 'मान अधिकतम ${errorKey.parameter} होना चाहिए।',
+      PredefinedFormErrorType.numIsLessThanMin => 'मान कम से कम ${errorKey.parameter} होना चाहिए।',
+      PredefinedFormErrorType.numIsMoreThanMax => 'मान अधिकतम ${errorKey.parameter} होना चाहिए।',
+      PredefinedFormErrorType.boolShouldBeTrue => 'यह मान सत्य होना चाहिए।',
+      PredefinedFormErrorType.boolShouldBeFalse => 'यह मान असत्य होना चाहिए।',
+      PredefinedFormErrorType.boolAgreeToTerms => 'आपको नियम और शर्तों से सहमत होना चाहिए।',
+      PredefinedFormErrorType.intIsNotValidCreditCard => 'यह एक वैध क्रेडिट कार्ड नंबर नहीं है।',
+      PredefinedFormErrorType.wordCountIsLessThan => 'शब्द संख्या कम से कम ${errorKey.parameter} होनी चाहिए।',
+      PredefinedFormErrorType.wordCountIsMoreThan => 'शब्द संख्या अधिकतम ${errorKey.parameter} होनी चाहिए।',
+      PredefinedFormErrorType.isNotValidIpAddress => 'इस फ़ील्ड में एक वैध IP पता होना चाहिए।',
+      PredefinedFormErrorType.isNotValidIpv6Address => 'इस फ़ील्ड में एक वैध IPv6 पता होना चाहिए।',
+      PredefinedFormErrorType.isNotValidUrl => 'इस फ़ील्ड में एक वैध URL होना चाहिए।',
+      PredefinedFormErrorType.isNotEqualTo => 'मान ${errorKey.parameter} के बराबर होना चाहिए।',
+      PredefinedFormErrorType.passwordsDoNotMatch => 'पासवर्ड मेल नहीं खाते।',
+      PredefinedFormErrorType.passwordTooShort => 'पासवर्D कम से कम ${errorKey.parameter} अक्षर लंबा होना चाहिए।',
+      PredefinedFormErrorType.passwordNoUppercase => 'पासवर्ड में कम से कम एक अपरकेस अक्षर होना चाहिए।',
+      PredefinedFormErrorType.passwordNoLowercase => 'पासवर्ड में कम से कम एक लोअरकेस अक्षर होना चाहिए।',
+      PredefinedFormErrorType.passwordNoNumber => 'पासवर्ड में कम से कम एक संख्या होनी चाहिए।',
+      PredefinedFormErrorType.passwordNoSpecialChar =>
+        'पासवर्ड में कम से कम एक विशेष वर्ण होना चाहिए (${errorKey.parameter})।',
+      PredefinedFormErrorType.stringDoesNotContain => 'इनपुट में "${errorKey.parameter}" शामिल होना चाहिए।',
+      PredefinedFormErrorType.stringContains => 'इनपुट में "${errorKey.parameter}" शामिल नहीं होना चाहिए।',
+      PredefinedFormErrorType.invalidFileType => errorKey.parameter is List
+          ? 'अमान्य फ़ाइल प्रकार। अनुमत प्रकार हैं: ${(errorKey.parameter as List<String>).join(", ")}।'
+          : 'अमान्य फ़ाइल प्रकार।',
+      PredefinedFormErrorType.fileSizeExceedsLimit =>
+        'फ़ाइल का आकार अधिकतम सीमा से अधिक है${_formatFileSize(errorKey.parameter)}।',
+    };
+  }
 
-// class FormErrorTextTranslationsHi implements FormErrorTextTranslations {
-//   @override
-//   String translate(FormErrorKey error) {
-//     switch (error.code) {
-//       case ErrorCode.required:
-//         return "यह फ़ील्ड आवश्यक है।";
-//       case ErrorCode.lengthIsLessThanMin:
-//         return "लंबाई कम से कम ${error.parameter} होनी चाहिए।";
-//       case ErrorCode.lengthIsMoreThanMax:
-//         return "लंबाई अधिकतम ${error.parameter} होनी चाहिए।";
-//       case ErrorCode.lengthIsNotEqual:
-//         return "लंबाई ${error.parameter} होनी चाहिए।";
-//       case ErrorCode.didNotMatchPattern:
-//         return "मान निर्दिष्ट पैटर्न से मेल नहीं खाता: ${error.parameter}।";
-//       case ErrorCode.isNotOnlyText:
-//         return "इस फ़ील्ड में केवल अक्षर होने चाहिए।";
-//       case ErrorCode.isNotOnlyNumbers:
-//         return "इस फ़ील्ड में केवल संख्याएँ होनी चाहिए।";
-//       case ErrorCode.isNotValidEmail:
-//         return "यह फ़ील्ड में एक मान्य ईमेल पता होना चाहिए।";
-//       case ErrorCode.isNotValidPhoneNumber:
-//         return "यह फ़ील्ड में एक मान्य फ़ोन नंबर होना चाहिए।";
-//       case ErrorCode.isNotValidDateTime:
-//         return "यह फ़ील्ड में एक मान्य तारीख और समय होना चाहिए।";
-//       case ErrorCode.dateIsLessThanMinAge:
-//         return "मान कम से कम ${error.parameter} होना चाहिए।";
-//       case ErrorCode.dateIsMoreThanMaxAge:
-//         return "मान अधिकतम ${error.parameter} होना चाहिए।";
-//       case ErrorCode.numIsLessThanMin:
-//         return "मान कम से कम ${error.parameter} होना चाहिए।";
-//       case ErrorCode.numIsMoreThanMax:
-//         return "मान अधिकतम ${error.parameter} होना चाहिए।";
-//       case ErrorCode.boolShouldBeTrue:
-//         return "इस मान को सत्य होना चाहिए।";
-//       case ErrorCode.boolShouldBeFalse:
-//         return "इस मान को असत्य होना चाहिए।";
-//       case ErrorCode.boolAgreeToTerms:
-//         return "आपको नियम और शर्तों से सहमत होना चाहिए।";
-//       case ErrorCode.intIsNotValidCreditCard:
-//         return "यह एक वैध क्रेडिट कार्ड नहीं है।";
-//       case ErrorCode.wordCountIsLessThan:
-//         return "शब्दों की संख्या कम से कम ${error.parameter} होनी चाहिए।";
-//       case ErrorCode.wordCountIsMoreThan:
-//         return "शब्दों की संख्या अधिकतम ${error.parameter} होनी चाहिए।";
-//       case ErrorCode.isNotValidIpAddress:
-//         return "यह फ़ील्ड में एक मान्य IP पता होना चाहिए।";
-//       case ErrorCode.isNotValidIpv6Address:
-//         return "यह फ़ील्ड में एक मान्य IPv6 पता होना चाहिए।";
-//       case ErrorCode.isNotValidUrl:
-//         return "यह फ़ील्ड में एक मान्य URL होना चाहिए।";
-//       case ErrorCode.isNotEqualTo:
-//         return "मूल्य ${error.parameter} के बराबर होना चाहिए।";
-//       case ErrorCode.custom:
-//         return "एक त्रुटि हुई: ${error.customErrorText ?? 'अज्ञात त्रुटि'}";
-//       default:
-//         throw ArgumentError('असमर्थित त्रुटि कोड: ${error.code}');
-//     }
-//   }
-// }
+  String _formatFileSize(dynamic sizeInBytes) {
+    if (sizeInBytes is int) {
+      if (sizeInBytes < 1024) return '$sizeInBytes बाइट';
+      if (sizeInBytes < 1048576) return '${(sizeInBytes / 1024).toStringAsFixed(2)} KB';
+      return '${(sizeInBytes / 1048576).toStringAsFixed(2)} MB';
+    }
+    return '';
+  }
+}

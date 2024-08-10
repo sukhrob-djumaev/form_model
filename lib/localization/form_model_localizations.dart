@@ -16,7 +16,7 @@ class FormModelLocalizations {
   Locale get currentLocale => _currentLocale;
 
   set currentLocale(Locale locale) {
-    if (!supportedLocales.contains(locale.countryCode)) {
+    if (!supportedLocales.contains(locale.languageCode)) {
       throw ArgumentError.value(locale, 'locale', 'Form model translation for this locale is not yet supported');
     }
     _currentLocale = locale;
