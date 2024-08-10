@@ -7,7 +7,8 @@ import 'translations/all.dart';
 class FormModelLocalizations {
   FormModelLocalizations._internal();
 
-  static final FormModelLocalizations _instance = FormModelLocalizations._internal();
+  static final FormModelLocalizations _instance =
+      FormModelLocalizations._internal();
 
   factory FormModelLocalizations() => _instance;
 
@@ -17,7 +18,8 @@ class FormModelLocalizations {
 
   set currentLocale(Locale locale) {
     if (!supportedLocales.contains(locale.languageCode)) {
-      throw ArgumentError.value(locale, 'locale', 'Form model translation for this locale is not yet supported');
+      throw ArgumentError.value(locale, 'locale',
+          'Form model translation for this locale is not yet supported');
     }
     _currentLocale = locale;
   }
@@ -25,18 +27,21 @@ class FormModelLocalizations {
   final _customTranslations = <String, Map<FormErrorKey, String>>{};
 
   String? translateErrorKey(FormErrorKey errorKey) {
-    final customTranslation = _customTranslations[_currentLocale.languageCode]?[errorKey];
+    final customTranslation =
+        _customTranslations[_currentLocale.languageCode]?[errorKey];
     if (customTranslation != null) {
       return customTranslation;
     }
 
     return switch (errorKey) {
-      PredefinedFormErrorKey() => localeMap[_currentLocale.languageCode]?.translate(errorKey),
+      PredefinedFormErrorKey() =>
+        localeMap[_currentLocale.languageCode]?.translate(errorKey),
       CustomFormErrorKey() => errorKey.key,
     };
   }
 
-  void setCustomErrorTranslations(String locale, FormErrorKey key, String message) {
+  void setCustomErrorTranslations(
+      String locale, FormErrorKey key, String message) {
     _customTranslations.putIfAbsent(locale, () => {})[key] = message;
   }
 }

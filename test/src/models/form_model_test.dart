@@ -63,7 +63,9 @@ void main() {
       expect(model2.validators.length, equals(model1.validators.length + 1));
     });
 
-    test('removeValidator creates a new instance without the specified validator', () {
+    test(
+        'removeValidator creates a new instance without the specified validator',
+        () {
       const validator = RequiredValidator<String>();
       const model1 = FormModel<String>(value: 'test', validators: [validator]);
       final model2 = model1.removeValidator(validator);
@@ -76,7 +78,8 @@ void main() {
     test('replaceValidator creates a new instance with replaced validator', () {
       const oldValidator = RequiredValidator<String>();
       const newValidator = StringMinLengthValidator(minLength: 5);
-      const model1 = FormModel<String>(value: 'test', validators: [oldValidator]);
+      const model1 =
+          FormModel<String>(value: 'test', validators: [oldValidator]);
       final model2 = model1.replaceValidator(
         predicate: (validator) => validator == oldValidator,
         newValidator: newValidator,

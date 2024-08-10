@@ -38,7 +38,8 @@ class _MainPageState extends State<MainPage> {
   void initState() {
     super.initState();
     nameModel = const FormModel<String>(validators: [RequiredValidator()]);
-    emailModel = const FormModel<String>(validators: [RequiredValidator(), EmailValidator()]);
+    emailModel = const FormModel<String>(
+        validators: [RequiredValidator(), EmailValidator()]);
     passwordModel = const FormModel<String>(validators: [
       RequiredValidator(),
       PasswordLengthValidator(minLength: 8),
@@ -56,7 +57,8 @@ class _MainPageState extends State<MainPage> {
       DateTimeValidator(),
       StringDateTimeAgeMinValidator(minAge: 18),
     ]);
-    agreeToTermsModel = const FormModel<bool>(validators: [BoolAgreeToTermsAndConditionsValidator()]);
+    agreeToTermsModel = const FormModel<bool>(
+        validators: [BoolAgreeToTermsAndConditionsValidator()]);
   }
 
   void _submitForm() {
@@ -96,7 +98,8 @@ class _MainPageState extends State<MainPage> {
                 labelText: 'Name',
                 errorText: nameModel.error?.translatedMessage,
               ),
-              onChanged: (value) => setState(() => nameModel = nameModel.setValue(value).validate()),
+              onChanged: (value) => setState(
+                  () => nameModel = nameModel.setValue(value).validate()),
             ),
             const SizedBox(height: 16),
             TextField(
@@ -104,7 +107,8 @@ class _MainPageState extends State<MainPage> {
                 labelText: 'Email',
                 errorText: emailModel.error?.translatedMessage,
               ),
-              onChanged: (value) => setState(() => emailModel = emailModel.setValue(value).validate()),
+              onChanged: (value) => setState(
+                  () => emailModel = emailModel.setValue(value).validate()),
             ),
             const SizedBox(height: 16),
             TextField(
@@ -118,8 +122,10 @@ class _MainPageState extends State<MainPage> {
                 // Update confirmPasswordModel to revalidate
                 confirmPasswordModel = confirmPasswordModel
                     .replaceValidator(
-                      predicate: (validator) => validator is StringConfirmPasswordMatchValidator,
-                      newValidator: StringConfirmPasswordMatchValidator(matchingValue: value),
+                      predicate: (validator) =>
+                          validator is StringConfirmPasswordMatchValidator,
+                      newValidator: StringConfirmPasswordMatchValidator(
+                          matchingValue: value),
                     )
                     .validate();
               }),
@@ -131,8 +137,8 @@ class _MainPageState extends State<MainPage> {
                 errorText: confirmPasswordModel.error?.translatedMessage,
               ),
               obscureText: true,
-              onChanged: (value) =>
-                  setState(() => confirmPasswordModel = confirmPasswordModel.setValue(value).validate()),
+              onChanged: (value) => setState(() => confirmPasswordModel =
+                  confirmPasswordModel.setValue(value).validate()),
             ),
             const SizedBox(height: 16),
             TextField(
@@ -140,13 +146,15 @@ class _MainPageState extends State<MainPage> {
                 labelText: 'Birthdate (YYYY-MM-DD)',
                 errorText: birthDateModel.error?.translatedMessage,
               ),
-              onChanged: (value) => setState(() => birthDateModel = birthDateModel.setValue(value).validate()),
+              onChanged: (value) => setState(() =>
+                  birthDateModel = birthDateModel.setValue(value).validate()),
             ),
             const SizedBox(height: 16),
             CheckboxListTile(
               title: const Text('I agree to the terms and conditions'),
               value: agreeToTermsModel.value ?? false,
-              onChanged: (value) => setState(() => agreeToTermsModel = agreeToTermsModel.setValue(value).validate()),
+              onChanged: (value) => setState(() => agreeToTermsModel =
+                  agreeToTermsModel.setValue(value).validate()),
             ),
             if (agreeToTermsModel.error != null)
               Text(
@@ -173,7 +181,8 @@ class _MainPageState extends State<MainPage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const JobApplicationForm()),
+                  MaterialPageRoute(
+                      builder: (context) => const JobApplicationForm()),
                 );
               },
               child: const Text(

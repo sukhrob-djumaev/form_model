@@ -60,7 +60,14 @@ void main() {
     });
 
     test('Initial state of all form models', () {
-      for (var model in [usernameModel, emailModel, passwordModel, confirmPasswordModel, birthDateModel, phoneModel]) {
+      for (var model in [
+        usernameModel,
+        emailModel,
+        passwordModel,
+        confirmPasswordModel,
+        birthDateModel,
+        phoneModel
+      ]) {
         expect(model.isValid, isTrue);
         expect(model.isDirty, isFalse);
         expect(model.error, isNull);
@@ -71,7 +78,8 @@ void main() {
     test('Username validation', () {
       var model = usernameModel.setValue('a').validate();
       expect(model.isValid, isFalse);
-      expect((model.error as PredefinedFormErrorKey).type, PredefinedFormErrorType.lengthIsLessThanMin);
+      expect((model.error as PredefinedFormErrorKey).type,
+          PredefinedFormErrorType.lengthIsLessThanMin);
 
       model = usernameModel.setValue('username@123').validate();
       expect(model.isValid, isFalse);
@@ -84,7 +92,8 @@ void main() {
     test('Email validation', () {
       var model = emailModel.setValue('invalid_email').validate();
       expect(model.isValid, isFalse);
-      expect((model.error as PredefinedFormErrorKey).type, PredefinedFormErrorType.isNotValidEmail);
+      expect((model.error as PredefinedFormErrorKey).type,
+          PredefinedFormErrorType.isNotValidEmail);
 
       model = emailModel.setValue('valid@email.com').validate();
       expect(model.isValid, isTrue);
@@ -102,13 +111,16 @@ void main() {
     test('Confirm password validation', () {
       passwordModel = passwordModel.setValue('StrongPass1!');
       confirmPasswordModel = confirmPasswordModel.replaceValidator(
-        predicate: (validator) => validator is StringConfirmPasswordMatchValidator,
-        newValidator: StringConfirmPasswordMatchValidator(matchingValue: passwordModel.value),
+        predicate: (validator) =>
+            validator is StringConfirmPasswordMatchValidator,
+        newValidator: StringConfirmPasswordMatchValidator(
+            matchingValue: passwordModel.value),
       );
 
       var model = confirmPasswordModel.setValue('DifferentPass1!').validate();
       expect(model.isValid, isFalse);
-      expect((model.error as PredefinedFormErrorKey).type, PredefinedFormErrorType.passwordsDoNotMatch);
+      expect((model.error as PredefinedFormErrorKey).type,
+          PredefinedFormErrorType.passwordsDoNotMatch);
 
       model = confirmPasswordModel.setValue('StrongPass1!').validate();
       expect(model.isValid, isTrue);
@@ -119,25 +131,34 @@ void main() {
       final eighteenYearsAgo = DateTime(now.year - 18, now.month, now.day);
       final seventeenYearsAgo = DateTime(now.year - 17, now.month, now.day);
 
-      var model = birthDateModel.setValue(seventeenYearsAgo.toIso8601String()).validate();
+      var model = birthDateModel
+          .setValue(seventeenYearsAgo.toIso8601String())
+          .validate();
       expect(model.isValid, isFalse);
-      expect((model.error as PredefinedFormErrorKey).type, PredefinedFormErrorType.dateIsLessThanMinAge);
+      expect((model.error as PredefinedFormErrorKey).type,
+          PredefinedFormErrorType.dateIsLessThanMinAge);
 
-      model = birthDateModel.setValue(eighteenYearsAgo.toIso8601String()).validate();
+      model = birthDateModel
+          .setValue(eighteenYearsAgo.toIso8601String())
+          .validate();
       expect(model.isValid, isTrue);
 
-      model = birthDateModel.setValue(DateTime(1990, 1, 1).toIso8601String()).validate();
+      model = birthDateModel
+          .setValue(DateTime(1990, 1, 1).toIso8601String())
+          .validate();
       expect(model.isValid, isTrue);
     });
 
     test('Phone validation', () {
       var model = phoneModel.setValue('').validate();
       expect(model.isValid, isFalse);
-      expect((model.error as PredefinedFormErrorKey).type, PredefinedFormErrorType.isNotValidPhoneNumber);
+      expect((model.error as PredefinedFormErrorKey).type,
+          PredefinedFormErrorType.isNotValidPhoneNumber);
 
       model = phoneModel.setValue('123').validate();
       expect(model.isValid, isFalse);
-      expect((model.error as PredefinedFormErrorKey).type, PredefinedFormErrorType.isNotValidPhoneNumber);
+      expect((model.error as PredefinedFormErrorKey).type,
+          PredefinedFormErrorType.isNotValidPhoneNumber);
 
       model = phoneModel.setValue('123-456-7890').validate();
       expect(model.isValid, isTrue);
@@ -150,8 +171,10 @@ void main() {
       passwordModel = passwordModel.setValue('StrongPass1!').validate();
       confirmPasswordModel = confirmPasswordModel
           .replaceValidator(
-            predicate: (validator) => validator is StringConfirmPasswordMatchValidator,
-            newValidator: const StringConfirmPasswordMatchValidator(matchingValue: 'StrongPass1!'),
+            predicate: (validator) =>
+                validator is StringConfirmPasswordMatchValidator,
+            newValidator: const StringConfirmPasswordMatchValidator(
+                matchingValue: 'StrongPass1!'),
           )
           .setValue('StrongPass1!')
           .validate();
@@ -160,16 +183,28 @@ void main() {
 
       // Check if all models are valid
       expect(
-        [usernameModel, emailModel, passwordModel, confirmPasswordModel, birthDateModel, phoneModel]
-            .every((model) => model.isValid),
+        [
+          usernameModel,
+          emailModel,
+          passwordModel,
+          confirmPasswordModel,
+          birthDateModel,
+          phoneModel
+        ].every((model) => model.isValid),
         isTrue,
       );
 
       // Invalidate one field and check overall validity
       emailModel = emailModel.setValue('invalid_email').validate();
       expect(
-        [usernameModel, emailModel, passwordModel, confirmPasswordModel, birthDateModel, phoneModel]
-            .every((model) => model.isValid),
+        [
+          usernameModel,
+          emailModel,
+          passwordModel,
+          confirmPasswordModel,
+          birthDateModel,
+          phoneModel
+        ].every((model) => model.isValid),
         isFalse,
       );
     });
@@ -177,13 +212,17 @@ void main() {
     test('Form model behavior with multiple validators', () {
       var model = usernameModel.setValue('a@').validate();
       expect(model.isValid, isFalse);
-      expect(model.errorsList.length, 2); // Too short and doesn't meet custom pattern
-      expect((model.errorsList[0] as PredefinedFormErrorKey).type, PredefinedFormErrorType.lengthIsLessThanMin);
-      expect(model.error, isA<PredefinedFormErrorKey>()); // First error is returned
+      expect(model.errorsList.length,
+          2); // Too short and doesn't meet custom pattern
+      expect((model.errorsList[0] as PredefinedFormErrorKey).type,
+          PredefinedFormErrorType.lengthIsLessThanMin);
+      expect(model.error,
+          isA<PredefinedFormErrorKey>()); // First error is returned
 
       model = usernameModel.setValue('').validate();
       expect(model.isValid, isFalse);
-      expect(model.errorsList.length, 3); // Required, too short, and doesn't meet custom pattern
+      expect(model.errorsList.length,
+          3); // Required, too short, and doesn't meet custom pattern
       expect((model.error as PredefinedFormErrorKey).type,
           PredefinedFormErrorType.required); // Required error takes precedence
     });

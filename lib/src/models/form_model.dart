@@ -88,7 +88,10 @@ final class FormModel<T extends Object> implements IFormModel<T> {
   @override
   List<FormErrorKey> get errorsList {
     if (_status == FormModelStatus.dirty) {
-      return _validators.map((validator) => validator.validate(value)).nonNulls.toList();
+      return _validators
+          .map((validator) => validator.validate(value))
+          .nonNulls
+          .toList();
     }
     return [];
   }
@@ -125,7 +128,8 @@ final class FormModel<T extends Object> implements IFormModel<T> {
   /// ```
   @override
   FormModel<T> addValidator(IFormModelValidator<T> validator) {
-    final updatedValidators = List<IFormModelValidator<T>>.from(_validators)..add(validator);
+    final updatedValidators = List<IFormModelValidator<T>>.from(_validators)
+      ..add(validator);
     return _copyWith(validators: updatedValidators);
   }
 
@@ -139,7 +143,8 @@ final class FormModel<T extends Object> implements IFormModel<T> {
   /// ```
   @override
   FormModel removeValidator(IFormModelValidator<T> validator) {
-    final updatedValidators = List<IFormModelValidator<T>>.from(_validators)..remove(validator);
+    final updatedValidators = List<IFormModelValidator<T>>.from(_validators)
+      ..remove(validator);
     return _copyWith(validators: updatedValidators);
   }
 

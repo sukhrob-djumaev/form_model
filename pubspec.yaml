@@ -1,10 +1,10 @@
 name: form_model
 description: "A powerful and flexible form validation package for Flutter applications."
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/sukhrob-djumaev/form_model
 repository: https://github.com/sukhrob-djumaev/form_model
 issue_tracker: https://github.com/sukhrob-djumaev/form_model/issues
-topics: [form, validator, bloc, freezed, internationalization]
+topics: [form, validator]
 
 environment:
   sdk: '>=3.4.3 <4.0.0'

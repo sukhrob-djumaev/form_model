@@ -64,7 +64,8 @@ sealed class IFormModelValidator<T extends Object> {
 /// final result = requiredValidator.validate('');
 /// print(result); // PredefinedFormErrorKey(PredefinedFormErrorType.required)
 /// ```
-final class RequiredValidator<T extends Object> implements IFormModelValidator<T> {
+final class RequiredValidator<T extends Object>
+    implements IFormModelValidator<T> {
   /// Creates a new instance of [RequiredValidator].
   ///
   /// This constructor is `const` to allow for compile-time constant instances
@@ -94,7 +95,8 @@ final class RequiredValidator<T extends Object> implements IFormModelValidator<T
   /// or when implementing caching strategies.
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || (other is RequiredValidator && runtimeType == other.runtimeType);
+      identical(this, other) ||
+      (other is RequiredValidator && runtimeType == other.runtimeType);
 
   /// Generates a hash code for this [RequiredValidator].
   ///
@@ -144,7 +146,8 @@ class StringMinLengthValidator extends IFormModelValidator<String> {
   FormErrorKey? validate(value) {
     if (value != null) {
       if (value.length < minLength) {
-        return PredefinedFormErrorKey(PredefinedFormErrorType.lengthIsLessThanMin, minLength);
+        return PredefinedFormErrorKey(
+            PredefinedFormErrorType.lengthIsLessThanMin, minLength);
       }
     }
     return null;
@@ -157,7 +160,9 @@ class StringMinLengthValidator extends IFormModelValidator<String> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is StringMinLengthValidator && runtimeType == other.runtimeType && minLength == other.minLength);
+      (other is StringMinLengthValidator &&
+          runtimeType == other.runtimeType &&
+          minLength == other.minLength);
 
   /// Generates a hash code for this [StringMinLengthValidator].
   ///
@@ -205,7 +210,8 @@ class StringMaxLengthValidator extends IFormModelValidator<String> {
   FormErrorKey? validate(value) {
     if (value != null) {
       if (value.length > maxLength) {
-        return PredefinedFormErrorKey(PredefinedFormErrorType.lengthIsMoreThanMax, maxLength);
+        return PredefinedFormErrorKey(
+            PredefinedFormErrorType.lengthIsMoreThanMax, maxLength);
       }
     }
     return null;
@@ -218,7 +224,9 @@ class StringMaxLengthValidator extends IFormModelValidator<String> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is StringMaxLengthValidator && runtimeType == other.runtimeType && maxLength == other.maxLength);
+      (other is StringMaxLengthValidator &&
+          runtimeType == other.runtimeType &&
+          maxLength == other.maxLength);
 
   /// Generates a hash code for this [StringMaxLengthValidator].
   ///
@@ -275,7 +283,9 @@ class StringCustomValidator extends IFormModelValidator<String> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is StringCustomValidator && runtimeType == other.runtimeType && validator == other.validator);
+      (other is StringCustomValidator &&
+          runtimeType == other.runtimeType &&
+          validator == other.validator);
 
   /// Generates a hash code for this [StringCustomValidator].
   ///
@@ -296,7 +306,8 @@ class StringCustomValidator extends IFormModelValidator<String> {
 /// final result = ageValidator.validate('2010-01-01'); // Assuming current year is 2023
 /// print(result); // PredefinedFormErrorKey(PredefinedFormErrorType.dateIsLessThanMinAge, 18)
 /// ```
-final class StringDateTimeAgeMinValidator implements IFormModelValidator<String> {
+final class StringDateTimeAgeMinValidator
+    implements IFormModelValidator<String> {
   /// The minimum age required.
   final int minAge;
 
@@ -318,7 +329,8 @@ final class StringDateTimeAgeMinValidator implements IFormModelValidator<String>
       if (parsedDate != null) {
         final age = _calculateAge(parsedDate);
         if (age < minAge) {
-          return PredefinedFormErrorKey(PredefinedFormErrorType.dateIsLessThanMinAge, minAge);
+          return PredefinedFormErrorKey(
+              PredefinedFormErrorType.dateIsLessThanMinAge, minAge);
         }
       }
     }
@@ -332,7 +344,8 @@ final class StringDateTimeAgeMinValidator implements IFormModelValidator<String>
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     var age = today.year - birthDate.year;
-    if (today.month < birthDate.month || (today.month == birthDate.month && today.day < birthDate.day)) {
+    if (today.month < birthDate.month ||
+        (today.month == birthDate.month && today.day < birthDate.day)) {
       age--;
     }
     return age;
@@ -345,7 +358,9 @@ final class StringDateTimeAgeMinValidator implements IFormModelValidator<String>
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is StringDateTimeAgeMinValidator && runtimeType == other.runtimeType && minAge == other.minAge);
+      (other is StringDateTimeAgeMinValidator &&
+          runtimeType == other.runtimeType &&
+          minAge == other.minAge);
 
   /// Generates a hash code for this [StringDateTimeAgeMinValidator].
   ///
@@ -366,7 +381,8 @@ final class StringDateTimeAgeMinValidator implements IFormModelValidator<String>
 /// final result = ageValidator.validate('1950-01-01'); // Assuming current year is 2023
 /// print(result); // PredefinedFormErrorKey(PredefinedFormErrorType.dateIsMoreThanMaxAge, 65)
 /// ```
-final class StringDateTimeAgeMaxValidator implements IFormModelValidator<String> {
+final class StringDateTimeAgeMaxValidator
+    implements IFormModelValidator<String> {
   /// The maximum age allowed.
   final int maxAge;
 
@@ -388,7 +404,8 @@ final class StringDateTimeAgeMaxValidator implements IFormModelValidator<String>
       if (parsedDate != null) {
         final age = _calculateAge(parsedDate);
         if (age > maxAge) {
-          return PredefinedFormErrorKey(PredefinedFormErrorType.dateIsMoreThanMaxAge, maxAge);
+          return PredefinedFormErrorKey(
+              PredefinedFormErrorType.dateIsMoreThanMaxAge, maxAge);
         }
       }
     }
@@ -402,7 +419,8 @@ final class StringDateTimeAgeMaxValidator implements IFormModelValidator<String>
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     var age = today.year - birthDate.year;
-    if (today.month < birthDate.month || (today.month == birthDate.month && today.day < birthDate.day)) {
+    if (today.month < birthDate.month ||
+        (today.month == birthDate.month && today.day < birthDate.day)) {
       age--;
     }
     return age;
@@ -415,7 +433,9 @@ final class StringDateTimeAgeMaxValidator implements IFormModelValidator<String>
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is StringDateTimeAgeMaxValidator && runtimeType == other.runtimeType && maxAge == other.maxAge);
+      (other is StringDateTimeAgeMaxValidator &&
+          runtimeType == other.runtimeType &&
+          maxAge == other.maxAge);
 
   /// Generates a hash code for this [StringDateTimeAgeMaxValidator].
   ///
@@ -435,7 +455,8 @@ final class StringDateTimeAgeMaxValidator implements IFormModelValidator<String>
 /// final result = agreeValidator.validate(false);
 /// print(result); // PredefinedFormErrorKey(PredefinedFormErrorType.boolAgreeToTerms)
 /// ```
-final class BoolAgreeToTermsAndConditionsValidator implements IFormModelValidator<bool> {
+final class BoolAgreeToTermsAndConditionsValidator
+    implements IFormModelValidator<bool> {
   /// Creates a new instance of [BoolAgreeToTermsAndConditionsValidator].
   const BoolAgreeToTermsAndConditionsValidator();
 
@@ -448,7 +469,8 @@ final class BoolAgreeToTermsAndConditionsValidator implements IFormModelValidato
   @override
   FormErrorKey? validate(bool? value) {
     if (value != true) {
-      return const PredefinedFormErrorKey(PredefinedFormErrorType.boolAgreeToTerms);
+      return const PredefinedFormErrorKey(
+          PredefinedFormErrorType.boolAgreeToTerms);
     }
     return null;
   }
@@ -459,7 +481,9 @@ final class BoolAgreeToTermsAndConditionsValidator implements IFormModelValidato
   /// runtime type. This is because this validator has no configurable properties.
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || (other is BoolAgreeToTermsAndConditionsValidator && runtimeType == other.runtimeType);
+      identical(this, other) ||
+      (other is BoolAgreeToTermsAndConditionsValidator &&
+          runtimeType == other.runtimeType);
 
   /// Generates a hash code for this [BoolAgreeToTermsAndConditionsValidator].
   ///
@@ -493,7 +517,8 @@ final class BoolFalseValidator implements IFormModelValidator<bool> {
   @override
   FormErrorKey? validate(bool? value) {
     if (value != false) {
-      return const PredefinedFormErrorKey(PredefinedFormErrorType.boolShouldBeFalse);
+      return const PredefinedFormErrorKey(
+          PredefinedFormErrorType.boolShouldBeFalse);
     }
     return null;
   }
@@ -504,7 +529,8 @@ final class BoolFalseValidator implements IFormModelValidator<bool> {
   /// runtime type. This is because this validator has no configurable properties.
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || (other is BoolFalseValidator && runtimeType == other.runtimeType);
+      identical(this, other) ||
+      (other is BoolFalseValidator && runtimeType == other.runtimeType);
 
   /// Generates a hash code for this [BoolFalseValidator].
   ///
@@ -538,7 +564,8 @@ final class BoolTrueValidator implements IFormModelValidator<bool> {
   @override
   FormErrorKey? validate(bool? value) {
     if (value != true) {
-      return const PredefinedFormErrorKey(PredefinedFormErrorType.boolShouldBeTrue);
+      return const PredefinedFormErrorKey(
+          PredefinedFormErrorType.boolShouldBeTrue);
     }
     return null;
   }
@@ -549,7 +576,8 @@ final class BoolTrueValidator implements IFormModelValidator<bool> {
   /// runtime type. This is because this validator has no configurable properties.
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || (other is BoolTrueValidator && runtimeType == other.runtimeType);
+      identical(this, other) ||
+      (other is BoolTrueValidator && runtimeType == other.runtimeType);
 
   /// Generates a hash code for this [BoolTrueValidator].
   ///
@@ -586,7 +614,8 @@ final class StringCreditCardValidator implements IFormModelValidator<String> {
   FormErrorKey? validate(String? value) {
     if (value != null) {
       if (!_luhnCheck(value)) {
-        return const PredefinedFormErrorKey(PredefinedFormErrorType.intIsNotValidCreditCard);
+        return const PredefinedFormErrorKey(
+            PredefinedFormErrorType.intIsNotValidCreditCard);
       }
     }
     return null;
@@ -618,7 +647,8 @@ final class StringCreditCardValidator implements IFormModelValidator<String> {
   /// runtime type. This is because this validator has no configurable properties.
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || (other is StringCreditCardValidator && runtimeType == other.runtimeType);
+      identical(this, other) ||
+      (other is StringCreditCardValidator && runtimeType == other.runtimeType);
 
   /// Generates a hash code for this [StringCreditCardValidator].
   ///
@@ -638,7 +668,8 @@ final class StringCreditCardValidator implements IFormModelValidator<String> {
 /// final result = equalValidator.validate(41);
 /// print(result); // PredefinedFormErrorKey(PredefinedFormErrorType.isNotEqualTo, 42)
 /// ```
-final class CustomEqualValidator<T extends Object> implements IFormModelValidator<T> {
+final class CustomEqualValidator<T extends Object>
+    implements IFormModelValidator<T> {
   /// The value to which the input should be equal.
   final T equalValue;
 
@@ -657,7 +688,8 @@ final class CustomEqualValidator<T extends Object> implements IFormModelValidato
   FormErrorKey? validate(T? value) {
     if (value != null) {
       if (value != equalValue) {
-        return PredefinedFormErrorKey(PredefinedFormErrorType.isNotEqualTo, equalValue);
+        return PredefinedFormErrorKey(
+            PredefinedFormErrorType.isNotEqualTo, equalValue);
       }
     }
     return null;
@@ -670,7 +702,9 @@ final class CustomEqualValidator<T extends Object> implements IFormModelValidato
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is CustomEqualValidator<T> && runtimeType == other.runtimeType && equalValue == other.equalValue);
+      (other is CustomEqualValidator<T> &&
+          runtimeType == other.runtimeType &&
+          equalValue == other.equalValue);
 
   /// Generates a hash code for this [CustomEqualValidator].
   ///
@@ -691,7 +725,8 @@ final class CustomEqualValidator<T extends Object> implements IFormModelValidato
 /// print(result); // null (validation passes)
 /// print(patternValidator.validate('abc123')); // PredefinedFormErrorKey(PredefinedFormErrorType.didNotMatchPattern, ...)
 /// ```
-final class StringCustomPatternValidator implements IFormModelValidator<String> {
+final class StringCustomPatternValidator
+    implements IFormModelValidator<String> {
   /// The regular expression pattern to match against.
   final RegExp pattern;
 
@@ -710,7 +745,8 @@ final class StringCustomPatternValidator implements IFormModelValidator<String> 
   FormErrorKey? validate(String? value) {
     if (value != null) {
       if (!pattern.hasMatch(value)) {
-        return PredefinedFormErrorKey(PredefinedFormErrorType.didNotMatchPattern, pattern);
+        return PredefinedFormErrorKey(
+            PredefinedFormErrorType.didNotMatchPattern, pattern);
       }
     }
     return null;
@@ -761,7 +797,8 @@ final class DateTimeValidator implements IFormModelValidator<String> {
     if (value != null) {
       final parsedDate = DateTime.tryParse(value);
       if (parsedDate == null) {
-        return const PredefinedFormErrorKey(PredefinedFormErrorType.isNotValidDateTime);
+        return const PredefinedFormErrorKey(
+            PredefinedFormErrorType.isNotValidDateTime);
       }
     }
     return null;
@@ -773,7 +810,8 @@ final class DateTimeValidator implements IFormModelValidator<String> {
   /// runtime type. This is because this validator has no configurable properties.
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || (other is DateTimeValidator && runtimeType == other.runtimeType);
+      identical(this, other) ||
+      (other is DateTimeValidator && runtimeType == other.runtimeType);
 
   /// Generates a hash code for this [DateTimeValidator].
   ///
@@ -800,7 +838,8 @@ final class EmailValidator implements IFormModelValidator<String> {
   const EmailValidator();
 
   /// Regular expression pattern for basic email validation.
-  static final _emailRegex = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+  static final _emailRegex =
+      RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
 
   /// Validates the given [value] to ensure it's a valid email address.
   ///
@@ -812,7 +851,8 @@ final class EmailValidator implements IFormModelValidator<String> {
   FormErrorKey? validate(String? value) {
     if (value != null) {
       if (!_emailRegex.hasMatch(value)) {
-        return const PredefinedFormErrorKey(PredefinedFormErrorType.isNotValidEmail);
+        return const PredefinedFormErrorKey(
+            PredefinedFormErrorType.isNotValidEmail);
       }
     }
     return null;
@@ -824,7 +864,8 @@ final class EmailValidator implements IFormModelValidator<String> {
   /// runtime type. This is because this validator has no configurable properties.
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || (other is EmailValidator && runtimeType == other.runtimeType);
+      identical(this, other) ||
+      (other is EmailValidator && runtimeType == other.runtimeType);
 
   /// Generates a hash code for this [EmailValidator].
   ///
@@ -868,7 +909,8 @@ final class EqualLengthValidator implements IFormModelValidator<String> {
     if (value != null) {
       if (length != null) {
         if (value.length != length!) {
-          return PredefinedFormErrorKey(PredefinedFormErrorType.lengthIsNotEqual, length);
+          return PredefinedFormErrorKey(
+              PredefinedFormErrorType.lengthIsNotEqual, length);
         }
       }
     }
@@ -882,7 +924,9 @@ final class EqualLengthValidator implements IFormModelValidator<String> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is EqualLengthValidator && runtimeType == other.runtimeType && length == other.length);
+      (other is EqualLengthValidator &&
+          runtimeType == other.runtimeType &&
+          length == other.length);
 
   /// Generates a hash code for this [EqualLengthValidator].
   ///
@@ -909,8 +953,8 @@ final class IpAddressValidator implements IFormModelValidator<String> {
   const IpAddressValidator();
 
   /// Regular expression pattern for IPv4 address validation.
-  static final _ipv4Pattern =
-      RegExp(r'^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$');
+  static final _ipv4Pattern = RegExp(
+      r'^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$');
 
   /// Validates the given [value] to ensure it's a valid IPv4 address.
   ///
@@ -922,14 +966,16 @@ final class IpAddressValidator implements IFormModelValidator<String> {
   FormErrorKey? validate(String? value) {
     if (value != null) {
       if (!_ipv4Pattern.hasMatch(value)) {
-        return const PredefinedFormErrorKey(PredefinedFormErrorType.isNotValidIpAddress);
+        return const PredefinedFormErrorKey(
+            PredefinedFormErrorType.isNotValidIpAddress);
       }
 
       // Additional check for leading zeros
       final octets = value.split('.');
       for (final octet in octets) {
         if (octet.length > 1 && octet.startsWith('0')) {
-          return const PredefinedFormErrorKey(PredefinedFormErrorType.isNotValidIpAddress);
+          return const PredefinedFormErrorKey(
+              PredefinedFormErrorType.isNotValidIpAddress);
         }
       }
     }
@@ -942,7 +988,8 @@ final class IpAddressValidator implements IFormModelValidator<String> {
   /// runtime type. This is because this validator has no configurable properties.
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || other is IpAddressValidator && runtimeType == other.runtimeType;
+      identical(this, other) ||
+      other is IpAddressValidator && runtimeType == other.runtimeType;
 
   /// Generates a hash code for this [IpAddressValidator].
   ///
@@ -1005,7 +1052,8 @@ final class Ipv6AddressValidator implements IFormModelValidator<String> {
   FormErrorKey? validate(String? value) {
     if (value != null) {
       if (!_ipv6Pattern.hasMatch(value)) {
-        return const PredefinedFormErrorKey(PredefinedFormErrorType.isNotValidIpv6Address);
+        return const PredefinedFormErrorKey(
+            PredefinedFormErrorType.isNotValidIpv6Address);
       }
     }
     return null;
@@ -1017,7 +1065,8 @@ final class Ipv6AddressValidator implements IFormModelValidator<String> {
   /// runtime type. This is because this validator has no configurable properties.
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || other is Ipv6AddressValidator && runtimeType == other.runtimeType;
+      identical(this, other) ||
+      other is Ipv6AddressValidator && runtimeType == other.runtimeType;
 
   /// Generates a hash code for this [Ipv6AddressValidator].
   ///
@@ -1058,7 +1107,8 @@ final class StringNumMinValidator implements IFormModelValidator<String> {
     if (value != null) {
       final numValue = num.tryParse(value);
       if (numValue != null && numValue < min) {
-        return PredefinedFormErrorKey(PredefinedFormErrorType.numIsLessThanMin, min);
+        return PredefinedFormErrorKey(
+            PredefinedFormErrorType.numIsLessThanMin, min);
       }
     }
     return null;
@@ -1071,7 +1121,9 @@ final class StringNumMinValidator implements IFormModelValidator<String> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is StringNumMinValidator && runtimeType == other.runtimeType && min == other.min);
+      (other is StringNumMinValidator &&
+          runtimeType == other.runtimeType &&
+          min == other.min);
 
   /// Generates a hash code for this [StringNumMinValidator].
   ///
@@ -1112,7 +1164,8 @@ final class StringNumMaxValidator implements IFormModelValidator<String> {
     if (value != null) {
       final numValue = num.tryParse(value);
       if (numValue != null && numValue > max) {
-        return PredefinedFormErrorKey(PredefinedFormErrorType.numIsMoreThanMax, max);
+        return PredefinedFormErrorKey(
+            PredefinedFormErrorType.numIsMoreThanMax, max);
       }
     }
     return null;
@@ -1125,7 +1178,9 @@ final class StringNumMaxValidator implements IFormModelValidator<String> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is StringNumMaxValidator && runtimeType == other.runtimeType && max == other.max);
+      (other is StringNumMaxValidator &&
+          runtimeType == other.runtimeType &&
+          max == other.max);
 
   /// Generates a hash code for this [StringNumMaxValidator].
   ///
@@ -1163,7 +1218,8 @@ final class StringNumbersOnlyValidator implements IFormModelValidator<String> {
   FormErrorKey? validate(String? value) {
     if (value != null) {
       if (!_numbersRegex.hasMatch(value)) {
-        return const PredefinedFormErrorKey(PredefinedFormErrorType.isNotOnlyNumbers);
+        return const PredefinedFormErrorKey(
+            PredefinedFormErrorType.isNotOnlyNumbers);
       }
     }
     return null;
@@ -1175,7 +1231,8 @@ final class StringNumbersOnlyValidator implements IFormModelValidator<String> {
   /// runtime type. This is because this validator has no configurable properties.
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || (other is StringNumbersOnlyValidator && runtimeType == other.runtimeType);
+      identical(this, other) ||
+      (other is StringNumbersOnlyValidator && runtimeType == other.runtimeType);
 
   /// Generates a hash code for this [StringNumbersOnlyValidator].
   ///
@@ -1207,7 +1264,8 @@ final class StringPhoneNumberValidator implements IFormModelValidator<String> {
   /// - International numbers (e.g., +1234567890)
   /// - Numbers with spaces, dashes, or dots (e.g., 123-456-7890)
   /// - Numbers with parentheses (e.g., (123)456-7890)
-  static final _phoneNumberRegex = RegExp(r'^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$');
+  static final _phoneNumberRegex =
+      RegExp(r'^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$');
 
   /// Validates the given [value] to ensure it's a valid phone number format.
   ///
@@ -1219,7 +1277,8 @@ final class StringPhoneNumberValidator implements IFormModelValidator<String> {
   FormErrorKey? validate(String? value) {
     if (value != null) {
       if (!_phoneNumberRegex.hasMatch(value)) {
-        return const PredefinedFormErrorKey(PredefinedFormErrorType.isNotValidPhoneNumber);
+        return const PredefinedFormErrorKey(
+            PredefinedFormErrorType.isNotValidPhoneNumber);
       }
     }
     return null;
@@ -1231,7 +1290,8 @@ final class StringPhoneNumberValidator implements IFormModelValidator<String> {
   /// runtime type. This is because this validator has no configurable properties.
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || (other is StringPhoneNumberValidator && runtimeType == other.runtimeType);
+      identical(this, other) ||
+      (other is StringPhoneNumberValidator && runtimeType == other.runtimeType);
 
   /// Generates a hash code for this [StringPhoneNumberValidator].
   ///
@@ -1272,7 +1332,8 @@ final class StringTextOnlyValidator implements IFormModelValidator<String> {
   FormErrorKey? validate(String? value) {
     if (value != null) {
       if (!_textRegex.hasMatch(value)) {
-        return const PredefinedFormErrorKey(PredefinedFormErrorType.isNotOnlyText);
+        return const PredefinedFormErrorKey(
+            PredefinedFormErrorType.isNotOnlyText);
       }
     }
     return null;
@@ -1284,7 +1345,8 @@ final class StringTextOnlyValidator implements IFormModelValidator<String> {
   /// runtime type. This is because this validator has no configurable properties.
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || (other is StringTextOnlyValidator && runtimeType == other.runtimeType);
+      identical(this, other) ||
+      (other is StringTextOnlyValidator && runtimeType == other.runtimeType);
 
   /// Generates a hash code for this [StringTextOnlyValidator].
   ///
@@ -1327,25 +1389,31 @@ final class StringUrlValidator implements IFormModelValidator<String> {
   FormErrorKey? validate(String? value) {
     if (value != null) {
       if (value.isEmpty) {
-        return const PredefinedFormErrorKey(PredefinedFormErrorType.isNotValidUrl);
+        return const PredefinedFormErrorKey(
+            PredefinedFormErrorType.isNotValidUrl);
       }
 
       try {
         final uri = Uri.parse(value);
         if (!uri.hasScheme || !uri.hasAuthority) {
-          return const PredefinedFormErrorKey(PredefinedFormErrorType.isNotValidUrl);
+          return const PredefinedFormErrorKey(
+              PredefinedFormErrorType.isNotValidUrl);
         }
 
         if (!['http', 'https', 'ftp'].contains(uri.scheme.toLowerCase())) {
-          return const PredefinedFormErrorKey(PredefinedFormErrorType.isNotValidUrl);
+          return const PredefinedFormErrorKey(
+              PredefinedFormErrorType.isNotValidUrl);
         }
 
-        final hostRegex = RegExp(r'^[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$');
+        final hostRegex =
+            RegExp(r'^[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$');
         if (!hostRegex.hasMatch(uri.host)) {
-          return const PredefinedFormErrorKey(PredefinedFormErrorType.isNotValidUrl);
+          return const PredefinedFormErrorKey(
+              PredefinedFormErrorType.isNotValidUrl);
         }
       } catch (_) {
-        return const PredefinedFormErrorKey(PredefinedFormErrorType.isNotValidUrl);
+        return const PredefinedFormErrorKey(
+            PredefinedFormErrorType.isNotValidUrl);
       }
 
       return null;
@@ -1359,7 +1427,8 @@ final class StringUrlValidator implements IFormModelValidator<String> {
   /// runtime type. This is because this validator has no configurable properties.
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || (other is StringUrlValidator && runtimeType == other.runtimeType);
+      identical(this, other) ||
+      (other is StringUrlValidator && runtimeType == other.runtimeType);
 
   /// Generates a hash code for this [StringUrlValidator].
   ///
@@ -1381,7 +1450,8 @@ final class StringUrlValidator implements IFormModelValidator<String> {
 /// print(result); // null (validation passes)
 /// print(wordsCountValidator.validate('Too few')); // PredefinedFormErrorKey(PredefinedFormErrorType.wordCountIsLessThan, 3)
 /// ```
-final class StringWordsCountMinValidator implements IFormModelValidator<String> {
+final class StringWordsCountMinValidator
+    implements IFormModelValidator<String> {
   /// The minimum number of words required in the string.
   final int minWords;
 
@@ -1406,7 +1476,8 @@ final class StringWordsCountMinValidator implements IFormModelValidator<String> 
       final wordCount = value.trim().split(RegExp(r'\s+')).length;
 
       if (wordCount < minWords) {
-        return PredefinedFormErrorKey(PredefinedFormErrorType.wordCountIsLessThan, minWords);
+        return PredefinedFormErrorKey(
+            PredefinedFormErrorType.wordCountIsLessThan, minWords);
       }
     }
     return null;
@@ -1419,7 +1490,9 @@ final class StringWordsCountMinValidator implements IFormModelValidator<String> 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is StringWordsCountMinValidator && runtimeType == other.runtimeType && minWords == other.minWords);
+      (other is StringWordsCountMinValidator &&
+          runtimeType == other.runtimeType &&
+          minWords == other.minWords);
 
   /// Generates a hash code for this [StringWordsCountMinValidator].
   ///
@@ -1441,7 +1514,8 @@ final class StringWordsCountMinValidator implements IFormModelValidator<String> 
 /// print(result); // null (validation passes)
 /// print(wordsCountValidator.validate('This sentence has too many words to pass')); // PredefinedFormErrorKey(PredefinedFormErrorType.wordCountIsMoreThan, 5)
 /// ```
-final class StringWordsCountMaxValidator implements IFormModelValidator<String> {
+final class StringWordsCountMaxValidator
+    implements IFormModelValidator<String> {
   /// The maximum number of words allowed in the string.
   final int maxWords;
 
@@ -1466,7 +1540,8 @@ final class StringWordsCountMaxValidator implements IFormModelValidator<String> 
       final wordCount = value.trim().split(RegExp(r'\s+')).length;
 
       if (wordCount > maxWords) {
-        return PredefinedFormErrorKey(PredefinedFormErrorType.wordCountIsMoreThan, maxWords);
+        return PredefinedFormErrorKey(
+            PredefinedFormErrorType.wordCountIsMoreThan, maxWords);
       }
     }
     return null;
@@ -1479,7 +1554,9 @@ final class StringWordsCountMaxValidator implements IFormModelValidator<String> 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is StringWordsCountMaxValidator && runtimeType == other.runtimeType && maxWords == other.maxWords);
+      (other is StringWordsCountMaxValidator &&
+          runtimeType == other.runtimeType &&
+          maxWords == other.maxWords);
 
   /// Generates a hash code for this [StringWordsCountMaxValidator].
   ///
@@ -1501,7 +1578,8 @@ final class StringWordsCountMaxValidator implements IFormModelValidator<String> 
 /// print(result); // null (validation passes)
 /// print(confirmValidator.validate('differentPassword')); // PredefinedFormErrorKey(PredefinedFormErrorType.passwordsDoNotMatch)
 /// ```
-final class StringConfirmPasswordMatchValidator implements IFormModelValidator<String> {
+final class StringConfirmPasswordMatchValidator
+    implements IFormModelValidator<String> {
   /// The password value that the confirmation should match.
   final String? matchingValue;
 
@@ -1522,7 +1600,8 @@ final class StringConfirmPasswordMatchValidator implements IFormModelValidator<S
   @override
   FormErrorKey? validate(String? value) {
     if (value != null && matchingValue != null && value != matchingValue) {
-      return const PredefinedFormErrorKey(PredefinedFormErrorType.passwordsDoNotMatch);
+      return const PredefinedFormErrorKey(
+          PredefinedFormErrorType.passwordsDoNotMatch);
     }
     return null;
   }
@@ -1578,7 +1657,8 @@ class PasswordLengthValidator implements IFormModelValidator<String> {
   @override
   FormErrorKey? validate(String? value) {
     if (value == null || value.length < minLength) {
-      return PredefinedFormErrorKey(PredefinedFormErrorType.passwordTooShort, minLength);
+      return PredefinedFormErrorKey(
+          PredefinedFormErrorType.passwordTooShort, minLength);
     }
     return null;
   }
@@ -1590,7 +1670,9 @@ class PasswordLengthValidator implements IFormModelValidator<String> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is PasswordLengthValidator && runtimeType == other.runtimeType && minLength == other.minLength;
+      other is PasswordLengthValidator &&
+          runtimeType == other.runtimeType &&
+          minLength == other.minLength;
 
   /// Generates a hash code for this [PasswordLengthValidator].
   ///
@@ -1629,7 +1711,8 @@ class PasswordUppercaseValidator implements IFormModelValidator<String> {
   @override
   FormErrorKey? validate(String? value) {
     if (value == null || !value.contains(_upperCaseRegex)) {
-      return const PredefinedFormErrorKey(PredefinedFormErrorType.passwordNoUppercase);
+      return const PredefinedFormErrorKey(
+          PredefinedFormErrorType.passwordNoUppercase);
     }
     return null;
   }
@@ -1640,7 +1723,8 @@ class PasswordUppercaseValidator implements IFormModelValidator<String> {
   /// runtime type. This is because this validator has no configurable properties.
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || other is PasswordUppercaseValidator && runtimeType == other.runtimeType;
+      identical(this, other) ||
+      other is PasswordUppercaseValidator && runtimeType == other.runtimeType;
 
   /// Generates a hash code for this [PasswordUppercaseValidator].
   ///
@@ -1679,7 +1763,8 @@ class PasswordLowercaseValidator implements IFormModelValidator<String> {
   @override
   FormErrorKey? validate(String? value) {
     if (value == null || !value.contains(_lowerCaseRegex)) {
-      return const PredefinedFormErrorKey(PredefinedFormErrorType.passwordNoLowercase);
+      return const PredefinedFormErrorKey(
+          PredefinedFormErrorType.passwordNoLowercase);
     }
     return null;
   }
@@ -1690,7 +1775,8 @@ class PasswordLowercaseValidator implements IFormModelValidator<String> {
   /// runtime type. This is because this validator has no configurable properties.
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || other is PasswordLowercaseValidator && runtimeType == other.runtimeType;
+      identical(this, other) ||
+      other is PasswordLowercaseValidator && runtimeType == other.runtimeType;
 
   /// Generates a hash code for this [PasswordLowercaseValidator].
   ///
@@ -1729,7 +1815,8 @@ class PasswordNumberValidator implements IFormModelValidator<String> {
   @override
   FormErrorKey? validate(String? value) {
     if (value == null || !value.contains(_numbersRegex)) {
-      return const PredefinedFormErrorKey(PredefinedFormErrorType.passwordNoNumber);
+      return const PredefinedFormErrorKey(
+          PredefinedFormErrorType.passwordNoNumber);
     }
     return null;
   }
@@ -1740,7 +1827,8 @@ class PasswordNumberValidator implements IFormModelValidator<String> {
   /// runtime type. This is because this validator has no configurable properties.
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || other is PasswordNumberValidator && runtimeType == other.runtimeType;
+      identical(this, other) ||
+      other is PasswordNumberValidator && runtimeType == other.runtimeType;
 
   /// Generates a hash code for this [PasswordNumberValidator].
   ///
@@ -1769,7 +1857,8 @@ class PasswordSpecialCharValidator implements IFormModelValidator<String> {
   ///
   /// The [specialChars] parameter specifies the set of special characters to check for.
   /// If not provided, it defaults to a common set of special characters.
-  const PasswordSpecialCharValidator({this.specialChars = r'!@#$%^&*(),.?":{}|<>'});
+  const PasswordSpecialCharValidator(
+      {this.specialChars = r'!@#$%^&*(),.?":{}|<>'});
 
   /// Validates the given [value] to ensure it contains at least one special character.
   ///
@@ -1783,7 +1872,8 @@ class PasswordSpecialCharValidator implements IFormModelValidator<String> {
   @override
   FormErrorKey? validate(String? value) {
     if (value == null || !value.contains(RegExp('[$specialChars]'))) {
-      return PredefinedFormErrorKey(PredefinedFormErrorType.passwordNoSpecialChar, specialChars);
+      return PredefinedFormErrorKey(
+          PredefinedFormErrorType.passwordNoSpecialChar, specialChars);
     }
     return null;
   }
@@ -1795,7 +1885,9 @@ class PasswordSpecialCharValidator implements IFormModelValidator<String> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is PasswordSpecialCharValidator && runtimeType == other.runtimeType && specialChars == other.specialChars;
+      other is PasswordSpecialCharValidator &&
+          runtimeType == other.runtimeType &&
+          specialChars == other.specialChars;
 
   /// Generates a hash code for this [PasswordSpecialCharValidator].
   ///
@@ -1847,10 +1939,13 @@ class StringContainsValidator extends IFormModelValidator<String> {
   FormErrorKey? validate(String? value) {
     if (value == null) return null;
 
-    bool contains = caseSensitive ? value.contains(substring) : value.toLowerCase().contains(substring.toLowerCase());
+    bool contains = caseSensitive
+        ? value.contains(substring)
+        : value.toLowerCase().contains(substring.toLowerCase());
 
     if (!contains) {
-      return PredefinedFormErrorKey(PredefinedFormErrorType.stringDoesNotContain, substring);
+      return PredefinedFormErrorKey(
+          PredefinedFormErrorType.stringDoesNotContain, substring);
     }
     return null;
   }
@@ -1917,10 +2012,13 @@ class StringNotContainsValidator extends IFormModelValidator<String> {
   FormErrorKey? validate(String? value) {
     if (value == null) return null;
 
-    bool contains = caseSensitive ? value.contains(substring) : value.toLowerCase().contains(substring.toLowerCase());
+    bool contains = caseSensitive
+        ? value.contains(substring)
+        : value.toLowerCase().contains(substring.toLowerCase());
 
     if (contains) {
-      return PredefinedFormErrorKey(PredefinedFormErrorType.stringContains, substring);
+      return PredefinedFormErrorKey(
+          PredefinedFormErrorType.stringContains, substring);
     }
     return null;
   }
@@ -1981,7 +2079,8 @@ class FileTypeValidator extends IFormModelValidator<String> {
 
     final extension = value.split('.').last.toLowerCase();
     if (!allowedExtensions.contains(extension)) {
-      return PredefinedFormErrorKey(PredefinedFormErrorType.invalidFileType, allowedExtensions);
+      return PredefinedFormErrorKey(
+          PredefinedFormErrorType.invalidFileType, allowedExtensions);
     }
     return null;
   }
@@ -2040,7 +2139,8 @@ class FileSizeValidator extends IFormModelValidator<int> {
     if (value == null) return null;
 
     if (value > maxSizeInBytes) {
-      return PredefinedFormErrorKey(PredefinedFormErrorType.fileSizeExceedsLimit, maxSizeInBytes);
+      return PredefinedFormErrorKey(
+          PredefinedFormErrorType.fileSizeExceedsLimit, maxSizeInBytes);
     }
     return null;
   }
@@ -2052,7 +2152,9 @@ class FileSizeValidator extends IFormModelValidator<int> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is FileSizeValidator && runtimeType == other.runtimeType && maxSizeInBytes == other.maxSizeInBytes;
+      other is FileSizeValidator &&
+          runtimeType == other.runtimeType &&
+          maxSizeInBytes == other.maxSizeInBytes;
 
   /// Generates a hash code for this [FileSizeValidator].
   ///
@@ -2120,7 +2222,9 @@ class CustomValidator<T extends Object> implements IFormModelValidator<T> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is CustomValidator<T> && runtimeType == other.runtimeType && validator == other.validator);
+      (other is CustomValidator<T> &&
+          runtimeType == other.runtimeType &&
+          validator == other.validator);
 
   /// Generates a hash code for this [CustomValidator].
   ///
