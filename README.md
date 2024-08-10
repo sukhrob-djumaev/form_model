@@ -3,6 +3,9 @@
 A powerful and flexible form validation package for Flutter applications.
 
 <!-- [![pub package](https://img.shields.io/pub/v/form_model.svg)](https://pub.dev/packages/form_model) -->
+[![flutter platform](https://img.shields.io/badge/Platform-Flutter-yellow.svg)](https://flutter.io)
+[![pub package](https://img.shields.io/pub/v/form_model.svg)](https://pub.dartlang.org/packages/form_model)
+[![BSD-2-Clause](https://img.shields.io/badge/BSD-3-Clause.svg?style=flat-square)](https://opensource.org/licenses/)
 
 ## Features
 
@@ -365,4 +368,4 @@ Contributions are welcome! Please read our [contributing guidelines](CONTRIBUTIN
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the 3-Clause BSD License - see the [LICENSE](LICENSE) file for details.
