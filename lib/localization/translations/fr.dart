@@ -79,8 +79,9 @@ class PredefinedFormErrorKeyTranslationsFr
   String _formatFileSize(dynamic sizeInBytes) {
     if (sizeInBytes is int) {
       if (sizeInBytes < 1024) return '$sizeInBytes o';
-      if (sizeInBytes < 1048576)
+      if (sizeInBytes < 1048576) {
         return '${(sizeInBytes / 1024).toStringAsFixed(2)} Ko';
+      }
       return ' de ${(sizeInBytes / 1048576).toStringAsFixed(2)} Mo';
     }
     return '';

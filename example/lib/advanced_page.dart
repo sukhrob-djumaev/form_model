@@ -19,13 +19,7 @@ class _AdvancedPageState extends State<AdvancedPage> {
   late FormModel<String> salaryModel;
   late FormModel<String> customFieldModel;
 
-  final List<String> availableInterests = [
-    'Sports',
-    'Music',
-    'Reading',
-    'Travel',
-    'Technology'
-  ];
+  final List<String> availableInterests = ['Sports', 'Music', 'Reading', 'Travel', 'Technology'];
 
   @override
   void initState() {
@@ -35,15 +29,13 @@ class _AdvancedPageState extends State<AdvancedPage> {
       StringMinLengthValidator(minLength: 2),
       StringMaxLengthValidator(maxLength: 50),
     ]);
-    emailModel = const FormModel<String>(
-        validators: [RequiredValidator(), EmailValidator()]);
+    emailModel = const FormModel<String>(validators: [RequiredValidator(), EmailValidator()]);
     birthdateModel = const FormModel<String>(validators: [
       RequiredValidator<String>(),
       StringDateTimeAgeMinValidator(minAge: 18),
       StringDateTimeAgeMaxValidator(maxAge: 100),
     ]);
-    phoneModel = const FormModel<String>(
-        validators: [RequiredValidator(), StringPhoneNumberValidator()]);
+    phoneModel = const FormModel<String>(validators: [RequiredValidator(), StringPhoneNumberValidator()]);
     addressModel = FormModel<Address>(validators: [
       const RequiredValidator<Address>(),
       CustomValidator(validator: validateStreet),
@@ -55,8 +47,7 @@ class _AdvancedPageState extends State<AdvancedPage> {
       CustomValidator(validator: validateMinInterests),
       CustomValidator(validator: validateMaxInterests),
     ]);
-    websiteModel = const FormModel<String>(
-        validators: [RequiredValidator(), StringUrlValidator()]);
+    websiteModel = const FormModel<String>(validators: [RequiredValidator(), StringUrlValidator()]);
     salaryModel = const FormModel<String>(validators: [
       RequiredValidator(),
       StringNumMinValidator(min: 0),
@@ -69,13 +60,9 @@ class _AdvancedPageState extends State<AdvancedPage> {
 
     // Set custom translations
     FormModelLocalizations().setCustomErrorTranslations(
-        'en',
-        const CustomFormErrorKey('custom_field_invalid'),
-        'Custom field must start with "ABC"');
+        'en', const CustomFormErrorKey('custom_field_invalid'), 'Custom field must start with "ABC"');
     FormModelLocalizations().setCustomErrorTranslations(
-        'es',
-        const CustomFormErrorKey('custom_field_invalid'),
-        'El campo personalizado debe comenzar con "ABC"');
+        'es', const CustomFormErrorKey('custom_field_invalid'), 'El campo personalizado debe comenzar con "ABC"');
   }
 
   String? validateMinAge(DateTime? value) {
@@ -113,14 +100,12 @@ class _AdvancedPageState extends State<AdvancedPage> {
   }
 
   String? validateMaxInterests(List<String>? value) {
-    if (value != null && value.length > 4)
-      return 'Select no more than 4 interests';
+    if (value != null && value.length > 4) return 'Select no more than 4 interests';
     return null;
   }
 
   String? validateCustomField(String? value) {
-    if (value == null || !value.startsWith('ABC'))
-      return 'custom_field_invalid';
+    if (value == null || !value.startsWith('ABC')) return 'custom_field_invalid';
     return null;
   }
 
@@ -154,7 +139,7 @@ class _AdvancedPageState extends State<AdvancedPage> {
 
   void _changeLanguage(String languageCode) {
     setState(() {
-      FormModelLocalizations().currentLocale = Locale(languageCode);
+      FormModelLocalizations().setCurrentLocale(Locale(languageCode));
     });
   }
 
@@ -187,8 +172,7 @@ class _AdvancedPageState extends State<AdvancedPage> {
                 labelText: 'Name',
                 errorText: nameModel.error?.translatedMessage,
               ),
-              onChanged: (value) => setState(
-                  () => nameModel = nameModel.setValue(value).validate()),
+              onChanged: (value) => setState(() => nameModel = nameModel.setValue(value).validate()),
             ),
             const SizedBox(height: 16),
             TextField(
@@ -196,8 +180,7 @@ class _AdvancedPageState extends State<AdvancedPage> {
                 labelText: 'Email',
                 errorText: emailModel.error?.translatedMessage,
               ),
-              onChanged: (value) => setState(
-                  () => emailModel = emailModel.setValue(value).validate()),
+              onChanged: (value) => setState(() => emailModel = emailModel.setValue(value).validate()),
             ),
             const SizedBox(height: 16),
             TextField(
@@ -214,8 +197,7 @@ class _AdvancedPageState extends State<AdvancedPage> {
                   lastDate: DateTime.now(),
                 );
                 if (picked != null) {
-                  setState(() => birthdateModel =
-                      birthdateModel.setValue(picked.toString()).validate());
+                  setState(() => birthdateModel = birthdateModel.setValue(picked.toString()).validate());
                 }
               },
             ),
@@ -225,8 +207,7 @@ class _AdvancedPageState extends State<AdvancedPage> {
                 labelText: 'Phone',
                 errorText: phoneModel.error?.translatedMessage,
               ),
-              onChanged: (value) => setState(
-                  () => phoneModel = phoneModel.setValue(value).validate()),
+              onChanged: (value) => setState(() => phoneModel = phoneModel.setValue(value).validate()),
             ),
             const SizedBox(height: 16),
             TextField(
@@ -241,8 +222,7 @@ class _AdvancedPageState extends State<AdvancedPage> {
                   city: parts.length > 1 ? parts[1] : '',
                   country: parts.length > 2 ? parts[2] : '',
                 );
-                setState(() =>
-                    addressModel = addressModel.setValue(address).validate());
+                setState(() => addressModel = addressModel.setValue(address).validate());
               },
             ),
             const SizedBox(height: 16),
@@ -255,11 +235,8 @@ class _AdvancedPageState extends State<AdvancedPage> {
                       final currentInterests = interestsModel.value ?? [];
                       final updatedInterests = value == true
                           ? [...currentInterests, interest]
-                          : currentInterests
-                              .where((e) => e != interest)
-                              .toList();
-                      interestsModel =
-                          interestsModel.setValue(updatedInterests).validate();
+                          : currentInterests.where((e) => e != interest).toList();
+                      interestsModel = interestsModel.setValue(updatedInterests).validate();
                     });
                   },
                 )),
@@ -274,8 +251,7 @@ class _AdvancedPageState extends State<AdvancedPage> {
                 labelText: 'Website',
                 errorText: websiteModel.error?.translatedMessage,
               ),
-              onChanged: (value) => setState(
-                  () => websiteModel = websiteModel.setValue(value).validate()),
+              onChanged: (value) => setState(() => websiteModel = websiteModel.setValue(value).validate()),
             ),
             const SizedBox(height: 16),
             TextField(
@@ -284,8 +260,7 @@ class _AdvancedPageState extends State<AdvancedPage> {
                 errorText: salaryModel.error?.translatedMessage,
               ),
               keyboardType: TextInputType.number,
-              onChanged: (value) => setState(
-                  () => salaryModel = salaryModel.setValue(value).validate()),
+              onChanged: (value) => setState(() => salaryModel = salaryModel.setValue(value).validate()),
             ),
             const SizedBox(height: 16),
             TextField(
@@ -293,8 +268,7 @@ class _AdvancedPageState extends State<AdvancedPage> {
                 labelText: 'Custom Field (must start with ABC)',
                 errorText: customFieldModel.error?.translatedMessage,
               ),
-              onChanged: (value) => setState(() => customFieldModel =
-                  customFieldModel.setValue(value).validate()),
+              onChanged: (value) => setState(() => customFieldModel = customFieldModel.setValue(value).validate()),
             ),
             const SizedBox(height: 24),
             ElevatedButton(

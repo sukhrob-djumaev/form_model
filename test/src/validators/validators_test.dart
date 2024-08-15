@@ -65,10 +65,8 @@ void main() {
     });
 
     test('equality', () {
-      expect(const StringMinLengthValidator(minLength: 5),
-          equals(const StringMinLengthValidator(minLength: 5)));
-      expect(const StringMinLengthValidator(minLength: 5),
-          isNot(equals(const StringMinLengthValidator(minLength: 6))));
+      expect(const StringMinLengthValidator(minLength: 5), equals(const StringMinLengthValidator(minLength: 5)));
+      expect(const StringMinLengthValidator(minLength: 5), isNot(equals(const StringMinLengthValidator(minLength: 6))));
     });
 
     test('hashCode', () {
@@ -88,10 +86,8 @@ void main() {
     });
 
     test('equality', () {
-      expect(const StringMaxLengthValidator(maxLength: 5),
-          equals(const StringMaxLengthValidator(maxLength: 5)));
-      expect(const StringMaxLengthValidator(maxLength: 5),
-          isNot(equals(const StringMaxLengthValidator(maxLength: 6))));
+      expect(const StringMaxLengthValidator(maxLength: 5), equals(const StringMaxLengthValidator(maxLength: 5)));
+      expect(const StringMaxLengthValidator(maxLength: 5), isNot(equals(const StringMaxLengthValidator(maxLength: 6))));
     });
 
     test('hashCode', () {
@@ -103,9 +99,7 @@ void main() {
   });
 
   group('StringCustomValidator', () {
-    test(
-        'should return CustomFormErrorKey when custom validator returns an error string',
-        () {
+    test('should return CustomFormErrorKey when custom validator returns an error string', () {
       final validator = StringCustomValidator(
         validator: (value) => value?.isEmpty ?? true ? 'Value is empty' : null,
       );
@@ -116,8 +110,7 @@ void main() {
 
     test('should return null when custom validator returns null', () {
       final validator = StringCustomValidator(
-        validator: (value) =>
-            value?.isNotEmpty == true ? null : 'Value is empty',
+        validator: (value) => value?.isNotEmpty == true ? null : 'Value is empty',
       );
       final result = validator.validate('Not empty');
       expect(result, isNull);
@@ -139,56 +132,48 @@ void main() {
           if (value.isEmpty) return 'Value is empty';
           if (value.length < 5) return 'Value is too short';
           if (value.length > 10) return 'Value is too long';
-          if (!value.contains(RegExp(r'[A-Z]')))
+          if (!value.contains(RegExp(r'[A-Z]'))) {
             return 'Value must contain an uppercase letter';
+          }
           return null;
         },
       );
 
       expect(validator.validate(null), isA<CustomFormErrorKey>());
-      expect((validator.validate(null) as CustomFormErrorKey).key,
-          equals('Value is null'));
+      expect((validator.validate(null) as CustomFormErrorKey).key, equals('Value is null'));
 
       expect(validator.validate(''), isA<CustomFormErrorKey>());
-      expect((validator.validate('') as CustomFormErrorKey).key,
-          equals('Value is empty'));
+      expect((validator.validate('') as CustomFormErrorKey).key, equals('Value is empty'));
 
       expect(validator.validate('abc'), isA<CustomFormErrorKey>());
-      expect((validator.validate('abc') as CustomFormErrorKey).key,
-          equals('Value is too short'));
+      expect((validator.validate('abc') as CustomFormErrorKey).key, equals('Value is too short'));
 
       expect(validator.validate('abcdefghijk'), isA<CustomFormErrorKey>());
-      expect((validator.validate('abcdefghijk') as CustomFormErrorKey).key,
-          equals('Value is too long'));
+      expect((validator.validate('abcdefghijk') as CustomFormErrorKey).key, equals('Value is too long'));
 
       expect(validator.validate('abcde'), isA<CustomFormErrorKey>());
-      expect((validator.validate('abcde') as CustomFormErrorKey).key,
-          equals('Value must contain an uppercase letter'));
+      expect((validator.validate('abcde') as CustomFormErrorKey).key, equals('Value must contain an uppercase letter'));
 
       expect(validator.validate('AbcDe'), isNull);
     });
 
     test('equality', () {
-      String? testValidator(String? value) =>
-          value?.isEmpty ?? true ? 'Empty' : null;
+      String? testValidator(String? value) => value?.isEmpty ?? true ? 'Empty' : null;
 
       final validator1 = StringCustomValidator(validator: testValidator);
       final validator2 = StringCustomValidator(validator: testValidator);
-      final validator3 = StringCustomValidator(
-          validator: (value) => value?.length == 5 ? 'Length 5' : null);
+      final validator3 = StringCustomValidator(validator: (value) => value?.length == 5 ? 'Length 5' : null);
 
       expect(validator1, equals(validator2));
       expect(validator1, isNot(equals(validator3)));
     });
 
     test('hashCode', () {
-      String? testValidator(String? value) =>
-          value?.isEmpty ?? true ? 'Empty' : null;
+      String? testValidator(String? value) => value?.isEmpty ?? true ? 'Empty' : null;
 
       final validator1 = StringCustomValidator(validator: testValidator);
       final validator2 = StringCustomValidator(validator: testValidator);
-      final validator3 = StringCustomValidator(
-          validator: (value) => value?.length == 5 ? 'Length 5' : null);
+      final validator3 = StringCustomValidator(validator: (value) => value?.length == 5 ? 'Length 5' : null);
 
       expect(validator1.hashCode, equals(validator2.hashCode));
       expect(validator1.hashCode, isNot(equals(validator3.hashCode)));
@@ -201,8 +186,7 @@ void main() {
     test('should return null for age equal to minimum', () {
       const validator = StringDateTimeAgeMinValidator(minAge: minAge);
       final today = DateTime.now();
-      final exactMinAge = DateTime(today.year - minAge, today.month, today.day)
-          .toIso8601String();
+      final exactMinAge = DateTime(today.year - minAge, today.month, today.day).toIso8601String();
 
       final result = validator.validate(exactMinAge);
       expect(result, isNull);
@@ -211,8 +195,7 @@ void main() {
     test('should return null for age greater than minimum', () {
       const validator = StringDateTimeAgeMinValidator(minAge: minAge);
       final today = DateTime.now();
-      final overMinAge =
-          DateTime(today.year - minAge - 1, 1, 1).toIso8601String();
+      final overMinAge = DateTime(today.year - minAge - 1, 1, 1).toIso8601String();
 
       final result = validator.validate(overMinAge);
       expect(result, isNull);
@@ -221,13 +204,11 @@ void main() {
     test('should return error for age less than minimum', () {
       const validator = StringDateTimeAgeMinValidator(minAge: minAge);
       final today = DateTime.now();
-      final underMinAge =
-          DateTime(today.year - minAge + 1, 1, 1).toIso8601String();
+      final underMinAge = DateTime(today.year - minAge + 1, 1, 1).toIso8601String();
 
       final result = validator.validate(underMinAge);
       expect(result, isA<PredefinedFormErrorKey>());
-      expect((result as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.dateIsLessThanMinAge);
+      expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.dateIsLessThanMinAge);
       expect(result.parameter, minAge);
     });
 
@@ -268,8 +249,7 @@ void main() {
     test('should return null for age equal to maximum', () {
       const validator = StringDateTimeAgeMaxValidator(maxAge: maxAge);
       final today = DateTime.now();
-      final exactMaxAge = DateTime(today.year - maxAge, today.month, today.day)
-          .toIso8601String();
+      final exactMaxAge = DateTime(today.year - maxAge, today.month, today.day).toIso8601String();
 
       final result = validator.validate(exactMaxAge);
       expect(result, isNull);
@@ -278,8 +258,7 @@ void main() {
     test('should return null for age less than maximum', () {
       const validator = StringDateTimeAgeMaxValidator(maxAge: maxAge);
       final today = DateTime.now();
-      final underMaxAge =
-          DateTime(today.year - maxAge + 1, 1, 1).toIso8601String();
+      final underMaxAge = DateTime(today.year - maxAge + 1, 1, 1).toIso8601String();
 
       final result = validator.validate(underMaxAge);
       expect(result, isNull);
@@ -288,13 +267,11 @@ void main() {
     test('should return error for age greater than maximum', () {
       const validator = StringDateTimeAgeMaxValidator(maxAge: maxAge);
       final today = DateTime.now();
-      final overMaxAge =
-          DateTime(today.year - maxAge - 1, 1, 1).toIso8601String();
+      final overMaxAge = DateTime(today.year - maxAge - 1, 1, 1).toIso8601String();
 
       final result = validator.validate(overMaxAge);
       expect(result, isA<PredefinedFormErrorKey>());
-      expect((result as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.dateIsMoreThanMaxAge);
+      expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.dateIsMoreThanMaxAge);
       expect(result.parameter, maxAge);
     });
 
@@ -340,16 +317,14 @@ void main() {
       const validator = BoolAgreeToTermsAndConditionsValidator();
       final result = validator.validate(false);
       expect(result, isA<PredefinedFormErrorKey>());
-      expect((result as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.boolAgreeToTerms);
+      expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.boolAgreeToTerms);
     });
 
     test('should return error when value is null', () {
       const validator = BoolAgreeToTermsAndConditionsValidator();
       final result = validator.validate(null);
       expect(result, isA<PredefinedFormErrorKey>());
-      expect((result as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.boolAgreeToTerms);
+      expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.boolAgreeToTerms);
     });
 
     test('equality', () {
@@ -376,16 +351,14 @@ void main() {
       const validator = BoolFalseValidator();
       final result = validator.validate(true);
       expect(result, isA<PredefinedFormErrorKey>());
-      expect((result as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.boolShouldBeFalse);
+      expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.boolShouldBeFalse);
     });
 
     test('should return error when value is null', () {
       const validator = BoolFalseValidator();
       final result = validator.validate(null);
       expect(result, isA<PredefinedFormErrorKey>());
-      expect((result as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.boolShouldBeFalse);
+      expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.boolShouldBeFalse);
     });
   });
 
@@ -411,16 +384,14 @@ void main() {
       const validator = BoolTrueValidator();
       final result = validator.validate(false);
       expect(result, isA<PredefinedFormErrorKey>());
-      expect((result as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.boolShouldBeTrue);
+      expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.boolShouldBeTrue);
     });
 
     test('should return error when value is null', () {
       const validator = BoolTrueValidator();
       final result = validator.validate(null);
       expect(result, isA<PredefinedFormErrorKey>());
-      expect((result as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.boolShouldBeTrue);
+      expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.boolShouldBeTrue);
     });
   });
 
@@ -449,8 +420,7 @@ void main() {
       const validator = StringCreditCardValidator();
       final result = validator.validate('1234567890123456');
       expect(result, isA<PredefinedFormErrorKey>());
-      expect((result as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.intIsNotValidCreditCard);
+      expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.intIsNotValidCreditCard);
     });
 
     test('should return null for null input', () {
@@ -487,15 +457,13 @@ void main() {
       const stringValidator = CustomEqualValidator<String>(equalValue: 'test');
       final stringResult = stringValidator.validate('not test');
       expect(stringResult, isA<PredefinedFormErrorKey>());
-      expect((stringResult as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.isNotEqualTo);
+      expect((stringResult as PredefinedFormErrorKey).type, PredefinedFormErrorType.isNotEqualTo);
       expect(stringResult.parameter, 'test');
 
       const intValidator = CustomEqualValidator<int>(equalValue: 42);
       final intResult = intValidator.validate(24);
       expect(intResult, isA<PredefinedFormErrorKey>());
-      expect((intResult as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.isNotEqualTo);
+      expect((intResult as PredefinedFormErrorKey).type, PredefinedFormErrorType.isNotEqualTo);
       expect(intResult.parameter, 42);
     });
 
@@ -525,24 +493,20 @@ void main() {
 
   group('StringCustomPatternValidator', () {
     test('should return null when string matches the pattern', () {
-      final validator =
-          StringCustomPatternValidator(pattern: RegExp(r'^[a-z]+$'));
+      final validator = StringCustomPatternValidator(pattern: RegExp(r'^[a-z]+$'));
       expect(validator.validate('abcdef'), isNull);
     });
 
     test('should return error when string does not match the pattern', () {
-      final validator =
-          StringCustomPatternValidator(pattern: RegExp(r'^[a-z]+$'));
+      final validator = StringCustomPatternValidator(pattern: RegExp(r'^[a-z]+$'));
       final result = validator.validate('abc123');
       expect(result, isA<PredefinedFormErrorKey>());
-      expect((result as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.didNotMatchPattern);
+      expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.didNotMatchPattern);
       expect(result.parameter, RegExp(r'^[a-z]+$'));
     });
 
     test('should return null for null input', () {
-      final validator =
-          StringCustomPatternValidator(pattern: RegExp(r'^[a-z]+$'));
+      final validator = StringCustomPatternValidator(pattern: RegExp(r'^[a-z]+$'));
       expect(validator.validate(null), isNull);
     });
 
@@ -551,36 +515,28 @@ void main() {
         pattern: RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$'),
       );
       expect(emailValidator.validate('test@example.com'), isNull);
-      expect(emailValidator.validate('invalid-email'),
-          isA<PredefinedFormErrorKey>());
+      expect(emailValidator.validate('invalid-email'), isA<PredefinedFormErrorKey>());
 
       final phoneValidator = StringCustomPatternValidator(
         pattern: RegExp(r'^\d{3}-\d{3}-\d{4}$'),
       );
       expect(phoneValidator.validate('123-456-7890'), isNull);
-      expect(
-          phoneValidator.validate('1234567890'), isA<PredefinedFormErrorKey>());
+      expect(phoneValidator.validate('1234567890'), isA<PredefinedFormErrorKey>());
     });
 
     test('equality', () {
-      final validator1 =
-          StringCustomPatternValidator(pattern: RegExp(r'^[a-z]+$'));
-      final validator2 =
-          StringCustomPatternValidator(pattern: RegExp(r'^[a-z]+$'));
-      final validator3 =
-          StringCustomPatternValidator(pattern: RegExp(r'^\d+$'));
+      final validator1 = StringCustomPatternValidator(pattern: RegExp(r'^[a-z]+$'));
+      final validator2 = StringCustomPatternValidator(pattern: RegExp(r'^[a-z]+$'));
+      final validator3 = StringCustomPatternValidator(pattern: RegExp(r'^\d+$'));
 
       expect(validator1, equals(validator2));
       expect(validator1, isNot(equals(validator3)));
     });
 
     test('hashCode', () {
-      final validator1 =
-          StringCustomPatternValidator(pattern: RegExp(r'^[a-z]+$'));
-      final validator2 =
-          StringCustomPatternValidator(pattern: RegExp(r'^[a-z]+$'));
-      final validator3 =
-          StringCustomPatternValidator(pattern: RegExp(r'^\d+$'));
+      final validator1 = StringCustomPatternValidator(pattern: RegExp(r'^[a-z]+$'));
+      final validator2 = StringCustomPatternValidator(pattern: RegExp(r'^[a-z]+$'));
+      final validator3 = StringCustomPatternValidator(pattern: RegExp(r'^\d+$'));
 
       expect(validator1.hashCode, equals(validator2.hashCode));
       expect(validator1.hashCode, isNot(equals(validator3.hashCode)));
@@ -592,8 +548,7 @@ void main() {
       expect(validator.validate('2023-05-15'), isNull);
       expect(validator.validate('2023-05-15T14:30:00'), isNull);
       expect(validator.validate('2023-05-15T14:30:00.000Z'), isNull);
-      expect(
-          validator.validate('20230515'), isNull); // Moving this to valid dates
+      expect(validator.validate('20230515'), isNull); // Moving this to valid dates
     });
 
     test('should return error for invalid date strings', () {
@@ -601,8 +556,7 @@ void main() {
       expect(validator.validate('2023/05/15'), isA<PredefinedFormErrorKey>());
     });
 
-    test('should return null for seemingly invalid but accepted date strings',
-        () {
+    test('should return null for seemingly invalid but accepted date strings', () {
       expect(validator.validate('2023-13-32'), isNull);
       expect(validator.validate('2023-02-30'), isNull);
     });
@@ -639,8 +593,7 @@ void main() {
       expect(validator.validate('user._name@example.com'), isNull);
       expect(validator.validate('user-name@example.com'), isNull);
       expect(validator.validate('user123@example.com'), isNull);
-      expect(validator.validate('username@example..com'),
-          isNull); // Moving this here as it's accepted
+      expect(validator.validate('username@example..com'), isNull); // Moving this here as it's accepted
     });
 
     test('should return error for invalid email addresses', () {
@@ -656,10 +609,8 @@ void main() {
 
       for (final email in invalidEmails) {
         final result = validator.validate(email);
-        expect(result, isA<PredefinedFormErrorKey>(),
-            reason: 'Failed for: $email');
-        expect((result as PredefinedFormErrorKey).type,
-            PredefinedFormErrorType.isNotValidEmail);
+        expect(result, isA<PredefinedFormErrorKey>(), reason: 'Failed for: $email');
+        expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.isNotValidEmail);
       }
     });
 
@@ -670,8 +621,7 @@ void main() {
     test('should return error for empty string', () {
       final result = validator.validate('');
       expect(result, isA<PredefinedFormErrorKey>());
-      expect((result as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.isNotValidEmail);
+      expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.isNotValidEmail);
     });
 
     test('equality', () {
@@ -688,27 +638,22 @@ void main() {
   });
 
   group('EqualLengthValidator', () {
-    test('should return null when string length matches the specified length',
-        () {
+    test('should return null when string length matches the specified length', () {
       const validator = EqualLengthValidator(length: 5);
       expect(validator.validate('12345'), isNull);
       expect(validator.validate('abcde'), isNull);
     });
 
-    test(
-        'should return error when string length does not match the specified length',
-        () {
+    test('should return error when string length does not match the specified length', () {
       const validator = EqualLengthValidator(length: 5);
       final resultShort = validator.validate('1234');
       expect(resultShort, isA<PredefinedFormErrorKey>());
-      expect((resultShort as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.lengthIsNotEqual);
+      expect((resultShort as PredefinedFormErrorKey).type, PredefinedFormErrorType.lengthIsNotEqual);
       expect(resultShort.parameter, 5);
 
       final resultLong = validator.validate('123456');
       expect(resultLong, isA<PredefinedFormErrorKey>());
-      expect((resultLong as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.lengthIsNotEqual);
+      expect((resultLong as PredefinedFormErrorKey).type, PredefinedFormErrorType.lengthIsNotEqual);
       expect(resultLong.parameter, 5);
     });
 
@@ -762,8 +707,7 @@ void main() {
       ];
 
       for (final address in validAddresses) {
-        expect(validator.validate(address), isNull,
-            reason: 'Failed for: $address');
+        expect(validator.validate(address), isNull, reason: 'Failed for: $address');
       }
     });
 
@@ -785,10 +729,8 @@ void main() {
 
       for (final address in invalidAddresses) {
         final result = validator.validate(address);
-        expect(result, isA<PredefinedFormErrorKey>(),
-            reason: 'Failed for: $address');
-        expect((result as PredefinedFormErrorKey).type,
-            PredefinedFormErrorType.isNotValidIpAddress);
+        expect(result, isA<PredefinedFormErrorKey>(), reason: 'Failed for: $address');
+        expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.isNotValidIpAddress);
       }
     });
 
@@ -807,8 +749,7 @@ void main() {
       const validator1 = IpAddressValidator();
       const validator2 = IpAddressValidator();
       expect(validator1.hashCode, equals(validator2.hashCode));
-      expect(validator1.hashCode,
-          isNot(equals(const Ipv6AddressValidator().hashCode)));
+      expect(validator1.hashCode, isNot(equals(const Ipv6AddressValidator().hashCode)));
     });
   });
 
@@ -828,8 +769,7 @@ void main() {
       ];
 
       for (final address in validAddresses) {
-        expect(validator.validate(address), isNull,
-            reason: 'Failed for: $address');
+        expect(validator.validate(address), isNull, reason: 'Failed for: $address');
       }
     });
 
@@ -851,10 +791,8 @@ void main() {
 
       for (final address in invalidAddresses) {
         final result = validator.validate(address);
-        expect(result, isA<PredefinedFormErrorKey>(),
-            reason: 'Failed for: $address');
-        expect((result as PredefinedFormErrorKey).type,
-            PredefinedFormErrorType.isNotValidIpv6Address);
+        expect(result, isA<PredefinedFormErrorKey>(), reason: 'Failed for: $address');
+        expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.isNotValidIpv6Address);
       }
     });
 
@@ -873,8 +811,7 @@ void main() {
       const validator1 = Ipv6AddressValidator();
       const validator2 = Ipv6AddressValidator();
       expect(validator1.hashCode, equals(validator2.hashCode));
-      expect(validator1.hashCode,
-          isNot(equals(const IpAddressValidator().hashCode)));
+      expect(validator1.hashCode, isNot(equals(const IpAddressValidator().hashCode)));
     });
   });
 
@@ -892,8 +829,7 @@ void main() {
     test('should return error for values less than min', () {
       final result = validator.validate('9');
       expect(result, isA<PredefinedFormErrorKey>());
-      expect((result as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.numIsLessThanMin);
+      expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.numIsLessThanMin);
       expect(result.parameter, 10);
 
       expect(validator.validate('9.9'), isA<PredefinedFormErrorKey>());
@@ -941,8 +877,7 @@ void main() {
     test('should return error for values greater than max', () {
       final result = validator.validate('100.1');
       expect(result, isA<PredefinedFormErrorKey>());
-      expect((result as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.numIsMoreThanMax);
+      expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.numIsMoreThanMax);
       expect(result.parameter, 100);
 
       expect(validator.validate('101'), isA<PredefinedFormErrorKey>());
@@ -986,12 +921,10 @@ void main() {
       expect(validator.validate('9876543210'), isNull);
     });
 
-    test('should return error for strings containing non-numeric characters',
-        () {
+    test('should return error for strings containing non-numeric characters', () {
       final result = validator.validate('123a');
       expect(result, isA<PredefinedFormErrorKey>());
-      expect((result as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.isNotOnlyNumbers);
+      expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.isNotOnlyNumbers);
 
       expect(validator.validate('a123'), isA<PredefinedFormErrorKey>());
       expect(validator.validate('12.3'), isA<PredefinedFormErrorKey>());
@@ -1021,34 +954,29 @@ void main() {
       const validator2 = StringNumbersOnlyValidator();
 
       expect(validator1.hashCode, equals(validator2.hashCode));
-      expect(validator1.hashCode,
-          isNot(equals(const StringNumMaxValidator(max: 100).hashCode)));
+      expect(validator1.hashCode, isNot(equals(const StringNumMaxValidator(max: 100).hashCode)));
     });
   });
   group('StringTextOnlyValidator', () {
     const validator = StringTextOnlyValidator();
 
-    test('should return null for strings containing only alphabetic characters',
-        () {
+    test('should return null for strings containing only alphabetic characters', () {
       expect(validator.validate('abc'), isNull);
       expect(validator.validate('ABC'), isNull);
       expect(validator.validate('abcDEF'), isNull);
       expect(validator.validate('z'), isNull);
     });
 
-    test('should return error for strings containing non-alphabetic characters',
-        () {
+    test('should return error for strings containing non-alphabetic characters', () {
       final result = validator.validate('abc123');
       expect(result, isA<PredefinedFormErrorKey>());
-      expect((result as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.isNotOnlyText);
+      expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.isNotOnlyText);
 
       expect(validator.validate('abc!'), isA<PredefinedFormErrorKey>());
       expect(validator.validate('123'), isA<PredefinedFormErrorKey>());
       expect(validator.validate('abc def'), isA<PredefinedFormErrorKey>());
       expect(validator.validate('abc-def'), isA<PredefinedFormErrorKey>());
-      expect(validator.validate('abç'),
-          isA<PredefinedFormErrorKey>()); // Non-ASCII character
+      expect(validator.validate('abç'), isA<PredefinedFormErrorKey>()); // Non-ASCII character
     });
 
     test('should return null for null input', () {
@@ -1072,8 +1000,7 @@ void main() {
       const validator2 = StringTextOnlyValidator();
 
       expect(validator1.hashCode, equals(validator2.hashCode));
-      expect(validator1.hashCode,
-          isNot(equals(const StringNumbersOnlyValidator().hashCode)));
+      expect(validator1.hashCode, isNot(equals(const StringNumbersOnlyValidator().hashCode)));
     });
   });
   group('StringPhoneNumberValidator', () {
@@ -1091,8 +1018,7 @@ void main() {
       ];
 
       for (final number in validNumbers) {
-        expect(const StringPhoneNumberValidator().validate(number), isNull,
-            reason: 'Failed for: $number');
+        expect(const StringPhoneNumberValidator().validate(number), isNull, reason: 'Failed for: $number');
       }
     });
 
@@ -1110,10 +1036,8 @@ void main() {
 
       for (final number in invalidNumbers) {
         final result = const StringPhoneNumberValidator().validate(number);
-        expect(result, isA<PredefinedFormErrorKey>(),
-            reason: 'Failed for: $number');
-        expect((result as PredefinedFormErrorKey).type,
-            PredefinedFormErrorType.isNotValidPhoneNumber);
+        expect(result, isA<PredefinedFormErrorKey>(), reason: 'Failed for: $number');
+        expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.isNotValidPhoneNumber);
       }
     });
 
@@ -1124,8 +1048,7 @@ void main() {
     test('should return error for empty string', () {
       final result = const StringPhoneNumberValidator().validate('');
       expect(result, isA<PredefinedFormErrorKey>());
-      expect((result as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.isNotValidPhoneNumber);
+      expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.isNotValidPhoneNumber);
     });
 
     test('equality', () {
@@ -1160,8 +1083,7 @@ void main() {
       ];
 
       for (final url in validUrls) {
-        expect(const StringUrlValidator().validate(url), isNull,
-            reason: 'Failed for: $url');
+        expect(const StringUrlValidator().validate(url), isNull, reason: 'Failed for: $url');
       }
     });
 
@@ -1191,10 +1113,8 @@ void main() {
 
       for (final url in invalidUrls) {
         final result = const StringUrlValidator().validate(url);
-        expect(result, isA<PredefinedFormErrorKey>(),
-            reason: 'Failed for: $url');
-        expect((result as PredefinedFormErrorKey).type,
-            PredefinedFormErrorType.isNotValidUrl);
+        expect(result, isA<PredefinedFormErrorKey>(), reason: 'Failed for: $url');
+        expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.isNotValidUrl);
       }
     });
 
@@ -1205,8 +1125,7 @@ void main() {
     test('should return error for empty string', () {
       final result = const StringUrlValidator().validate('');
       expect(result, isA<PredefinedFormErrorKey>());
-      expect((result as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.isNotValidUrl);
+      expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.isNotValidUrl);
     });
 
     test('equality', () {
@@ -1242,17 +1161,12 @@ void main() {
       ];
 
       for (final str in validStrings) {
-        expect(
-            const StringWordsCountMinValidator(minWords: minWords)
-                .validate(str),
-            isNull,
+        expect(const StringWordsCountMinValidator(minWords: minWords).validate(str), isNull,
             reason: 'Failed for: $str');
       }
     });
 
-    test(
-        'should return error for strings with word count < minWords, including empty and whitespace-only strings',
-        () {
+    test('should return error for strings with word count < minWords, including empty and whitespace-only strings', () {
       const invalidStrings = [
         '   ', // Only spaces
         '\t\t', // Only tabs
@@ -1262,27 +1176,20 @@ void main() {
       ];
 
       for (final str in invalidStrings) {
-        final result = const StringWordsCountMinValidator(minWords: minWords)
-            .validate(str);
-        expect(result, isA<PredefinedFormErrorKey>(),
-            reason: 'Failed for: "$str"');
-        expect((result as PredefinedFormErrorKey).type,
-            PredefinedFormErrorType.wordCountIsLessThan);
+        final result = const StringWordsCountMinValidator(minWords: minWords).validate(str);
+        expect(result, isA<PredefinedFormErrorKey>(), reason: 'Failed for: "$str"');
+        expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.wordCountIsLessThan);
         expect(result.parameter, minWords);
       }
     });
 
     test('should return null for null input', () {
-      expect(
-          const StringWordsCountMinValidator(minWords: minWords).validate(null),
-          isNull);
+      expect(const StringWordsCountMinValidator(minWords: minWords).validate(null), isNull);
     });
 
     test('should handle edge cases', () {
-      expect(
-          const StringWordsCountMinValidator(minWords: 0).validate(''), isNull);
-      expect(const StringWordsCountMinValidator(minWords: 1).validate('One'),
-          isNull);
+      expect(const StringWordsCountMinValidator(minWords: 0).validate(''), isNull);
+      expect(const StringWordsCountMinValidator(minWords: 1).validate('One'), isNull);
     });
 
     test('equality', () {
@@ -1323,10 +1230,7 @@ void main() {
       ];
 
       for (final str in validStrings) {
-        expect(
-            const StringWordsCountMaxValidator(maxWords: maxWords)
-                .validate(str),
-            isNull,
+        expect(const StringWordsCountMaxValidator(maxWords: maxWords).validate(str), isNull,
             reason: 'Failed for: "$str"');
       }
     });
@@ -1338,20 +1242,15 @@ void main() {
       ];
 
       for (final str in invalidStrings) {
-        final result = const StringWordsCountMaxValidator(maxWords: maxWords)
-            .validate(str);
-        expect(result, isA<PredefinedFormErrorKey>(),
-            reason: 'Failed for: "$str"');
-        expect((result as PredefinedFormErrorKey).type,
-            PredefinedFormErrorType.wordCountIsMoreThan);
+        final result = const StringWordsCountMaxValidator(maxWords: maxWords).validate(str);
+        expect(result, isA<PredefinedFormErrorKey>(), reason: 'Failed for: "$str"');
+        expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.wordCountIsMoreThan);
         expect(result.parameter, maxWords);
       }
     });
 
     test('should return null for null input', () {
-      expect(
-          const StringWordsCountMaxValidator(maxWords: maxWords).validate(null),
-          isNull);
+      expect(const StringWordsCountMaxValidator(maxWords: maxWords).validate(null), isNull);
     });
 
     test('should handle whitespace-only strings', () {
@@ -1363,24 +1262,16 @@ void main() {
       ];
 
       for (final str in whitespaceStrings) {
-        expect(
-            const StringWordsCountMaxValidator(maxWords: maxWords)
-                .validate(str),
-            isNull,
+        expect(const StringWordsCountMaxValidator(maxWords: maxWords).validate(str), isNull,
             reason: 'Failed for: "$str"');
       }
     });
 
     test('should handle edge cases', () {
-      expect(
-          const StringWordsCountMaxValidator(maxWords: 0).validate(''), isNull);
-      expect(const StringWordsCountMaxValidator(maxWords: 0).validate('One'),
-          isA<PredefinedFormErrorKey>());
-      expect(const StringWordsCountMaxValidator(maxWords: 1).validate('One'),
-          isNull);
-      expect(
-          const StringWordsCountMaxValidator(maxWords: 1).validate('One two'),
-          isA<PredefinedFormErrorKey>());
+      expect(const StringWordsCountMaxValidator(maxWords: 0).validate(''), isNull);
+      expect(const StringWordsCountMaxValidator(maxWords: 0).validate('One'), isA<PredefinedFormErrorKey>());
+      expect(const StringWordsCountMaxValidator(maxWords: 1).validate('One'), isNull);
+      expect(const StringWordsCountMaxValidator(maxWords: 1).validate('One two'), isA<PredefinedFormErrorKey>());
     });
 
     test('equality', () {
@@ -1407,60 +1298,47 @@ void main() {
     const password = 'password123';
 
     test('should return null when passwords match', () {
-      const validator =
-          StringConfirmPasswordMatchValidator(matchingValue: password);
+      const validator = StringConfirmPasswordMatchValidator(matchingValue: password);
       expect(validator.validate(password), isNull);
     });
 
     test('should return error when passwords do not match', () {
-      const validator =
-          StringConfirmPasswordMatchValidator(matchingValue: password);
+      const validator = StringConfirmPasswordMatchValidator(matchingValue: password);
       final result = validator.validate('differentpassword');
       expect(result, isA<PredefinedFormErrorKey>());
-      expect((result as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.passwordsDoNotMatch);
+      expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.passwordsDoNotMatch);
     });
 
     test('should be case sensitive', () {
-      const validator =
-          StringConfirmPasswordMatchValidator(matchingValue: 'Password123');
+      const validator = StringConfirmPasswordMatchValidator(matchingValue: 'Password123');
       final result = validator.validate('password123');
       expect(result, isA<PredefinedFormErrorKey>());
-      expect((result as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.passwordsDoNotMatch);
+      expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.passwordsDoNotMatch);
     });
 
     test('should handle empty strings', () {
       const validator1 = StringConfirmPasswordMatchValidator(matchingValue: '');
       expect(validator1.validate(''), isNull);
 
-      const validator2 =
-          StringConfirmPasswordMatchValidator(matchingValue: 'nonempty');
+      const validator2 = StringConfirmPasswordMatchValidator(matchingValue: 'nonempty');
       final result = validator2.validate('');
       expect(result, isA<PredefinedFormErrorKey>());
-      expect((result as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.passwordsDoNotMatch);
+      expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.passwordsDoNotMatch);
     });
 
     test('equality', () {
-      const validator1 =
-          StringConfirmPasswordMatchValidator(matchingValue: password);
-      const validator2 =
-          StringConfirmPasswordMatchValidator(matchingValue: password);
-      const validator3 = StringConfirmPasswordMatchValidator(
-          matchingValue: 'differentpassword');
+      const validator1 = StringConfirmPasswordMatchValidator(matchingValue: password);
+      const validator2 = StringConfirmPasswordMatchValidator(matchingValue: password);
+      const validator3 = StringConfirmPasswordMatchValidator(matchingValue: 'differentpassword');
 
       expect(validator1, equals(validator2));
       expect(validator1, isNot(equals(validator3)));
     });
 
     test('hashCode', () {
-      const validator1 =
-          StringConfirmPasswordMatchValidator(matchingValue: password);
-      const validator2 =
-          StringConfirmPasswordMatchValidator(matchingValue: password);
-      const validator3 = StringConfirmPasswordMatchValidator(
-          matchingValue: 'differentpassword');
+      const validator1 = StringConfirmPasswordMatchValidator(matchingValue: password);
+      const validator2 = StringConfirmPasswordMatchValidator(matchingValue: password);
+      const validator3 = StringConfirmPasswordMatchValidator(matchingValue: 'differentpassword');
 
       expect(validator1.hashCode, equals(validator2.hashCode));
       expect(validator1.hashCode, isNot(equals(validator3.hashCode)));
@@ -1480,8 +1358,7 @@ void main() {
       const validator = PasswordLengthValidator(minLength: minLength);
       final result = validator.validate('short');
       expect(result, isA<PredefinedFormErrorKey>());
-      expect((result as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.passwordTooShort);
+      expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.passwordTooShort);
       expect(result.parameter, minLength);
     });
 
@@ -1513,8 +1390,7 @@ void main() {
   group('PasswordUppercaseValidator', () {
     const validator = PasswordUppercaseValidator();
 
-    test('should return null for passwords with at least one uppercase letter',
-        () {
+    test('should return null for passwords with at least one uppercase letter', () {
       expect(validator.validate('Password'), isNull);
       expect(validator.validate('passworD'), isNull);
       expect(validator.validate('PASSWORD'), isNull);
@@ -1526,16 +1402,13 @@ void main() {
     test('should return error for passwords without uppercase letters', () {
       final result = validator.validate('password');
       expect(result, isA<PredefinedFormErrorKey>());
-      expect((result as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.passwordNoUppercase);
+      expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.passwordNoUppercase);
     });
 
-    test('should return error for strings with only non-alphabetic characters',
-        () {
+    test('should return error for strings with only non-alphabetic characters', () {
       final result = validator.validate('123!@#');
       expect(result, isA<PredefinedFormErrorKey>());
-      expect((result as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.passwordNoUppercase);
+      expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.passwordNoUppercase);
     });
 
     test('equality', () {
@@ -1556,8 +1429,7 @@ void main() {
   group('PasswordLowercaseValidator', () {
     const validator = PasswordLowercaseValidator();
 
-    test('should return null for passwords with at least one lowercase letter',
-        () {
+    test('should return null for passwords with at least one lowercase letter', () {
       expect(validator.validate('password'), isNull);
       expect(validator.validate('Password'), isNull);
       expect(validator.validate('PASSWORd'), isNull);
@@ -1569,16 +1441,13 @@ void main() {
     test('should return error for passwords without lowercase letters', () {
       final result = validator.validate('PASSWORD');
       expect(result, isA<PredefinedFormErrorKey>());
-      expect((result as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.passwordNoLowercase);
+      expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.passwordNoLowercase);
     });
 
-    test('should return error for strings with only non-alphabetic characters',
-        () {
+    test('should return error for strings with only non-alphabetic characters', () {
       final result = validator.validate('123!@#');
       expect(result, isA<PredefinedFormErrorKey>());
-      expect((result as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.passwordNoLowercase);
+      expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.passwordNoLowercase);
     });
 
     test('equality', () {
@@ -1611,16 +1480,13 @@ void main() {
     test('should return error for passwords without numbers', () {
       final result = validator.validate('password');
       expect(result, isA<PredefinedFormErrorKey>());
-      expect((result as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.passwordNoNumber);
+      expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.passwordNoNumber);
     });
 
-    test('should return error for strings with only non-numeric characters',
-        () {
+    test('should return error for strings with only non-numeric characters', () {
       final result = validator.validate('p@ssword!');
       expect(result, isA<PredefinedFormErrorKey>());
-      expect((result as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.passwordNoNumber);
+      expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.passwordNoNumber);
     });
 
     test('equality', () {
@@ -1642,8 +1508,7 @@ void main() {
     const defaultSpecialChars = r'!@#$%^&*(),.?":{}|<>';
     const validator = PasswordSpecialCharValidator();
 
-    test('should return null for passwords with at least one special character',
-        () {
+    test('should return null for passwords with at least one special character', () {
       expect(validator.validate('password!'), isNull);
       expect(validator.validate('@password'), isNull);
       expect(validator.validate('pass@word'), isNull);
@@ -1655,24 +1520,20 @@ void main() {
     test('should return error for passwords without special characters', () {
       final result = validator.validate('password123');
       expect(result, isA<PredefinedFormErrorKey>());
-      expect((result as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.passwordNoSpecialChar);
+      expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.passwordNoSpecialChar);
       expect(result.parameter, defaultSpecialChars);
     });
 
-    test('should return error for strings with only alphanumeric characters',
-        () {
+    test('should return error for strings with only alphanumeric characters', () {
       final result = validator.validate('password123ABC');
       expect(result, isA<PredefinedFormErrorKey>());
-      expect((result as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.passwordNoSpecialChar);
+      expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.passwordNoSpecialChar);
       expect(result.parameter, defaultSpecialChars);
     });
 
     test('should work with custom special characters', () {
       const customSpecialChars = '#@%';
-      const customValidator =
-          PasswordSpecialCharValidator(specialChars: customSpecialChars);
+      const customValidator = PasswordSpecialCharValidator(specialChars: customSpecialChars);
 
       expect(customValidator.validate('password#'), isNull);
       expect(customValidator.validate('p@ssword'), isNull);
@@ -1680,8 +1541,7 @@ void main() {
 
       final result = customValidator.validate('password!');
       expect(result, isA<PredefinedFormErrorKey>());
-      expect((result as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.passwordNoSpecialChar);
+      expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.passwordNoSpecialChar);
       expect(result.parameter, customSpecialChars);
     });
 
@@ -1717,23 +1577,19 @@ void main() {
     test('should return error when string does not contain the substring', () {
       final result = validator.validate('This does not contain it');
       expect(result, isA<PredefinedFormErrorKey>());
-      expect((result as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.stringDoesNotContain);
+      expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.stringDoesNotContain);
       expect(result.parameter, substring);
     });
 
     test('should be case sensitive by default', () {
       final result = validator.validate('This is a TEST string');
       expect(result, isA<PredefinedFormErrorKey>());
-      expect((result as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.stringDoesNotContain);
+      expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.stringDoesNotContain);
     });
 
     test('should be case insensitive when specified', () {
-      const caseInsensitiveValidator =
-          StringContainsValidator(substring: substring, caseSensitive: false);
-      expect(
-          caseInsensitiveValidator.validate('This is a TEST string'), isNull);
+      const caseInsensitiveValidator = StringContainsValidator(substring: substring, caseSensitive: false);
+      expect(caseInsensitiveValidator.validate('This is a TEST string'), isNull);
     });
 
     test('should return null for null input', () {
@@ -1745,19 +1601,15 @@ void main() {
           equals(const StringContainsValidator(substring: substring)));
       expect(const StringContainsValidator(substring: substring),
           isNot(equals(const StringContainsValidator(substring: 'other'))));
-      expect(
-          const StringContainsValidator(substring: substring),
-          isNot(equals(const StringContainsValidator(
-              substring: substring, caseSensitive: false))));
+      expect(const StringContainsValidator(substring: substring),
+          isNot(equals(const StringContainsValidator(substring: substring, caseSensitive: false))));
     });
 
     test('hashCode', () {
       expect(const StringContainsValidator(substring: substring).hashCode,
           equals(const StringContainsValidator(substring: substring).hashCode));
-      expect(
-          const StringContainsValidator(substring: substring).hashCode,
-          isNot(equals(
-              const StringContainsValidator(substring: 'other').hashCode)));
+      expect(const StringContainsValidator(substring: substring).hashCode,
+          isNot(equals(const StringContainsValidator(substring: 'other').hashCode)));
     });
   });
 
@@ -1773,8 +1625,7 @@ void main() {
     test('should return error when string contains the substring', () {
       final result = validator.validate('This is a test string');
       expect(result, isA<PredefinedFormErrorKey>());
-      expect((result as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.stringContains);
+      expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.stringContains);
       expect(result.parameter, substring);
     });
 
@@ -1783,12 +1634,10 @@ void main() {
     });
 
     test('should be case insensitive when specified', () {
-      const caseInsensitiveValidator = StringNotContainsValidator(
-          substring: substring, caseSensitive: false);
+      const caseInsensitiveValidator = StringNotContainsValidator(substring: substring, caseSensitive: false);
       final result = caseInsensitiveValidator.validate('This is a TEST string');
       expect(result, isA<PredefinedFormErrorKey>());
-      expect((result as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.stringContains);
+      expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.stringContains);
       expect(result.parameter, substring);
     });
 
@@ -1801,27 +1650,20 @@ void main() {
           equals(const StringNotContainsValidator(substring: substring)));
       expect(const StringNotContainsValidator(substring: substring),
           isNot(equals(const StringNotContainsValidator(substring: 'other'))));
-      expect(
-          const StringNotContainsValidator(substring: substring),
-          isNot(equals(const StringNotContainsValidator(
-              substring: substring, caseSensitive: false))));
+      expect(const StringNotContainsValidator(substring: substring),
+          isNot(equals(const StringNotContainsValidator(substring: substring, caseSensitive: false))));
     });
 
     test('hashCode', () {
-      expect(
-          const StringNotContainsValidator(substring: substring).hashCode,
-          equals(
-              const StringNotContainsValidator(substring: substring).hashCode));
-      expect(
-          const StringNotContainsValidator(substring: substring).hashCode,
-          isNot(equals(
-              const StringNotContainsValidator(substring: 'other').hashCode)));
+      expect(const StringNotContainsValidator(substring: substring).hashCode,
+          equals(const StringNotContainsValidator(substring: substring).hashCode));
+      expect(const StringNotContainsValidator(substring: substring).hashCode,
+          isNot(equals(const StringNotContainsValidator(substring: 'other').hashCode)));
     });
   });
 
   group('FileTypeValidator', () {
-    const validator =
-        FileTypeValidator(allowedExtensions: ['jpg', 'png', 'gif']);
+    const validator = FileTypeValidator(allowedExtensions: ['jpg', 'png', 'gif']);
 
     test('should return null for valid file types', () {
       expect(validator.validate('image.jpg'), isNull);
@@ -1832,8 +1674,7 @@ void main() {
     test('should return error for invalid file types', () {
       final result = validator.validate('document.pdf');
       expect(result, isA<PredefinedFormErrorKey>());
-      expect((result as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.invalidFileType);
+      expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.invalidFileType);
       expect(result.parameter, ['jpg', 'png', 'gif']);
     });
 
@@ -1845,34 +1686,21 @@ void main() {
     test('should handle files without extensions', () {
       final result = validator.validate('noextension');
       expect(result, isA<PredefinedFormErrorKey>());
-      expect((result as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.invalidFileType);
+      expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.invalidFileType);
     });
 
     test('equality', () {
-      expect(
-          const FileTypeValidator(allowedExtensions: ['jpg', 'png', 'gif']),
-          equals(const FileTypeValidator(
-              allowedExtensions: ['jpg', 'png', 'gif'])));
-      expect(
-          const FileTypeValidator(allowedExtensions: ['jpg', 'png', 'gif']),
-          isNot(equals(
-              const FileTypeValidator(allowedExtensions: ['jpg', 'png']))));
+      expect(const FileTypeValidator(allowedExtensions: ['jpg', 'png', 'gif']),
+          equals(const FileTypeValidator(allowedExtensions: ['jpg', 'png', 'gif'])));
+      expect(const FileTypeValidator(allowedExtensions: ['jpg', 'png', 'gif']),
+          isNot(equals(const FileTypeValidator(allowedExtensions: ['jpg', 'png']))));
     });
 
     test('hashCode', () {
-      expect(
-          const FileTypeValidator(allowedExtensions: ['jpg', 'png', 'gif'])
-              .hashCode,
-          equals(
-              const FileTypeValidator(allowedExtensions: ['jpg', 'png', 'gif'])
-                  .hashCode));
-      expect(
-          const FileTypeValidator(allowedExtensions: ['jpg', 'png', 'gif'])
-              .hashCode,
-          isNot(equals(
-              const FileTypeValidator(allowedExtensions: ['jpg', 'png'])
-                  .hashCode)));
+      expect(const FileTypeValidator(allowedExtensions: ['jpg', 'png', 'gif']).hashCode,
+          equals(const FileTypeValidator(allowedExtensions: ['jpg', 'png', 'gif']).hashCode));
+      expect(const FileTypeValidator(allowedExtensions: ['jpg', 'png', 'gif']).hashCode,
+          isNot(equals(const FileTypeValidator(allowedExtensions: ['jpg', 'png']).hashCode)));
     });
   });
 
@@ -1889,8 +1717,7 @@ void main() {
     test('should return error for file sizes exceeding the limit', () {
       final result = validator.validate(1024 * 1024 + 1); // 1 MB + 1 byte
       expect(result, isA<PredefinedFormErrorKey>());
-      expect((result as PredefinedFormErrorKey).type,
-          PredefinedFormErrorType.fileSizeExceedsLimit);
+      expect((result as PredefinedFormErrorKey).type, PredefinedFormErrorType.fileSizeExceedsLimit);
       expect(result.parameter, maxSize);
     });
 
@@ -1899,8 +1726,8 @@ void main() {
     });
 
     test('equality', () {
-      expect(const FileSizeValidator(maxSizeInBytes: maxSize),
-          equals(const FileSizeValidator(maxSizeInBytes: maxSize)));
+      expect(
+          const FileSizeValidator(maxSizeInBytes: maxSize), equals(const FileSizeValidator(maxSizeInBytes: maxSize)));
       expect(const FileSizeValidator(maxSizeInBytes: maxSize),
           isNot(equals(const FileSizeValidator(maxSizeInBytes: maxSize * 2))));
     });
@@ -1908,10 +1735,8 @@ void main() {
     test('hashCode', () {
       expect(const FileSizeValidator(maxSizeInBytes: maxSize).hashCode,
           equals(const FileSizeValidator(maxSizeInBytes: maxSize).hashCode));
-      expect(
-          const FileSizeValidator(maxSizeInBytes: maxSize).hashCode,
-          isNot(equals(
-              const FileSizeValidator(maxSizeInBytes: maxSize * 2).hashCode)));
+      expect(const FileSizeValidator(maxSizeInBytes: maxSize).hashCode,
+          isNot(equals(const FileSizeValidator(maxSizeInBytes: maxSize * 2).hashCode)));
     });
   });
 }

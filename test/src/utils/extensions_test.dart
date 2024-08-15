@@ -9,7 +9,7 @@ void main() {
     setUp(() {
       localizations = FormModelLocalizations();
       // Ensure we're using a consistent locale for testing
-      localizations.currentLocale = const Locale('en');
+      localizations.setCurrentLocale(Locale('en'));
     });
 
     test('translatedMessage for PredefinedFormErrorKey', () {
@@ -25,18 +25,18 @@ void main() {
     });
 
     test('translatedMessage with parameters', () {
-      const errorKey = PredefinedFormErrorKey(
-          PredefinedFormErrorType.lengthIsLessThanMin, 5);
+      const errorKey = PredefinedFormErrorKey(PredefinedFormErrorType.lengthIsLessThanMin, 5);
       expect(errorKey.translatedMessage, contains('5'));
     });
 
     test('translatedMessage for different locales', () {
       const errorKey = PredefinedFormErrorKey(PredefinedFormErrorType.required);
 
-      localizations.currentLocale = const Locale('en');
+      localizations.setCurrentLocale(Locale('en'));
       final englishMessage = errorKey.translatedMessage;
 
-      localizations.currentLocale = const Locale('es');
+      localizations.setCurrentLocale(Locale('es'));
+
       final spanishMessage = errorKey.translatedMessage;
 
       expect(englishMessage, isNot(equals(spanishMessage)));
@@ -44,8 +44,7 @@ void main() {
 
     test('translatedMessage for custom error with translation', () {
       const customKey = CustomFormErrorKey('custom_error');
-      localizations.setCustomErrorTranslations(
-          'en', customKey, 'Custom error message');
+      localizations.setCustomErrorTranslations('en', customKey, 'Custom error message');
 
       expect(customKey.translatedMessage, equals('Custom error message'));
     });

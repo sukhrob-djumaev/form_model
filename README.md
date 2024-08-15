@@ -11,41 +11,26 @@ A powerful and flexible form validation package for Flutter applications.
 
 - 🚀 Easy-to-use form validation
 - 🎯 Single-responsibility validators for clear, maintainable code
-- 🌐 Built-in internationalization support
-- 🧩 Extensible with custom validators
+- 🌐 Built-in internationalization support with fallback locales
+- 🧩 Extensible with custom validators and translations
 - 🔄 Immutable state management
 - 🔗 Integrates seamlessly with Flutter widgets
 - 🎛️ Advanced form controls (date pickers, multi-select, etc.)
 - 🧬 Works great with state management solutions like BLoC
 - 🧪 Comprehensive test coverage
 
-## Table of Contents
-
-- [Screenshots](#screenshots)
-- [Installation](#installation)
-- [Basic Usage](#basic-usage)
-- [Advanced Usage](#advanced-usage)
-- [Validators](#validators)
-- [Internationalization](#internationalization)
-- [Integration with BLoC](#integration-with-bloc)
-- [Custom Validators](#custom-validators)
-- [Working with Custom Objects](#working-with-custom-objects)
-- [Custom Translations](#custom-translations)
-- [Contributing](#contributing)
-- [License](#license)
-
 ## Screenshots
 
 Here are some screenshots of form_model in action:
 
 <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
-  <img src="screenshots/1.png" alt="Screenshot 1" width="13%" />
-  <img src="screenshots/2.png" alt="Screenshot 2" width="13%" />
-  <img src="screenshots/3.png" alt="Screenshot 3" width="13%" />
-  <img src="screenshots/4.png" alt="Screenshot 4" width="13%" />
-  <img src="screenshots/5.png" alt="Screenshot 5" width="13%" />
-  <img src="screenshots/6.png" alt="Screenshot 6" width="13%" />
-  <img src="screenshots/7.png" alt="Screenshot 7" width="13%" />
+  <img src="https://raw.githubusercontent.com/sukhrob-djumaev/form_model/main/screenshots/1.png" alt="Screenshot 1" width="13%" />
+  <img src="https://raw.githubusercontent.com/sukhrob-djumaev/form_model/main/screenshots/2.png" alt="Screenshot 2" width="13%" />
+  <img src="https://raw.githubusercontent.com/sukhrob-djumaev/form_model/main/screenshots/3.png" alt="Screenshot 3" width="13%" />
+  <img src="https://raw.githubusercontent.com/sukhrob-djumaev/form_model/main/screenshots/4.png" alt="Screenshot 4" width="13%" />
+  <img src="https://raw.githubusercontent.com/sukhrob-djumaev/form_model/main/screenshots/5.png" alt="Screenshot 5" width="13%" />
+  <img src="https://raw.githubusercontent.com/sukhrob-djumaev/form_model/main/screenshots/6.png" alt="Screenshot 6" width="13%" />
+  <img src="https://raw.githubusercontent.com/sukhrob-djumaev/form_model/main/screenshots/7.png" alt="Screenshot 7" width="13%" />
 </div>
 
 ## Installation
@@ -54,7 +39,7 @@ Add `form_model` to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  form_model: ^1.0.0
+  form_model: ^1.0.2
 ```
 
 Then run:
@@ -188,7 +173,7 @@ Each validator focuses on a single validation rule, adhering to the single-respo
 
 ```dart
 // Set the current locale
-FormModelLocalizations().currentLocale = const Locale('es');
+FormModelLocalizations().setCurrentLocale(const Locale('es'));
 
 // Get a translated error message
 final errorMessage = emailModel.error?.translatedMessage;
