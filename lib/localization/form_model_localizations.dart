@@ -14,7 +14,8 @@ class FormModelLocalizations {
   FormModelLocalizations._internal();
 
   /// Singleton instance of [FormModelLocalizations].
-  static final FormModelLocalizations _instance = FormModelLocalizations._internal();
+  static final FormModelLocalizations _instance =
+      FormModelLocalizations._internal();
 
   /// Factory constructor that returns the singleton instance.
   ///
@@ -47,7 +48,8 @@ class FormModelLocalizations {
   ///
   /// This includes both predefined locales from [localeMap] and
   /// any locales for which custom translations have been added.
-  Set<String> get supportedLocales => Set.from(localeMap.keys)..addAll(_customTranslations.keys);
+  Set<String> get supportedLocales =>
+      Set.from(localeMap.keys)..addAll(_customTranslations.keys);
 
   /// Sets the current locale for translations.
   ///
@@ -92,7 +94,8 @@ class FormModelLocalizations {
   /// ```
   String? translateErrorKey(FormErrorKey errorKey) {
     // Try to get translation in current locale
-    String? translation = _getTranslation(errorKey, _currentLocale.languageCode);
+    String? translation =
+        _getTranslation(errorKey, _currentLocale.languageCode);
 
     // If not found and fallback is set, try fallback locale
     if (translation == null && _fallbackLocale != null) {
@@ -111,7 +114,8 @@ class FormModelLocalizations {
           ?.entries
           .firstWhere(
               (entry) =>
-                  entry.key is PredefinedFormErrorKey && (entry.key as PredefinedFormErrorKey).type == errorKey.type,
+                  entry.key is PredefinedFormErrorKey &&
+                  (entry.key as PredefinedFormErrorKey).type == errorKey.type,
               orElse: () => MapEntry(errorKey, ''))
           .value;
 
@@ -146,7 +150,8 @@ class FormModelLocalizations {
   /// ```dart
   /// localizations.setCustomErrorTranslations('fr', PredefinedFormErrorKey(PredefinedFormErrorType.required), 'Ce champ est obligatoire');
   /// ```
-  void setCustomErrorTranslations(String locale, FormErrorKey key, String message) {
+  void setCustomErrorTranslations(
+      String locale, FormErrorKey key, String message) {
     _customTranslations.putIfAbsent(locale, () => {})[key] = message;
   }
 

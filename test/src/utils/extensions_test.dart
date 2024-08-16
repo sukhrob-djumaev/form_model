@@ -25,7 +25,8 @@ void main() {
     });
 
     test('translatedMessage with parameters', () {
-      const errorKey = PredefinedFormErrorKey(PredefinedFormErrorType.lengthIsLessThanMin, 5);
+      const errorKey = PredefinedFormErrorKey(
+          PredefinedFormErrorType.lengthIsLessThanMin, 5);
       expect(errorKey.translatedMessage, contains('5'));
     });
 
@@ -44,7 +45,8 @@ void main() {
 
     test('translatedMessage for custom error with translation', () {
       const customKey = CustomFormErrorKey('custom_error');
-      localizations.setCustomErrorTranslations('en', customKey, 'Custom error message');
+      localizations.setCustomErrorTranslations(
+          'en', customKey, 'Custom error message');
 
       expect(customKey.translatedMessage, equals('Custom error message'));
     });

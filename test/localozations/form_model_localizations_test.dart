@@ -30,7 +30,8 @@ void main() {
       test('Should set fallback locale correctly', () {
         localizations.setFallbackLocale(const Locale('en'));
         localizations.setCurrentLocale(const Locale('fr'));
-        var result = localizations.translateErrorKey(const PredefinedFormErrorKey(PredefinedFormErrorType.required));
+        var result = localizations.translateErrorKey(
+            const PredefinedFormErrorKey(PredefinedFormErrorType.required));
         expect(result, isNotNull);
       });
 
@@ -47,7 +48,8 @@ void main() {
       });
 
       test('Should include custom translation locales', () {
-        localizations.setCustomErrorTranslations('zz', const CustomFormErrorKey('test'), 'Test');
+        localizations.setCustomErrorTranslations(
+            'zz', const CustomFormErrorKey('test'), 'Test');
         expect(localizations.supportedLocales, contains('zz'));
       });
     });
@@ -55,64 +57,92 @@ void main() {
     group('translateErrorKey', () {
       test('Should return custom translation if available', () {
         localizations.clearCustomErrorTranslations('fr');
-        localizations.setCustomErrorTranslations('fr', const CustomFormErrorKey('test'), 'Test en français');
+        localizations.setCustomErrorTranslations(
+            'fr', const CustomFormErrorKey('test'), 'Test en français');
         localizations.setCurrentLocale(const Locale('fr'));
-        expect(localizations.translateErrorKey(const CustomFormErrorKey('test')), equals('Test en français'));
+        expect(
+            localizations.translateErrorKey(const CustomFormErrorKey('test')),
+            equals('Test en français'));
       });
 
       test('Should return predefined translation if available', () {
         localizations.setCurrentLocale(const Locale('en'));
         expect(
-          localizations.translateErrorKey(const PredefinedFormErrorKey(PredefinedFormErrorType.required)),
+          localizations.translateErrorKey(
+              const PredefinedFormErrorKey(PredefinedFormErrorType.required)),
           equals('This field is required.'),
         );
       });
 
-      test('Should use fallback locale when translation not found in current locale', () {
+      test(
+          'Should use fallback locale when translation not found in current locale',
+          () {
         localizations.setCurrentLocale(const Locale('fr'));
         localizations.setFallbackLocale(const Locale('en'));
-        localizations.setCustomErrorTranslations('en', const CustomFormErrorKey('test'), 'Test in English');
-        expect(localizations.translateErrorKey(const CustomFormErrorKey('test')), equals('Test in English'));
+        localizations.setCustomErrorTranslations(
+            'en', const CustomFormErrorKey('test'), 'Test in English');
+        expect(
+            localizations.translateErrorKey(const CustomFormErrorKey('test')),
+            equals('Test in English'));
       });
 
       test('Should return error key string when no translation found', () {
         localizations.setCurrentLocale(const Locale('fr'));
-        expect(localizations.translateErrorKey(const CustomFormErrorKey('unknown')), equals('unknown'));
+        expect(
+            localizations
+                .translateErrorKey(const CustomFormErrorKey('unknown')),
+            equals('unknown'));
       });
     });
 
     group('Custom translations', () {
       test('Should add and retrieve custom translations', () {
-        localizations.setCustomErrorTranslations('fr', const CustomFormErrorKey('test'), 'Test');
+        localizations.setCustomErrorTranslations(
+            'fr', const CustomFormErrorKey('test'), 'Test');
         localizations.setCurrentLocale(const Locale('fr'));
-        expect(localizations.translateErrorKey(const CustomFormErrorKey('test')), equals('Test'));
+        expect(
+            localizations.translateErrorKey(const CustomFormErrorKey('test')),
+            equals('Test'));
       });
 
       test('Should remove custom translations', () {
-        localizations.setCustomErrorTranslations('fr', const CustomFormErrorKey('test'), 'Test');
-        localizations.removeCustomErrorTranslation('fr', const CustomFormErrorKey('test'));
+        localizations.setCustomErrorTranslations(
+            'fr', const CustomFormErrorKey('test'), 'Test');
+        localizations.removeCustomErrorTranslation(
+            'fr', const CustomFormErrorKey('test'));
         localizations.setCurrentLocale(const Locale('fr'));
-        expect(localizations.translateErrorKey(const CustomFormErrorKey('test')), equals('test'));
+        expect(
+            localizations.translateErrorKey(const CustomFormErrorKey('test')),
+            equals('test'));
       });
 
       test('Should clear all custom translations for a locale', () {
-        localizations.setCustomErrorTranslations('fr', const CustomFormErrorKey('test1'), 'Test1');
-        localizations.setCustomErrorTranslations('fr', const CustomFormErrorKey('test2'), 'Test2');
+        localizations.setCustomErrorTranslations(
+            'fr', const CustomFormErrorKey('test1'), 'Test1');
+        localizations.setCustomErrorTranslations(
+            'fr', const CustomFormErrorKey('test2'), 'Test2');
         localizations.clearCustomErrorTranslations('fr');
         localizations.setCurrentLocale(const Locale('fr'));
-        expect(localizations.translateErrorKey(const CustomFormErrorKey('test1')), equals('test1'));
-        expect(localizations.translateErrorKey(const CustomFormErrorKey('test2')), equals('test2'));
+        expect(
+            localizations.translateErrorKey(const CustomFormErrorKey('test1')),
+            equals('test1'));
+        expect(
+            localizations.translateErrorKey(const CustomFormErrorKey('test2')),
+            equals('test2'));
       });
     });
 
     test('hasCustomTranslationsForLocale should work correctly', () {
       expect(localizations.hasCustomTranslationsForLocale('fr'), isFalse);
-      localizations.setCustomErrorTranslations('fr', const CustomFormErrorKey('test'), 'Test');
+      localizations.setCustomErrorTranslations(
+          'fr', const CustomFormErrorKey('test'), 'Test');
       expect(localizations.hasCustomTranslationsForLocale('fr'), isTrue);
     });
 
     group('Error key translations for all supported languages', () {
-      test('Should have translations for all PredefinedFormErrorTypes in all supported languages', () {
+      test(
+          'Should have translations for all PredefinedFormErrorTypes in all supported languages',
+          () {
         for (var locale in localizations.supportedLocales) {
           localizations.setCurrentLocale(Locale(locale));
           for (var errorType in PredefinedFormErrorType.values) {
@@ -130,7 +160,8 @@ void main() {
       test('Translations should be different for each language', () {
         var testCases = [
           PredefinedFormErrorKey(PredefinedFormErrorType.required),
-          PredefinedFormErrorKey(PredefinedFormErrorType.lengthIsLessThanMin, 5),
+          PredefinedFormErrorKey(
+              PredefinedFormErrorType.lengthIsLessThanMin, 5),
           PredefinedFormErrorKey(PredefinedFormErrorType.isNotValidEmail),
         ];
 
@@ -143,7 +174,8 @@ void main() {
 
           var uniqueTranslations = translations.values.toSet();
           expect(uniqueTranslations.length, greaterThan(1),
-              reason: 'Translations should be different across languages for ${errorKey.runtimeType}');
+              reason:
+                  'Translations should be different across languages for ${errorKey.runtimeType}');
         }
       });
     });
@@ -151,9 +183,21 @@ void main() {
     group('Interpolation of parameters', () {
       test('Should correctly interpolate parameters in translated strings', () {
         var testCases = [
-          (PredefinedFormErrorKey(PredefinedFormErrorType.lengthIsLessThanMin, 5), '5'),
-          (PredefinedFormErrorKey(PredefinedFormErrorType.lengthIsMoreThanMax, 10), '10'),
-          (PredefinedFormErrorKey(PredefinedFormErrorType.isNotEqualTo, 'test'), 'test'),
+          (
+            PredefinedFormErrorKey(
+                PredefinedFormErrorType.lengthIsLessThanMin, 5),
+            '5'
+          ),
+          (
+            PredefinedFormErrorKey(
+                PredefinedFormErrorType.lengthIsMoreThanMax, 10),
+            '10'
+          ),
+          (
+            PredefinedFormErrorKey(
+                PredefinedFormErrorType.isNotEqualTo, 'test'),
+            'test'
+          ),
         ];
 
         for (var locale in localizations.supportedLocales) {
@@ -161,7 +205,8 @@ void main() {
           for (var (errorKey, expectedParam) in testCases) {
             var translation = localizations.translateErrorKey(errorKey);
             expect(translation, contains(expectedParam),
-                reason: 'Translation should contain the parameter value for locale $locale');
+                reason:
+                    'Translation should contain the parameter value for locale $locale');
           }
         }
       });
@@ -171,7 +216,8 @@ void main() {
       test('Should handle non-existent locale gracefully', () {
         localizations.setCurrentLocale(const Locale('nonexistent'));
         expect(
-          localizations.translateErrorKey(const PredefinedFormErrorKey(PredefinedFormErrorType.required)),
+          localizations.translateErrorKey(
+              const PredefinedFormErrorKey(PredefinedFormErrorType.required)),
           isNotNull,
         );
       });

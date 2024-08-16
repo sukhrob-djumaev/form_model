@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.2+1
+
+- Dart format
+
 ## 1.0.2 
 
 - Fix custom translations
