@@ -39,7 +39,7 @@ Add `form_model` to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  form_model: ^1.0.2+1
+  form_model: ^1.0.2+2
 ```
 
 Then run:

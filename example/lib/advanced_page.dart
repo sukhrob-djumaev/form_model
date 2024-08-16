@@ -113,14 +113,16 @@ class _AdvancedPageState extends State<AdvancedPage> {
   }
 
   String? validateMaxInterests(List<String>? value) {
-    if (value != null && value.length > 4)
+    if (value != null && value.length > 4) {
       return 'Select no more than 4 interests';
+    }
     return null;
   }
 
   String? validateCustomField(String? value) {
-    if (value == null || !value.startsWith('ABC'))
+    if (value == null || !value.startsWith('ABC')) {
       return 'custom_field_invalid';
+    }
     return null;
   }
 
