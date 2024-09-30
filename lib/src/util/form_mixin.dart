@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:form_model/form_model.dart';
 
 mixin FormMixin {
@@ -9,7 +10,7 @@ mixin FormMixin {
         (e) => e.isValid,
       );
 
-  bool get readyToSubmit => formProps.every(
-        (e) => !e.status.isProcessing,
+  bool get readyToSubmit => formProps.none(
+        (e) => e.status.isProcessing,
       );
 }

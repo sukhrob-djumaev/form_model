@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:form_model/src/model/form_model/base_form_model.dart';
 import 'package:form_model/src/model/status/form_model_status.dart';
-// import 'package:form_model/src/model/form_model_error.dart';
 import 'package:form_model/src/model/contract/i_form_model_validator.dart';
 
 final class FormModel<T extends Object, E extends Object>
