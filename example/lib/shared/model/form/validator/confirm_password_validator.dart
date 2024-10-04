@@ -1,9 +1,8 @@
 import 'package:form_model/form_model.dart';
 
-final class ConfirmPasswordValidator
-    extends BaseConfirmPasswordValidator<String> {
+final class ConfirmPasswordValidator extends BaseMatchValidator<String> {
   const ConfirmPasswordValidator({
-    super.passwordGetter,
+    super.valueGetter,
   });
 
   @override

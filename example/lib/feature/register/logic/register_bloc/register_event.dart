@@ -4,6 +4,8 @@ part of 'register_bloc.dart';
 class RegisterEvent with _$RegisterEvent {
   const factory RegisterEvent.init() = _InitRegisterEvent;
 
+  const factory RegisterEvent.setName(String value) = _SetNameRegisterEvent;
+
   const factory RegisterEvent.setUsername(String value) =
       _SetUsernameRegisterEvent;
 

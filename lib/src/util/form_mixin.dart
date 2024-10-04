@@ -11,6 +11,6 @@ mixin FormMixin {
       );
 
   bool get readyToSubmit => formProps.none(
-        (e) => e.status.isProcessing,
+        (e) => e.status.isProcessing, //TODO || e.status.isDirty,
       );
 }

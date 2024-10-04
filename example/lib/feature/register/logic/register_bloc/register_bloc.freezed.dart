@@ -19,6 +19,7 @@ mixin _$RegisterEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
+    required TResult Function(String value) setName,
     required TResult Function(String value) setUsername,
     required TResult Function(String value) setPassword,
     required TResult Function(String value) setConfirmPassword,
@@ -28,6 +29,7 @@ mixin _$RegisterEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? init,
+    TResult? Function(String value)? setName,
     TResult? Function(String value)? setUsername,
     TResult? Function(String value)? setPassword,
     TResult? Function(String value)? setConfirmPassword,
@@ -37,6 +39,7 @@ mixin _$RegisterEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
+    TResult Function(String value)? setName,
     TResult Function(String value)? setUsername,
     TResult Function(String value)? setPassword,
     TResult Function(String value)? setConfirmPassword,
@@ -47,6 +50,7 @@ mixin _$RegisterEvent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_InitRegisterEvent value) init,
+    required TResult Function(_SetNameRegisterEvent value) setName,
     required TResult Function(_SetUsernameRegisterEvent value) setUsername,
     required TResult Function(_SetPasswordRegisterEvent value) setPassword,
     required TResult Function(_SetConfirmPasswordRegisterEvent value)
@@ -57,6 +61,7 @@ mixin _$RegisterEvent {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_InitRegisterEvent value)? init,
+    TResult? Function(_SetNameRegisterEvent value)? setName,
     TResult? Function(_SetUsernameRegisterEvent value)? setUsername,
     TResult? Function(_SetPasswordRegisterEvent value)? setPassword,
     TResult? Function(_SetConfirmPasswordRegisterEvent value)?
@@ -67,6 +72,7 @@ mixin _$RegisterEvent {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_InitRegisterEvent value)? init,
+    TResult Function(_SetNameRegisterEvent value)? setName,
     TResult Function(_SetUsernameRegisterEvent value)? setUsername,
     TResult Function(_SetPasswordRegisterEvent value)? setPassword,
     TResult Function(_SetConfirmPasswordRegisterEvent value)?
@@ -134,6 +140,7 @@ class _$InitRegisterEventImpl implements _InitRegisterEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
+    required TResult Function(String value) setName,
     required TResult Function(String value) setUsername,
     required TResult Function(String value) setPassword,
     required TResult Function(String value) setConfirmPassword,
@@ -146,6 +153,7 @@ class _$InitRegisterEventImpl implements _InitRegisterEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? init,
+    TResult? Function(String value)? setName,
     TResult? Function(String value)? setUsername,
     TResult? Function(String value)? setPassword,
     TResult? Function(String value)? setConfirmPassword,
@@ -158,6 +166,7 @@ class _$InitRegisterEventImpl implements _InitRegisterEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
+    TResult Function(String value)? setName,
     TResult Function(String value)? setUsername,
     TResult Function(String value)? setPassword,
     TResult Function(String value)? setConfirmPassword,
@@ -174,6 +183,7 @@ class _$InitRegisterEventImpl implements _InitRegisterEvent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_InitRegisterEvent value) init,
+    required TResult Function(_SetNameRegisterEvent value) setName,
     required TResult Function(_SetUsernameRegisterEvent value) setUsername,
     required TResult Function(_SetPasswordRegisterEvent value) setPassword,
     required TResult Function(_SetConfirmPasswordRegisterEvent value)
@@ -187,6 +197,7 @@ class _$InitRegisterEventImpl implements _InitRegisterEvent {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_InitRegisterEvent value)? init,
+    TResult? Function(_SetNameRegisterEvent value)? setName,
     TResult? Function(_SetUsernameRegisterEvent value)? setUsername,
     TResult? Function(_SetPasswordRegisterEvent value)? setPassword,
     TResult? Function(_SetConfirmPasswordRegisterEvent value)?
@@ -200,6 +211,7 @@ class _$InitRegisterEventImpl implements _InitRegisterEvent {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_InitRegisterEvent value)? init,
+    TResult Function(_SetNameRegisterEvent value)? setName,
     TResult Function(_SetUsernameRegisterEvent value)? setUsername,
     TResult Function(_SetPasswordRegisterEvent value)? setPassword,
     TResult Function(_SetConfirmPasswordRegisterEvent value)?
@@ -216,6 +228,169 @@ class _$InitRegisterEventImpl implements _InitRegisterEvent {
 
 abstract class _InitRegisterEvent implements RegisterEvent {
   const factory _InitRegisterEvent() = _$InitRegisterEventImpl;
+}
+
+/// @nodoc
+abstract class _$$SetNameRegisterEventImplCopyWith<$Res> {
+  factory _$$SetNameRegisterEventImplCopyWith(_$SetNameRegisterEventImpl value,
+          $Res Function(_$SetNameRegisterEventImpl) then) =
+      __$$SetNameRegisterEventImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String value});
+}
+
+/// @nodoc
+class __$$SetNameRegisterEventImplCopyWithImpl<$Res>
+    extends _$RegisterEventCopyWithImpl<$Res, _$SetNameRegisterEventImpl>
+    implements _$$SetNameRegisterEventImplCopyWith<$Res> {
+  __$$SetNameRegisterEventImplCopyWithImpl(_$SetNameRegisterEventImpl _value,
+      $Res Function(_$SetNameRegisterEventImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? value = null,
+  }) {
+    return _then(_$SetNameRegisterEventImpl(
+      null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$SetNameRegisterEventImpl implements _SetNameRegisterEvent {
+  const _$SetNameRegisterEventImpl(this.value);
+
+  @override
+  final String value;
+
+  @override
+  String toString() {
+    return 'RegisterEvent.setName(value: $value)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SetNameRegisterEventImpl &&
+            (identical(other.value, value) || other.value == value));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, value);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SetNameRegisterEventImplCopyWith<_$SetNameRegisterEventImpl>
+      get copyWith =>
+          __$$SetNameRegisterEventImplCopyWithImpl<_$SetNameRegisterEventImpl>(
+              this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() init,
+    required TResult Function(String value) setName,
+    required TResult Function(String value) setUsername,
+    required TResult Function(String value) setPassword,
+    required TResult Function(String value) setConfirmPassword,
+    required TResult Function() submit,
+  }) {
+    return setName(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? init,
+    TResult? Function(String value)? setName,
+    TResult? Function(String value)? setUsername,
+    TResult? Function(String value)? setPassword,
+    TResult? Function(String value)? setConfirmPassword,
+    TResult? Function()? submit,
+  }) {
+    return setName?.call(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? init,
+    TResult Function(String value)? setName,
+    TResult Function(String value)? setUsername,
+    TResult Function(String value)? setPassword,
+    TResult Function(String value)? setConfirmPassword,
+    TResult Function()? submit,
+    required TResult orElse(),
+  }) {
+    if (setName != null) {
+      return setName(value);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_InitRegisterEvent value) init,
+    required TResult Function(_SetNameRegisterEvent value) setName,
+    required TResult Function(_SetUsernameRegisterEvent value) setUsername,
+    required TResult Function(_SetPasswordRegisterEvent value) setPassword,
+    required TResult Function(_SetConfirmPasswordRegisterEvent value)
+        setConfirmPassword,
+    required TResult Function(_SubmitRegisterEvent value) submit,
+  }) {
+    return setName(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_InitRegisterEvent value)? init,
+    TResult? Function(_SetNameRegisterEvent value)? setName,
+    TResult? Function(_SetUsernameRegisterEvent value)? setUsername,
+    TResult? Function(_SetPasswordRegisterEvent value)? setPassword,
+    TResult? Function(_SetConfirmPasswordRegisterEvent value)?
+        setConfirmPassword,
+    TResult? Function(_SubmitRegisterEvent value)? submit,
+  }) {
+    return setName?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_InitRegisterEvent value)? init,
+    TResult Function(_SetNameRegisterEvent value)? setName,
+    TResult Function(_SetUsernameRegisterEvent value)? setUsername,
+    TResult Function(_SetPasswordRegisterEvent value)? setPassword,
+    TResult Function(_SetConfirmPasswordRegisterEvent value)?
+        setConfirmPassword,
+    TResult Function(_SubmitRegisterEvent value)? submit,
+    required TResult orElse(),
+  }) {
+    if (setName != null) {
+      return setName(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _SetNameRegisterEvent implements RegisterEvent {
+  const factory _SetNameRegisterEvent(final String value) =
+      _$SetNameRegisterEventImpl;
+
+  String get value;
+  @JsonKey(ignore: true)
+  _$$SetNameRegisterEventImplCopyWith<_$SetNameRegisterEventImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -286,6 +461,7 @@ class _$SetUsernameRegisterEventImpl implements _SetUsernameRegisterEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
+    required TResult Function(String value) setName,
     required TResult Function(String value) setUsername,
     required TResult Function(String value) setPassword,
     required TResult Function(String value) setConfirmPassword,
@@ -298,6 +474,7 @@ class _$SetUsernameRegisterEventImpl implements _SetUsernameRegisterEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? init,
+    TResult? Function(String value)? setName,
     TResult? Function(String value)? setUsername,
     TResult? Function(String value)? setPassword,
     TResult? Function(String value)? setConfirmPassword,
@@ -310,6 +487,7 @@ class _$SetUsernameRegisterEventImpl implements _SetUsernameRegisterEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
+    TResult Function(String value)? setName,
     TResult Function(String value)? setUsername,
     TResult Function(String value)? setPassword,
     TResult Function(String value)? setConfirmPassword,
@@ -326,6 +504,7 @@ class _$SetUsernameRegisterEventImpl implements _SetUsernameRegisterEvent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_InitRegisterEvent value) init,
+    required TResult Function(_SetNameRegisterEvent value) setName,
     required TResult Function(_SetUsernameRegisterEvent value) setUsername,
     required TResult Function(_SetPasswordRegisterEvent value) setPassword,
     required TResult Function(_SetConfirmPasswordRegisterEvent value)
@@ -339,6 +518,7 @@ class _$SetUsernameRegisterEventImpl implements _SetUsernameRegisterEvent {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_InitRegisterEvent value)? init,
+    TResult? Function(_SetNameRegisterEvent value)? setName,
     TResult? Function(_SetUsernameRegisterEvent value)? setUsername,
     TResult? Function(_SetPasswordRegisterEvent value)? setPassword,
     TResult? Function(_SetConfirmPasswordRegisterEvent value)?
@@ -352,6 +532,7 @@ class _$SetUsernameRegisterEventImpl implements _SetUsernameRegisterEvent {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_InitRegisterEvent value)? init,
+    TResult Function(_SetNameRegisterEvent value)? setName,
     TResult Function(_SetUsernameRegisterEvent value)? setUsername,
     TResult Function(_SetPasswordRegisterEvent value)? setPassword,
     TResult Function(_SetConfirmPasswordRegisterEvent value)?
@@ -444,6 +625,7 @@ class _$SetPasswordRegisterEventImpl implements _SetPasswordRegisterEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
+    required TResult Function(String value) setName,
     required TResult Function(String value) setUsername,
     required TResult Function(String value) setPassword,
     required TResult Function(String value) setConfirmPassword,
@@ -456,6 +638,7 @@ class _$SetPasswordRegisterEventImpl implements _SetPasswordRegisterEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? init,
+    TResult? Function(String value)? setName,
     TResult? Function(String value)? setUsername,
     TResult? Function(String value)? setPassword,
     TResult? Function(String value)? setConfirmPassword,
@@ -468,6 +651,7 @@ class _$SetPasswordRegisterEventImpl implements _SetPasswordRegisterEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
+    TResult Function(String value)? setName,
     TResult Function(String value)? setUsername,
     TResult Function(String value)? setPassword,
     TResult Function(String value)? setConfirmPassword,
@@ -484,6 +668,7 @@ class _$SetPasswordRegisterEventImpl implements _SetPasswordRegisterEvent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_InitRegisterEvent value) init,
+    required TResult Function(_SetNameRegisterEvent value) setName,
     required TResult Function(_SetUsernameRegisterEvent value) setUsername,
     required TResult Function(_SetPasswordRegisterEvent value) setPassword,
     required TResult Function(_SetConfirmPasswordRegisterEvent value)
@@ -497,6 +682,7 @@ class _$SetPasswordRegisterEventImpl implements _SetPasswordRegisterEvent {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_InitRegisterEvent value)? init,
+    TResult? Function(_SetNameRegisterEvent value)? setName,
     TResult? Function(_SetUsernameRegisterEvent value)? setUsername,
     TResult? Function(_SetPasswordRegisterEvent value)? setPassword,
     TResult? Function(_SetConfirmPasswordRegisterEvent value)?
@@ -510,6 +696,7 @@ class _$SetPasswordRegisterEventImpl implements _SetPasswordRegisterEvent {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_InitRegisterEvent value)? init,
+    TResult Function(_SetNameRegisterEvent value)? setName,
     TResult Function(_SetUsernameRegisterEvent value)? setUsername,
     TResult Function(_SetPasswordRegisterEvent value)? setPassword,
     TResult Function(_SetConfirmPasswordRegisterEvent value)?
@@ -605,6 +792,7 @@ class _$SetConfirmPasswordRegisterEventImpl
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
+    required TResult Function(String value) setName,
     required TResult Function(String value) setUsername,
     required TResult Function(String value) setPassword,
     required TResult Function(String value) setConfirmPassword,
@@ -617,6 +805,7 @@ class _$SetConfirmPasswordRegisterEventImpl
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? init,
+    TResult? Function(String value)? setName,
     TResult? Function(String value)? setUsername,
     TResult? Function(String value)? setPassword,
     TResult? Function(String value)? setConfirmPassword,
@@ -629,6 +818,7 @@ class _$SetConfirmPasswordRegisterEventImpl
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
+    TResult Function(String value)? setName,
     TResult Function(String value)? setUsername,
     TResult Function(String value)? setPassword,
     TResult Function(String value)? setConfirmPassword,
@@ -645,6 +835,7 @@ class _$SetConfirmPasswordRegisterEventImpl
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_InitRegisterEvent value) init,
+    required TResult Function(_SetNameRegisterEvent value) setName,
     required TResult Function(_SetUsernameRegisterEvent value) setUsername,
     required TResult Function(_SetPasswordRegisterEvent value) setPassword,
     required TResult Function(_SetConfirmPasswordRegisterEvent value)
@@ -658,6 +849,7 @@ class _$SetConfirmPasswordRegisterEventImpl
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_InitRegisterEvent value)? init,
+    TResult? Function(_SetNameRegisterEvent value)? setName,
     TResult? Function(_SetUsernameRegisterEvent value)? setUsername,
     TResult? Function(_SetPasswordRegisterEvent value)? setPassword,
     TResult? Function(_SetConfirmPasswordRegisterEvent value)?
@@ -671,6 +863,7 @@ class _$SetConfirmPasswordRegisterEventImpl
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_InitRegisterEvent value)? init,
+    TResult Function(_SetNameRegisterEvent value)? setName,
     TResult Function(_SetUsernameRegisterEvent value)? setUsername,
     TResult Function(_SetPasswordRegisterEvent value)? setPassword,
     TResult Function(_SetConfirmPasswordRegisterEvent value)?
@@ -736,6 +929,7 @@ class _$SubmitRegisterEventImpl implements _SubmitRegisterEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
+    required TResult Function(String value) setName,
     required TResult Function(String value) setUsername,
     required TResult Function(String value) setPassword,
     required TResult Function(String value) setConfirmPassword,
@@ -748,6 +942,7 @@ class _$SubmitRegisterEventImpl implements _SubmitRegisterEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? init,
+    TResult? Function(String value)? setName,
     TResult? Function(String value)? setUsername,
     TResult? Function(String value)? setPassword,
     TResult? Function(String value)? setConfirmPassword,
@@ -760,6 +955,7 @@ class _$SubmitRegisterEventImpl implements _SubmitRegisterEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
+    TResult Function(String value)? setName,
     TResult Function(String value)? setUsername,
     TResult Function(String value)? setPassword,
     TResult Function(String value)? setConfirmPassword,
@@ -776,6 +972,7 @@ class _$SubmitRegisterEventImpl implements _SubmitRegisterEvent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_InitRegisterEvent value) init,
+    required TResult Function(_SetNameRegisterEvent value) setName,
     required TResult Function(_SetUsernameRegisterEvent value) setUsername,
     required TResult Function(_SetPasswordRegisterEvent value) setPassword,
     required TResult Function(_SetConfirmPasswordRegisterEvent value)
@@ -789,6 +986,7 @@ class _$SubmitRegisterEventImpl implements _SubmitRegisterEvent {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_InitRegisterEvent value)? init,
+    TResult? Function(_SetNameRegisterEvent value)? setName,
     TResult? Function(_SetUsernameRegisterEvent value)? setUsername,
     TResult? Function(_SetPasswordRegisterEvent value)? setPassword,
     TResult? Function(_SetConfirmPasswordRegisterEvent value)?
@@ -802,6 +1000,7 @@ class _$SubmitRegisterEventImpl implements _SubmitRegisterEvent {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_InitRegisterEvent value)? init,
+    TResult Function(_SetNameRegisterEvent value)? setName,
     TResult Function(_SetUsernameRegisterEvent value)? setUsername,
     TResult Function(_SetPasswordRegisterEvent value)? setPassword,
     TResult Function(_SetConfirmPasswordRegisterEvent value)?
@@ -822,6 +1021,8 @@ abstract class _SubmitRegisterEvent implements RegisterEvent {
 
 /// @nodoc
 mixin _$RegisterState {
+  NullableFormModel<String, String> get name =>
+      throw _privateConstructorUsedError;
   FormModel<String, String> get username => throw _privateConstructorUsedError;
   FormModel<String, String> get password => throw _privateConstructorUsedError;
   FormModel<String, String> get confirmPassword =>
@@ -839,7 +1040,8 @@ abstract class $RegisterStateCopyWith<$Res> {
       _$RegisterStateCopyWithImpl<$Res, RegisterState>;
   @useResult
   $Res call(
-      {FormModel<String, String> username,
+      {NullableFormModel<String, String> name,
+      FormModel<String, String> username,
       FormModel<String, String> password,
       FormModel<String, String> confirmPassword});
 }
@@ -857,11 +1059,16 @@ class _$RegisterStateCopyWithImpl<$Res, $Val extends RegisterState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? name = null,
     Object? username = null,
     Object? password = null,
     Object? confirmPassword = null,
   }) {
     return _then(_value.copyWith(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as NullableFormModel<String, String>,
       username: null == username
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
@@ -887,7 +1094,8 @@ abstract class _$$RegisterStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {FormModel<String, String> username,
+      {NullableFormModel<String, String> name,
+      FormModel<String, String> username,
       FormModel<String, String> password,
       FormModel<String, String> confirmPassword});
 }
@@ -903,11 +1111,16 @@ class __$$RegisterStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? name = null,
     Object? username = null,
     Object? password = null,
     Object? confirmPassword = null,
   }) {
     return _then(_$RegisterStateImpl(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as NullableFormModel<String, String>,
       username: null == username
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
@@ -928,11 +1141,14 @@ class __$$RegisterStateImplCopyWithImpl<$Res>
 
 class _$RegisterStateImpl extends _RegisterState {
   const _$RegisterStateImpl(
-      {required this.username,
+      {required this.name,
+      required this.username,
       required this.password,
       required this.confirmPassword})
       : super._();
 
+  @override
+  final NullableFormModel<String, String> name;
   @override
   final FormModel<String, String> username;
   @override
@@ -942,7 +1158,7 @@ class _$RegisterStateImpl extends _RegisterState {
 
   @override
   String toString() {
-    return 'RegisterState(username: $username, password: $password, confirmPassword: $confirmPassword)';
+    return 'RegisterState(name: $name, username: $username, password: $password, confirmPassword: $confirmPassword)';
   }
 
   @override
@@ -950,6 +1166,7 @@ class _$RegisterStateImpl extends _RegisterState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$RegisterStateImpl &&
+            (identical(other.name, name) || other.name == name) &&
             (identical(other.username, username) ||
                 other.username == username) &&
             (identical(other.password, password) ||
@@ -960,7 +1177,7 @@ class _$RegisterStateImpl extends _RegisterState {
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, username, password, confirmPassword);
+      Object.hash(runtimeType, name, username, password, confirmPassword);
 
   @JsonKey(ignore: true)
   @override
@@ -971,12 +1188,15 @@ class _$RegisterStateImpl extends _RegisterState {
 
 abstract class _RegisterState extends RegisterState {
   const factory _RegisterState(
-          {required final FormModel<String, String> username,
+          {required final NullableFormModel<String, String> name,
+          required final FormModel<String, String> username,
           required final FormModel<String, String> password,
           required final FormModel<String, String> confirmPassword}) =
       _$RegisterStateImpl;
   const _RegisterState._() : super._();
 
+  @override
+  NullableFormModel<String, String> get name;
   @override
   FormModel<String, String> get username;
   @override

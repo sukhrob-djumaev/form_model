@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:example/feature/register/source/user_repository.dart';
 import 'package:example/shared/logic/bloc/transformers.dart';
+import 'package:example/shared/model/exception/app_exception.dart';
 import 'package:example/shared/model/form/form_input.dart';
 import 'package:example/shared/model/form/validator/confirm_password_validator.dart';
 import 'package:example/shared/model/form/validator/required_validator.dart';
@@ -13,9 +15,19 @@ part 'register_state.dart';
 part 'register_bloc.freezed.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
-  RegisterBloc()
-      : super(
+  final IUserRepository _repository;
+
+  RegisterBloc({
+    required IUserRepository repository,
+  })  : _repository = repository,
+        super(
           const RegisterState(
+            name: NullableFormInput(
+              status: FormModelStatus.loading(),
+              validators: [
+                RequiredValidator(),
+              ],
+            ),
             username: FormInput('', validators: [
               RequiredValidator(),
             ]),
@@ -32,6 +44,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
           ),
         ) {
     on<_InitRegisterEvent>(_init);
+    on<_SetNameRegisterEvent>(_setName);
     on<_SetUsernameRegisterEvent>(
       _setUsername,
       transformer: AppTransformers.restartableWithDebounce(),
@@ -44,15 +57,33 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     );
   }
 
-  void _init(_InitRegisterEvent event, Emitter<RegisterState> emit) {
+  Future<void> _init(
+      _InitRegisterEvent event, Emitter<RegisterState> emit) async {
     emit(
       state.copyWith(
         confirmPassword: state.confirmPassword.replaceValidator(
-          (validator) => validator is BaseConfirmPasswordValidator,
+          (validator) => validator is ConfirmPasswordValidator,
           newValidator: ConfirmPasswordValidator(
-            passwordGetter: () => state.password.value,
+            valueGetter: () => state.password.value,
           ),
         ),
+      ),
+    );
+
+    await Future.delayed(const Duration(seconds: 3));
+
+    emit(
+      state.copyWith(
+        name: state.name.reset(value: () => 'User1'),
+      ),
+    );
+  }
+
+  Future<void> _setName(
+      _SetNameRegisterEvent event, Emitter<RegisterState> emit) async {
+    emit(
+      state.copyWith(
+        name: state.name.setValue(event.value),
       ),
     );
   }
@@ -67,23 +98,27 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     );
 
     try {
-      await Future.delayed(const Duration(seconds: 1));
-
-      if (state.username.value == 'User1') {
-        throw Exception('User ${event.value} already exist');
-      }
+      await _repository.isUsernameTaken(event.value);
 
       emit(
         state.copyWith(
           username: state.username.setValue(event.value),
         ),
       );
-    } on Exception catch (e) {
+    } on BadResponseException catch (e) {
       emit(
         state.copyWith(
           username: state.username.dirty(error: e.toString()),
         ),
       );
+    } on Exception catch (e, st) {
+      emit(
+        state.copyWith(
+          username: state.username.dirty(error: e.toString()),
+        ),
+      );
+
+      onError(e, st);
     }
   }
 
@@ -120,6 +155,27 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
     if (!state.isFormValid) {
       return;
+    }
+
+    try {
+      await _repository.register(
+        username: state.username.value,
+        password: state.password.value,
+      );
+    } on BadResponseException catch (e) {
+      emit(
+        state.copyWith(
+          username: state.username.dirty(error: e.fieldError('username')),
+        ),
+      );
+    } on Exception catch (e, st) {
+      emit(
+        state.copyWith(
+          username: state.username.dirty(error: e.toString()),
+        ),
+      );
+
+      onError(e, st);
     }
   }
 }

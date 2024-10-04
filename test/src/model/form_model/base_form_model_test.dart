@@ -6,8 +6,7 @@ final class _RequiredValidator extends BaseRequiredValidator<String, String> {
   String get error => 'Required field';
 }
 
-final class _ConfirmPasswordValidator
-    extends BaseConfirmPasswordValidator<String> {
+final class _ConfirmPasswordValidator extends BaseMatchValidator<String> {
   @override
   String get error => 'Password mismatch';
 }

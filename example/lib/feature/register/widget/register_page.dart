@@ -1,4 +1,8 @@
 import 'package:example/feature/register/logic/register_bloc/register_bloc.dart';
+import 'package:example/feature/register/source/user_repository.dart';
+import 'package:example/shared/model/form/form_input.dart';
+import 'package:example/shared/widget/input/app_input_decoration.dart';
+import 'package:example/shared/widget/input/app_text_form_field.dart';
 import 'package:example/shared/widget/loading/app_circular_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,13 +11,18 @@ class RegisterPage extends StatelessWidget {
   const RegisterPage({super.key});
 
   @override
-  Widget build(BuildContext context) => BlocProvider(
-        create: (context) => RegisterBloc()..add(const RegisterEvent.init()),
-        child: Scaffold(
-          appBar: AppBar(
-            title: const Text('Register'),
+  Widget build(BuildContext context) => RepositoryProvider<IUserRepository>(
+        create: (context) => UserRepository(),
+        child: BlocProvider(
+          create: (context) => RegisterBloc(
+            repository: context.read(),
+          )..add(const RegisterEvent.init()),
+          child: Scaffold(
+            appBar: AppBar(
+              title: const Text('Register'),
+            ),
+            body: const _Form(),
           ),
-          body: const _Form(),
         ),
       );
 }
@@ -28,6 +37,8 @@ class _Form extends StatelessWidget {
         padding: EdgeInsets.all(20.0),
         child: Column(
           children: [
+            _NameInput(),
+            SizedBox(height: 16),
             _UsernameInput(),
             SizedBox(height: 16),
             _PasswordInput(),
@@ -42,19 +53,46 @@ class _Form extends StatelessWidget {
   }
 }
 
+class _NameInput extends StatelessWidget {
+  const _NameInput({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocSelector<RegisterBloc, RegisterState, NullableFormInput<String>>(
+      selector: (state) => state.name,
+      builder: (context, name) {
+        return AppTextFormField(
+          value: name.value,
+          enabled: name.status.isEnabled,
+          decoration: AppInputDecoration(
+            labelText: "Name",
+            errorText: name.error,
+            suffixIcon:
+                name.status.isProcessing ? const AppCircularLoading() : null,
+          ),
+          onChanged: (value) =>
+              context.read<RegisterBloc>().add(RegisterEvent.setName(value)),
+        );
+      },
+    );
+  }
+}
+
 class _UsernameInput extends StatelessWidget {
   const _UsernameInput({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RegisterBloc, RegisterState>(
-      builder: (context, state) {
-        return TextFormField(
-          initialValue: state.username.value,
-          decoration: InputDecoration(
+    return BlocSelector<RegisterBloc, RegisterState, FormInput<String>>(
+      selector: (state) => state.username,
+      builder: (context, username) {
+        return AppTextFormField(
+          value: username.value,
+          enabled: username.status.isEnabled,
+          decoration: AppInputDecoration(
             labelText: "Username",
-            errorText: state.username.error,
-            suffix: state.username.status.isProcessing
+            errorText: username.error,
+            suffixIcon: username.status.isProcessing
                 ? const AppCircularLoading()
                 : null,
           ),
@@ -72,13 +110,14 @@ class _PasswordInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RegisterBloc, RegisterState>(
-      builder: (context, state) {
+    return BlocSelector<RegisterBloc, RegisterState, FormInput<String>>(
+      selector: (state) => state.password,
+      builder: (context, password) {
         return TextFormField(
-          initialValue: state.password.value,
-          decoration: InputDecoration(
+          initialValue: password.value,
+          decoration: AppInputDecoration(
             labelText: "Password",
-            errorText: state.password.error,
+            errorText: password.error,
           ),
           onChanged: (value) => context
               .read<RegisterBloc>()
@@ -94,13 +133,14 @@ class _ConfirmPasswordInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RegisterBloc, RegisterState>(
-      builder: (context, state) {
+    return BlocSelector<RegisterBloc, RegisterState, FormInput<String>>(
+      selector: (state) => state.confirmPassword,
+      builder: (context, confirmPassword) {
         return TextFormField(
-          initialValue: state.confirmPassword.value,
-          decoration: InputDecoration(
+          initialValue: confirmPassword.value,
+          decoration: AppInputDecoration(
             labelText: "Confirm password",
-            errorText: state.confirmPassword.error,
+            errorText: confirmPassword.error,
           ),
           onChanged: (value) => context
               .read<RegisterBloc>()
@@ -116,10 +156,14 @@ class _SubmitButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () =>
-          context.read<RegisterBloc>().add(const RegisterEvent.submit()),
-      child: const Text('Submit'),
+    return BlocBuilder<RegisterBloc, RegisterState>(
+      builder: (context, state) => ElevatedButton(
+        onPressed: state.readyToSubmit
+            ? () =>
+                context.read<RegisterBloc>().add(const RegisterEvent.submit())
+            : null,
+        child: const Text('Submit'),
+      ),
     );
   }
 }
